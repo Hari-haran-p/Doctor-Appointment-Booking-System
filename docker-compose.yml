@@ -1,0 +1,45 @@
+version: '2.3'
+
+services:
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - asgard
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    networks:
+      - asgard
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - asgard
+  db:
+    image: mysql:lts-alpine
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER: root
+      - MYSQL_PASSWORD: password
+      - MYSQL_DB: mysql
+    volumes:
+      - db-data:/var/lib/mysql/data
+    networks:
+      - asgard
+  
+networks:
+  asgard:
+
+volumes:
+  db-data:
