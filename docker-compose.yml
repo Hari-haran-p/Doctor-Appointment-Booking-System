@@ -6,7 +6,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - "30:80" 
     networks:
       - asgard
 
@@ -15,7 +15,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - "5001:5000"
     networks:
       - asgard
 
@@ -24,18 +24,14 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - "3001:3000"
     networks:
       - asgard
 
   db:
-    image: mysql:alpine
+    image: mysql:latest
     ports:
-      - 3306:3306
-    environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
-      MYSQL_DB: mysql
+      - "3400:3306"
     volumes:
       - db-data:/var/lib/mysql
     networks:
