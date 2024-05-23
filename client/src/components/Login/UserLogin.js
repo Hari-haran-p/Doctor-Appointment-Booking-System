@@ -1,85 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const UserLogin = () => {
- 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/login", { username, password });
+      if (response.data.success) {
+        setMessage(response.data.message);
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      } else {
+        setError(response.data.message);
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
+  };
+
   return (
-    
     <>
-      <div className="mt-7">
-
-
-      
-
-        <form className="space-y-4 md:space-y-6">
+      <div className="mt-7 flex justify-center items-center">
+        <form onSubmit={handleLogin} className="space-y-4 w-full md:space-y-6">
           <div>
             <label
-              htmlFor="email"
+              htmlFor="username"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Your Mobile Number
+              Your Email
             </label>
-            <div className="flex items-center">
-              <div id="sign-in-button"></div>
-
-              <input
-                type="text"
-                className="w-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value="+ 91"
-                disabled
-              />
-
-              <input
-                type="number"
-                name="mobile"
-                className="mx-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Enter Number"
-                required
-              />
-            </div>
+            <input
+              type="text"
+              name="username"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="name@gmail.com"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
           </div>
-
-        
-            <button
-              type="submit"
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <div>
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-              Send OTP
-            </button>
-        
-        </form>
-
-
-          <form
-            className="space-y-4 md:space-y-6 mt-6"
+              Your Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <div>
-              <label
-                htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Enter Your OTP
-              </label>
-              <input
-                type="number"
-                name="otp"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="XXXXXX"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Verify OTP
-            </button>
-          </form>
-
+            Login
+          </button>
+        </form>
       </div>
-
       <div className="flex justify-center items-center mt-6">
         <a
-          target="_blank"
+          href="/register"
           className="inline-flex items-center font-bold text-blue-500 hover:text-blue-700 text-xs text-center"
         >
           <span>
@@ -97,6 +95,24 @@ export const UserLogin = () => {
           </span>
           <span className="ml-2">You don't have an account?</span>
         </a>
+      </div>
+      <div className="pt-5">
+        {message ? (
+          <div
+            class="bg-green-100 border text-center border-green-400 text-green-700 px-4 py-3 rounded"
+            role="alert"
+          >
+            <span class="block sm:inline">{message}</span>
+          </div>
+        ) : null}
+        {error ? (
+          <div
+            class="bg-red-100 border text-center border-red-400 text-red-700 px-4 py-3 rounded"
+            role="alert"
+          >
+            <span class="block sm:inline">{error}</span>
+          </div>
+        ) : null}
       </div>
     </>
   );

@@ -1,10 +1,39 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 export const DoctorLogin = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/login", { username, password });
+      if (response.data.success) {
+        setMessage(response.data.message);
+        setTimeout(() => {
+          navigate("/doctorhome");
+        }, 2000);
+      } else {
+        setError(response.data.message);
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
+  };
 
   return (
     <>
       <div class="mt-7">
-        <form class="space-y-4 md:space-y-6">
+
+        <form onSubmit={handleLogin} class="space-y-4 w-full md:space-y-6">
           <div>
             <label
               for="email"
@@ -13,6 +42,8 @@ export const DoctorLogin = () => {
               Your email
             </label>
             <input
+              onChange={(e) => setUsername(e.target.value)}
+              name="email"
               type="email"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="name@company.com"
@@ -27,6 +58,8 @@ export const DoctorLogin = () => {
               Password
             </label>
             <input
+              onChange={(e) => setPassword(e.target.value)}
+              name="password"
               type="password"
               placeholder="••••••••"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -62,6 +95,25 @@ export const DoctorLogin = () => {
           </span>
           <span class="ml-2">You don't have an account?</span>
         </a>
+
+      </div>
+      <div className="pt-5">
+        {message ? (
+          <div
+            class="bg-green-100 border text-center border-green-400 text-green-700 px-4 py-3 rounded"
+            role="alert"
+          >
+            <span class="block sm:inline">{message}</span>
+          </div>
+        ) : null}
+        {error ? (
+          <div
+            class="bg-red-100 border text-center border-red-400 text-red-700 px-4 py-3 rounded"
+            role="alert"
+          >
+            <span class="block sm:inline">{error}</span>
+          </div>
+        ) : null}
       </div>
     </>
   );
