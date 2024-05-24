@@ -6,13 +6,18 @@ import { UserLogin } from "./UserLogin.js"
 
 import { DoctorLogin } from "./DoctorLogin.js"
 
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 
 export const Login = () => {
 
   const [logintype, setLogintype] = useState(true);
+
+  if (sessionStorage.getItem("student_key")) return <Navigate to="/user/dashboard" />;
+
+  if (sessionStorage.getItem("doctor_key")) return <Navigate to="/doctor/dashboard" />;
+
   return (
     <>
 

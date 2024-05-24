@@ -9,14 +9,34 @@ export const UserLogin = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+
+  const userData = {
+    name:"",
+    gender:"",
+    age:"",
+    email:"",
+    mobile:"",
+    user_id:"",
+    role:""
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/login", { username, password });
+      const response = await axios.post("/api/user/login", { username, password });
       if (response.data.success) {
         setMessage(response.data.message);
+        const user = (response.data.user[0]);
+        userData.name =  user.name;
+        userData.gender = user.gender;
+        userData.age = user.age;
+        userData.email = user.email;
+        userData.mobile = user.mobile;
+        userData.user_id = user.user_id;
+        userData.role = user.role;
+        sessionStorage.setItem("student_key", JSON.stringify(userData));
         setTimeout(() => {
-          navigate("/home");
+          navigate("/user/dashboard");
         }, 2000);
       } else {
         setError(response.data.message);

@@ -2,8 +2,11 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from './components/Login/Login';
 import { Register } from './components/Login/Register';
-import Home from './components/navbar/Home';
-import Doctorhome from './components/navbar/Doctorhome';
+import UserHome from './components/user/Home';
+import DoctorHome from './components/doctor/Home';
+import UserDashboard from './components/user/UserDashboard';
+import DoctorDashboard from './components/doctor/DoctorDashboard';
+
 
 
 
@@ -13,8 +16,8 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />}/>
       <Route path='/register' element={<Register/>}/>
-      <Route path='/home' element={<Home/>}/>
-      <Route path='/doctorhome' element={<Doctorhome/>}/>
+      <Route path='/user/dashboard' element={<UserDashboard/>}/>
+      <Route path='/doctor/dashboard' element={<DoctorDashboard/>}/>
     </Routes>
   </BrowserRouter>
   );

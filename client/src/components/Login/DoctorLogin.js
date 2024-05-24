@@ -9,25 +9,44 @@ export const DoctorLogin = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const userData = {
+    name: "",
+    speciality: "",
+    designation: "",
+    mobile: "",
+    user_id: "",
+    role:"",
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/login", { username, password });
+      const response = await axios.post("/api/doctor/login", { username, password });
       if (response.data.success) {
         setMessage(response.data.message);
+        const user = (response.data.user[0]);
+        userData.name =  user.name;
+        userData.speciality = user.speciality;
+        userData.designation = user.designation;
+        userData.mobile = user.mobile;
+        userData.user_id = user.user_id;
+        userData.role = user.role;
+        sessionStorage.setItem("doctor_key", JSON.stringify(userData));
         setTimeout(() => {
-          navigate("/doctorhome");
+          navigate("/doctor/dashboard");
         }, 2000);
       } else {
         setError(response.data.message);
       }
     } catch (err) {
+      console.log(err);
       setError("An error occurred. Please try again.");
       setTimeout(() => {
         setError("");
       }, 2000);
     }
   };
+
 
   return (
     <>

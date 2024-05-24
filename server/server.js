@@ -11,39 +11,105 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Password@1234',
-    database: 'Doctor',
-    port: 3306
-});
+const db = require("./db.js");
 
 db.connect((err) => {
     if (err) throw err;
     console.log('Connected to MySQL');
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/doctor/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    db.query('SELECT * FROM users WHERE username = ?', [username], (error, results, fields) => {
-        if (error) {
-            res.status(500).send('Error retrieving user from database');
-            return;
-        }
-        if (results.length === 0) {
-            res.status(401).send('User not found');
-            return;
-        }
-        const user = results[0];
-        if (user.password !== password) {
-            res.status(401).send('Incorrect password');
-            return;
-        }
-        res.status(201).json({ success: true, message: "Login successful" });
-    });
+    // const select = await db.query('SELECT * FROM users WHERE username = ?', [username]).then((results) => {
+    //     if (results.length === 0) {
+    //         res.status(401).send('User not found');
+    //         return;
+    //     }
+    //     const user = results[0];
+    //     if (user.password !== password) {
+    //         res.status(401).send('Incorrect password');
+    //         return;
+    //     }
+    //     res.status(201).json({ success: true, message: "Login successful" });
+    // }).catch((error) => {
+    //     if (error) {
+    //         res.status(500).send('Error retrieving user from database');
+    //         return;
+    //     }
+    // })
+
+    try {
+        const data = await db.query('SELECT * FROM users WHERE username = ?', [username]).then((results) => {
+            if (results.length === 0) {
+                throw new Error('User not found');
+            }
+            const user = results[0];
+            if (user.password !== password) {
+                throw new Error('Incorrect password');
+            }
+            // res.status(201).json({ success: true, message: "Login successful" });
+            return user;
+        }).catch((error) => {
+            if (error) {
+                throw new Error('Error retrieving user from database');;
+            }
+        })
+        console.log(data);
+        db.query("SELECT * FROM doctors WHERE user_id = ?", [data.id]).then((result) => {
+            if (result.length === 0) {
+                throw new Error('User not found');
+            }
+            console.log(result);
+            result[0].role = 'doctor';
+            return res.status(201).json({success: true,message: "Login successful",  user : result});
+        }).catch((error) => {
+            console.log(error);
+            if (error) {
+                throw new Error('Error retrieving user from database');
+            }
+        })
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+})
+
+app.post('/api/user/login', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    try {
+        const data = await db.query('SELECT * FROM users WHERE username = ?', [username]).then((results) => {
+            if (results.length === 0) {
+                throw new Error('User not found');
+            }
+            const user = results[0];
+            if (user.password !== password) {
+                throw new Error('Incorrect password');
+            }
+            // res.status(201).json({ success: true, message: "Login successful" });
+            return user;
+        }).catch((error) => {
+            if (error) {
+                throw new Error('Error retrieving user from database');;
+            }
+        })
+        console.log(data);
+        db.query("SELECT * FROM patients WHERE user_id = ?", [data.id]).then((result) => {
+            if (result.length === 0) {
+                throw new Error('User not found');
+            }
+            console.log(result);
+            result[0].role = 'doctor';
+            return res.status(201).json({success: true,message: "Login successful",  user : result});
+        }).catch((error) => {
+            if (error) {
+                throw new Error('Error retrieving user from database');
+            }
+        })
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 })
 
 app.post("/register", async (req, res) => {
