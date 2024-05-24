@@ -4,6 +4,11 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+// const nodemailer = require('nodemailer');
+const { promisify } = require('util');
+
+const readFile = promisify(fs.readFile);
 
 const app = express();
 
@@ -12,6 +17,56 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
 const db = require("./db.js");
+const { error } = require('console');
+
+
+const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    host: 'smtp.gmail.email',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'srisathyasai24680@gmail.com',
+        pass: 'xiuy xlsg lief yfme'
+    }
+});
+
+// transporter.sendMail({
+//     from: 'your_email@example.com',
+//     to: 'recipient@example.com',
+//     subject: 'Test Email',
+//     text: 'This is a test email from Nodemailer using Ethereal Email'
+// }).then(info => {
+//     console.log('Email sent:', info.messageId);
+// }).catch(error => {
+//     console.error('Error:', error);
+// });
+
+
+// async function Mail() {
+//     const imageAttachment = await readFile('./register.jpg');
+//     const htmlTemplate = await readFile("./mail.html");
+//     const info = await transporter.sendMail({
+//         from: 'vignesgleefc@gmail.com',
+//         to: 'srisathyasai24680@gmail.com',
+//         subject: 'Thanks for Registering with Us...!!',
+//         html: htmlTemplate,
+//         attachments: [{
+//             filename: 'register.jpg',
+//             content: imageAttachment,
+//             encoding: 'base64',
+//             cid: 'RegisterImage'
+//         }],
+//     })
+
+//     console.log(info);
+// }
+
+// Mail();
+
+
+
+
 
 db.connect((err) => {
     if (err) throw err;
@@ -63,7 +118,7 @@ app.post('/api/doctor/login', async (req, res) => {
             }
             console.log(result);
             result[0].role = 'doctor';
-            return res.status(201).json({success: true,message: "Login successful",  user : result});
+            return res.status(201).json({ success: true, message: "Login successful", user: result });
         }).catch((error) => {
             console.log(error);
             if (error) {
@@ -101,7 +156,7 @@ app.post('/api/user/login', async (req, res) => {
             }
             console.log(result);
             result[0].role = 'doctor';
-            return res.status(201).json({success: true,message: "Login successful",  user : result});
+            return res.status(201).json({ success: true, message: "Login successful", user: result });
         }).catch((error) => {
             if (error) {
                 throw new Error('Error retrieving user from database');
@@ -112,34 +167,54 @@ app.post('/api/user/login', async (req, res) => {
     }
 })
 
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
     try {
-        const { patientName, patientDOB, patientGender, patientAge, patientEmail, patientContactInfo, patientAddress, patientPassword } = req.body;
+        const { patientName, patientDOB, patientGender, patientAge, patientBloodGroup, patientEmail, patientContactInfo, patientAddress, patientPassword } = req.body;
         const userInsertQuery = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        db.query(userInsertQuery, [patientEmail, patientPassword, 'patient'], (err, userResult) => {
-            if (err) {
-                console.error("Error inserting user:", err);
-                return res.status(500).json({ success: false, message: "An error occurred while registering user" });
+        const userResult = await db.query(userInsertQuery, [patientEmail, patientPassword, 'patient']).then((result) => {
+            return result;
+        }).catch((error) => {
+            if (error) {
+                console.error("Error inserting user:", error);
+                throw new Error("some error");
             }
+        })  
 
-            console.log("userResult:", userResult);
+        console.log("userResult:", userResult);
+        const userId = userResult.insertId;
+        console.log("Inserted userId:", userId);
 
-            const userId = userResult.insertId;
-            console.log("Inserted userId:", userId);
-
-            if (!userId) {
-                return res.status(500).json({ success: false, message: "Failed to retrieve user ID" });
-            }
-            const patientInsertQuery = "INSERT INTO patients (user_id, name, dob, gender, age, email, mobile, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            db.query(patientInsertQuery, [userId, patientName, patientDOB, patientGender, patientAge, patientEmail, patientContactInfo, patientAddress], (err, patientResult) => {
-                if (err) {
-                    console.error("Error inserting patient:", err);
-                    return res.status(500).json({ success: false, message: "An error occurred while registering patient" });
-                }
-
-                res.status(201).json({ success: true, message: "User and patient registered successfully" });
+        if (!userId) {
+            return res.status(500).json({ success: false, message: "Failed to retrieve user ID" });
+        }
+        const patientInsertQuery = "INSERT INTO patients (user_id, name, dob, gender, age, blood_group, email, mobile, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const imageAttachment = await readFile('./register.jpg');
+        const htmlTemplate = await readFile("./mail.html",'utf-8');
+        await db.query(patientInsertQuery, [userId, patientName, patientDOB, patientGender, patientAge, patientBloodGroup, patientEmail, patientContactInfo, patientAddress]).then((result) => {
+            transporter.sendMail({
+                from: 'vignesgleefc@gmail.com',
+                to: patientEmail,
+                subject: 'Sucessfully registered...!!',
+                html: htmlTemplate.replace("${recipientName}", patientName),
+                attachments: [{
+                    filename: 'register.jpg',
+                    content: imageAttachment,
+                    encoding: 'base64',
+                    cid: 'RegisterImage'
+                }],
+            }).then(info => {
+                console.log('Email sent:', info.messageId);
+            }).catch(error => {
+                console.error('Error:', error);
             });
-        });
+            res.status(201).json({ success: true, message: "User and patient registered successfully" });
+        }).catch((error) => {
+            if (error) {
+                console.error("Error inserting patient:", error);
+                throw new Error("Some error while adding user");
+            }
+        })
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "An error occurred while registering user" });

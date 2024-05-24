@@ -14,6 +14,7 @@ export const UserLogin = () => {
     name:"",
     gender:"",
     age:"",
+    blood_group:"",
     email:"",
     mobile:"",
     user_id:"",
@@ -30,6 +31,7 @@ export const UserLogin = () => {
         userData.name =  user.name;
         userData.gender = user.gender;
         userData.age = user.age;
+        userData.blood_group = user.blood_group;
         userData.email = user.email;
         userData.mobile = user.mobile;
         userData.user_id = user.user_id;
