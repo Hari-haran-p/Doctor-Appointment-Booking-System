@@ -14,8 +14,11 @@ services:
     build: 
       context: ./server
       dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
-      - "5001:5000"
+      - "5000:5000"
     networks:
       - asgard
 
@@ -23,17 +26,23 @@ services:
     build: 
       context: ./client
       dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
     ports:
-      - "3001:3000"
+      - "3000:3000" 
     networks:
       - asgard
 
   db:
     image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD:password
+      - MYSQL_DATABASE:Doctor
     ports:
       - "3400:3306"
     volumes:
-      - db-data:/var/lib/mysql
+      - mysqldb:/var/lib/mysql
     networks:
       - asgard
 
@@ -41,4 +50,5 @@ networks:
   asgard:
 
 volumes:
-  db-data:
+  mysqldb:
+    external: true

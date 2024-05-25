@@ -2,12 +2,15 @@ FROM node:current-alpine
 
 WORKDIR /app
 
-COPY .  .
+COPY package*.json ./
 
 RUN npm install --force
 
+COPY .  .
+
 RUN echo "starting the appklication...."
+
+EXPOSE 3000
 
 CMD npm start
 
-EXPOSE 3000

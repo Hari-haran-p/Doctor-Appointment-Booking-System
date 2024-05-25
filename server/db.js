@@ -10,7 +10,6 @@ const db = mysql.createPool({
     database: "Doctor"
 })
 
-
 module.exports = {
     connect: () => {
         db.getConnection((err, conn) => {

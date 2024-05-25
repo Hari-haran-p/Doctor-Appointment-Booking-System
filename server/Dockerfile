@@ -2,13 +2,15 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
 
 RUN npm install --force
+
+COPY . .
 
 RUN npm i nodemon -g
 
 CMD nodemon server.js
 
-EXPOSE 5000
+EXPOSE 4000
 
