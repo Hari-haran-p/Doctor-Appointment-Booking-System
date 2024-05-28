@@ -1,16 +1,11 @@
-FROM node:lts-alpine
+FROM node:18.16.1-alpine3.18
 
+RUN mkdir -p /app
 WORKDIR /app
 
-COPY package*.json ./
+COPY . /app
 
-RUN npm install --force
-
-COPY . .
-
-RUN npm i nodemon -g
-
-CMD nodemon server.js
+RUN npm install nodemon -g
 
 EXPOSE 4000
-
+CMD echo 1; npm install; echo 2; npx nodemon app.js

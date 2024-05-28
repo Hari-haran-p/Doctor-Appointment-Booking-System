@@ -1,12 +1,11 @@
-version: '2.3'
-
+version: '2.26'
 services:
   nginx:
     build: 
       context: ./nginx
       dockerfile: Dockerfile
     ports:
-      - "30:80" 
+      - "5500:80" 
     networks:
       - asgard
 
@@ -15,10 +14,9 @@ services:
       context: ./server
       dockerfile: Dockerfile
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./server:/app
     ports:
-      - "5000:5000"
+      - "4000:4000"
     networks:
       - asgard
 
@@ -27,8 +25,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./client:/app
     ports:
       - "3000:3000" 
     networks:
@@ -37,10 +34,10 @@ services:
   db:
     image: mysql:latest
     environment:
-      - MYSQL_ROOT_PASSWORD:password
-      - MYSQL_DATABASE:Doctor
+      MYSQL_DATABASE: Doctor
+      MYSQL_ROOT_PASSWORD: example
     ports:
-      - "3400:3306"
+      - "3305:3306"
     volumes:
       - mysqldb:/var/lib/mysql
     networks:
@@ -51,4 +48,3 @@ networks:
 
 volumes:
   mysqldb:
-    external: true

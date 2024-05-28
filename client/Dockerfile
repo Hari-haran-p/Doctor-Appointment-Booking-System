@@ -1,16 +1,9 @@
-FROM node:current-alpine
+FROM node:18.16.1-alpine3.18
 
+RUN mkdir -p /app
 WORKDIR /app
 
-COPY package*.json ./
-
-RUN npm install --force
-
-COPY .  .
-
-RUN echo "starting the appklication...."
+COPY . /app
 
 EXPOSE 3000
-
-CMD npm start
-
+CMD echo 1; npm install; echo 2; npm start

@@ -24,11 +24,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//database connect check
-// db.connect((err) => {
-//     if (err) throw err;
-//     console.log('Connected to MySQL');
-// });
+// database connect check
+db.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to MySQL');
+});
 
 //sequlize connection 
 sequelize.sync({force:false}).then(()=>console.log("SEQULIZED SUCESSFULLY >>>----->>>----->>>")).catch((err)=>console.log(err));
@@ -171,6 +171,6 @@ app.post("/api/register", async (req, res) => {
 
 
 app.listen(4000, () => {
-    console.log(`Server running at 4000`);
+    console.log(`Server running at 5000`);
 });
 
