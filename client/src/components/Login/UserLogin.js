@@ -27,7 +27,7 @@ export const UserLogin = () => {
       const response = await axios.post("/api/user/login", { username, password });
       if (response.data.success) {
         setMessage(response.data.message);
-        const user = (response.data.user[0]);
+        const user = (response.data.user);
         userData.name =  user.name;
         userData.gender = user.gender;
         userData.age = user.age;

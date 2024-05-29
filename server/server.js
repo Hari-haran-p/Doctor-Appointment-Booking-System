@@ -9,7 +9,7 @@ const sequelize = require("./config/database.js");
 
 const users = require("./models/users.js")
 const doctors = require("./models/doctors.js");
-const patients= require("./models/patients.js");
+const patients = require("./models/patients.js");
 
 
 //file reader
@@ -25,145 +25,121 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // database connect check
-db.connect((err) => {
-    if (err) throw err;
-    console.log('Connected to MySQL');
-});
+// db.connect((err) => {
+//     if (err) throw err;
+//     console.log('Connected to MySQL');
+// });
 
 //sequlize connection 
-sequelize.sync({force:false}).then(()=>console.log("SEQULIZED SUCESSFULLY >>>----->>>----->>>")).catch((err)=>console.log(err));
+sequelize.sync({ force: false }).then(() => console.log("SEQULIZED SUCESSFULLY >>>----->>>----->>>")).catch((err) => console.log(err));
 
+
+//Doctor Login 
 app.post('/api/doctor/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
     try {
-        // const data = await db.query('SELECT * FROM users WHERE username = ?', [username]).then((results) => {
-        //     if (results.length === 0) {
-        //         throw new Error('User not found');
-        //     }
-        //     const user = results[0];
-        //     if (user.password !== password) {
-        //         throw new Error('Incorrect password');
-        //     }
-        //     return user;
-        // }).catch((error) => {
-        //     if (error) {
-        //         throw new Error('Error retrieving user from database');;
-        //     }
-        // })
-
-        const user = await users.findOne({where : {username : username}});
-        if(!user){
+        const user = await users.findOne({ where: { username: username } });
+        if (!user) {
             throw new Error('User not found');
         }
-        if(user.passowrd != password){
+        if (user.password != password) {
             throw new Error('Incorrect password');
         }
-        console.log(data);
-        db.query("SELECT * FROM doctors WHERE user_id = ?", [data.id]).then((result) => {
-            if (result.length === 0) {
-                throw new Error('User not found');
-            }
-            console.log(result);
-            result[0].role = 'doctor';
-            return res.status(201).json({ success: true, message: "Login successful", user: result });
-        }).catch((error) => {
-            console.log(error);
-            if (error) {
-                throw new Error('Error retrieving user from database');
-            }
-        })
+        const doctor = await doctors.findOne({ where: { user_id: user.id } })
+        if (doctor.length === 0) {
+            throw new Error('User not found');
+        }
+        let result = { ...doctor.dataValues, role: 'doctor' };
+        console.log(result);
+        return res.status(201).json({ success: true, message: "Login successful", user: result });
     } catch (error) {
         res.status(500).send(error.message);
     }
 })
 
+//User Login 
 app.post('/api/user/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     try {
-        const data = await db.query('SELECT * FROM users WHERE username = ?', [username]).then((results) => {
-            if (results.length === 0) {
-                throw new Error('User not found');
-            }
-            const user = results[0];
-            if (user.password !== password) {
-                throw new Error('Incorrect password');
-            }
-            return user;
-        }).catch((error) => {
-            if (error) {
-                throw new Error('Error retrieving user from database');;
-            }
-        })
-        console.log(data);
-        db.query("SELECT * FROM patients WHERE user_id = ?", [data.id]).then((result) => {
-            if (result.length === 0) {
-                throw new Error('User not found');
-            }
-            console.log(result);
-            result[0].role = 'doctor';
-            return res.status(201).json({ success: true, message: "Login successful", user: result });
-        }).catch((error) => {
-            if (error) {
-                throw new Error('Error retrieving user from database');
-            }
-        })
+        const user = await users.findOne({ where: { username: username } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        if (user.password != password) {
+            throw new Error('Incorrect password');
+        }
+        const patient = await patients.findOne({ where: { user_id: user.id } })
+        if (patient.length === 0) {
+            throw new Error('User not found');
+        }
+        let result = { ...patient.dataValues, role: 'patient' };
+        console.log(result);
+        return res.status(201).json({ success: true, message: "Login successful", user: result });
     } catch (error) {
+        console.log(error);
         res.status(500).send(error.message);
     }
 })
 
+//User Registeration
 app.post("/api/register", async (req, res) => {
+    //Start a transcation as registering user invloes data creation in multiple tables;
+    const transaction = await sequelize.transaction();
     try {
+        //Get form data from request
         const { patientName, patientDOB, patientGender, patientAge, patientBloodGroup, patientEmail, patientContactInfo, patientAddress, patientPassword } = req.body;
-        const userInsertQuery = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        const userResult = await db.query(userInsertQuery, [patientEmail, patientPassword, 'patient']).then((result) => {
-            return result;
-        }).catch((error) => {
-            if (error) {
-                console.error("Error inserting user:", error);
-                throw new Error("some error");
-            }
-        })  
-
-        console.log("userResult:", userResult);
-        const userId = userResult.insertId;
-        console.log("Inserted userId:", userId);
-
-        if (!userId) {
-            return res.status(500).json({ success: false, message: "Failed to retrieve user ID" });
-        }
-        const patientInsertQuery = "INSERT INTO patients (user_id, name, dob, gender, age, blood_group, email, mobile, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        //create user record in users table
+        const user = await users.create({
+            username: patientEmail,
+            password: patientPassword,
+            role: "patient"
+        }, {
+            transaction: transaction
+        });
+        console.log(user.id);
+        //with the user created create a patient table record
+        const patient = await patients.create(
+            {
+                name: patientName,
+                dob: patientDOB,
+                gender: patientGender,
+                age: patientAge,
+                blood_group: patientBloodGroup,
+                email: patientEmail,
+                mobile: patientContactInfo,
+                address: patientAddress,
+                user_id: user.id,
+            }, {
+            transaction: transaction
+        });
+        //send a welcome email to customer via nodemailer
         const imageAttachment = await readFile('./register.jpg');
-        const htmlTemplate = await readFile("./mail.html",'utf-8');
-        await db.query(patientInsertQuery, [userId, patientName, patientDOB, patientGender, patientAge, patientBloodGroup, patientEmail, patientContactInfo, patientAddress]).then((result) => {
-            transporter.sendMail({
-                from: 'vignesgleefc@gmail.com',
-                to: patientEmail,
-                subject: 'Sucessfully registered...!!',
-                html: htmlTemplate.replace("${recipientName}", patientName),
-                attachments: [{
-                    filename: 'register.jpg',
-                    content: imageAttachment,
-                    encoding: 'base64',
-                    cid: 'RegisterImage'
-                }],
-            }).then(info => {
-                console.log('Email sent:', info.messageId);
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-            res.status(201).json({ success: true, message: "User and patient registered successfully" });
-        }).catch((error) => {
-            if (error) {
-                console.error("Error inserting patient:", error);
-                throw new Error("Some error while adding user");
-            }
-        })
-
+        const htmlTemplate = await readFile("./mail.html", 'utf-8');
+        transporter.sendMail({
+            from: process.env.EMAIL_ID,
+            to: patientEmail,
+            subject: 'Sucessfully registered...!!',
+            html: htmlTemplate.replace("${recipientName}", patientName),
+            attachments: [{
+                filename: 'register.jpg',
+                content: imageAttachment,
+                encoding: 'base64',
+                cid: 'RegisterImage'
+            }],
+        }).then(info => {
+            console.log('Email sent:', info.messageId);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+        //after completion of all process commit the tarnsaction
+        await transaction.commit();
+        res.status(201).json({ success: true, message: "User and patient registered successfully" });
     } catch (err) {
+        //Rollback transaction if any error happens and send response
+        await transaction.rollback();
         console.error(err);
         res.status(500).json({ success: false, message: "An error occurred while registering user" });
     }

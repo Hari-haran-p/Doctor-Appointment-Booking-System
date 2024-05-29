@@ -10,6 +10,7 @@ export const DoctorLogin = () => {
   const navigate = useNavigate();
 
   const userData = {
+    id:"",
     name: "",
     speciality: "",
     designation: "",
@@ -24,11 +25,12 @@ export const DoctorLogin = () => {
       const response = await axios.post("/api/doctor/login", { username, password });
       if (response.data.success) {
         setMessage(response.data.message);
-        const user = (response.data.user[0]);
+        const user = (response.data.user);
+        userData.id = user.id;
         userData.name =  user.name;
         userData.speciality = user.speciality;
         userData.designation = user.designation;
-        userData.mobile = user.mobile;
+        userData.mobile = user.contact;
         userData.user_id = user.user_id;
         userData.role = user.role;
         sessionStorage.setItem("doctor_key", JSON.stringify(userData));
