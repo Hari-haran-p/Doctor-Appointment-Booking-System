@@ -14,6 +14,12 @@ import { UserPrescription } from './components/user/UserPerscription';
 import { UserDoctor } from './components/user/UserDoctor';
 import { UserPayment } from './components/user/UserPayment';
 import { UserProfile } from './components/user/UserProfile';
+import { DoctorTodayAppointment } from './components/doctor/DoctorTodayAppointment';
+import { DoctorAppointment } from './components/doctor/DoctorAppointment';
+import { DoctorMedicalRecords } from './components/doctor/DoctorMedialRedords';
+import { DoctorPrescription } from './components/doctor/DoctorPrescription';
+import { DoctorProfile } from './components/doctor/DoctorProfile';
+import { DoctorLeave } from './components/doctor/DoctorLeave';
 
 
 
@@ -40,13 +46,13 @@ function App() {
 
       {/* Doctor routes */}
       <Route path='/doctor/dashboard'            element={<DoctorDashboard/>}/>
-      <Route path='/doctor/appointment/today'    element={<DoctorDashboard/>}/>
-      <Route path='/doctor/appointment/'         element={<DoctorDashboard/>}/>
+      <Route path='/doctor/appointment/today'    element={<DoctorTodayAppointment/>}/>
+      <Route path='/doctor/appointment/'         element={<DoctorAppointment/>}/>
       <Route path='/doctor/appointment/view/:id' element={<DoctorDashboard/>}/>
-      <Route path='/doctor/medicalrecords/'      element={<DoctorDashboard/>}/>
-      <Route path='/doctor/prescription//'       element={<DoctorDashboard/>}/>
-      <Route path='/doctor/leave/'               element={<DoctorDashboard/>}/>
-      <Route path='/doctor/profile/'             element={<DoctorDashboard/>}/>
+      <Route path='/doctor/medicalrecords/'      element={<DoctorMedicalRecords/>}/>
+      <Route path='/doctor/prescription//'       element={<DoctorPrescription/>}/>
+      <Route path='/doctor/leave/'               element={<DoctorLeave/>}/>
+      <Route path='/doctor/profile/'             element={<DoctorProfile/>}/>
 
       {/* Admin Routes */}
       <Route path='/admin/dashboard'            element={<DoctorDashboard/>}/>

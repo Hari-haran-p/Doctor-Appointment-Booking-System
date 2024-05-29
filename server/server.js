@@ -6,7 +6,6 @@ const db = require("./db.js");
 const transporter = require("./config/email.js");
 require('dotenv').config();
 const sequelize = require("./config/database.js");
-
 const users = require("./models/users.js")
 const doctors = require("./models/doctors.js");
 const patients = require("./models/patients.js");
@@ -144,7 +143,6 @@ app.post("/api/register", async (req, res) => {
         res.status(500).json({ success: false, message: "An error occurred while registering user" });
     }
 });
-
 
 app.listen(4000, () => {
     console.log(`Server running at 5000`);
