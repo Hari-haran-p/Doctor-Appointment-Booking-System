@@ -62,7 +62,7 @@ async function syncAndAddPatient() {
         const patient = await patients.findOne({ where: { name: "Sai Prashanth K" } });
         if (!patient) {
             // Create a new user
-            const newPatient = await patients.create({ name: "Sai Prashanth K", age: 22, gender: "male", dob: "26-03-2001", mobile: "9754321781", blood_group: "B+ve", address: "Sathy, erode", account_status: true, user_id: 1 });
+            const newPatient = await patients.create({ name: "Sai Prashanth K", age: 22, gender: "male", dob: "26-03-2001", mobile: "9754321781", blood_group: "B+ve", address: "Sathy, erode", account_status: "true", user_id: 1 });
             console.log('User created:', newPatient.name);
         }
     } catch (error) {

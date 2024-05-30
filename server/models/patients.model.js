@@ -38,7 +38,7 @@ const patients = sequelize.define('patients', {
         allowNull: false
     },
     account_status: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING,
         allowNull: false
     },
     user_id: {
