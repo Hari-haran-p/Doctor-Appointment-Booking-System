@@ -24,11 +24,6 @@ const users = sequelize.define('users', {
 })
 
 
-// users.afterSync((model, options)=>{
-//     users.create({username:"saiprashanth.cs21@bitsathy.ac.in", password:"Saik@1293", role:"patient"});
-//     users.create({username:"kavin@gmail.com", password:"kavin123", role:"doctor"});
-// })
-
 sequelize.models.users;
 
 module.exports = users;

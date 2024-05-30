@@ -1,54 +1,60 @@
-const sequlize = require("../config/database.js");
-
-const { Sequelize , Datatypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const sequelize  = require('../config/database.js');
-const users = require("./users.js");
+const doctors = require("./doctors.model.js");
+const patients = require("./patients.model.js");
 
 
-const patients = sequelize.define('patients', {
+const medicalRecords = sequelize.define('medicalRecords', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
-        type: Sequelize .STRING,
+    height: {
+        type: Sequelize.INTEGER,
         allowNull: false,
     },
-    dob: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    gender: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    age: {
+    weight: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    blood_group: {
+    pressure: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    temperature: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    medical_record_mark: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-    },
-    mobile: {
+    symptoms: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    address: {
+    medications: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    user_id: {
+    treatments: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    patient_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: users,
+            model: patients,
+            key: 'id',
+        },
+    },
+    doctor_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: doctors,
             key: 'id',
         },
     }
@@ -59,5 +65,5 @@ const patients = sequelize.define('patients', {
 // })
 
 
-sequelize.models.patients;
-module.exports = patients;
+sequelize.models.medicalRecords;
+module.exports = medicalRecords;
