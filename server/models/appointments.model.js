@@ -56,9 +56,9 @@ const appointments = sequelize.define('appointments', {
     }
 })
 
-// patients.afterSync((models, options)=>{
-//     patients.create({name:"Sai Prashanth K", dob: "26-03-2001", gender:"Male", age: 22, blood_group:"B+", email: "saiprashanth.cs21@bitsathy.ac.in", mobile:"9876543200", address:"sathy, erode", user_id:1});
-// })
+patients.afterSync((models, options)=>{
+    patients.create({name:"Sai Prashanth K", dob: "26-03-2001", gender:"Male", age: 22, blood_group:"B+", email: "saiprashanth.cs21@bitsathy.ac.in", mobile:"9876543200", address:"sathy, erode", user_id:1});
+})
 
 
 sequelize.models.appointments;

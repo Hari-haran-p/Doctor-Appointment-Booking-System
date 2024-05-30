@@ -42,9 +42,9 @@ const doctors = sequelize.define('doctors', {
     }
 })
 
-// doctors.afterSync((models, options)=>{
-//     doctors.create({name:"Kavinraj K", speciality:"Ortho", designation:"senior doctor", description:"experienced in ortho", contact:"9876543210", user_id:2})
-// })
+doctors.afterSync((models, options)=>{
+    doctors.create({name:"Kavinraj K", speciality:"Ortho", designation:"senior doctor", description:"experienced in ortho", contact:"9876543210", user_id:2})
+})
 
 
 
