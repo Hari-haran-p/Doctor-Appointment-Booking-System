@@ -1,8 +1,9 @@
 const medicalRecords = require("../models/medicalRecords.model.js");
 
-exports.findAll = async (req, res) => {
+exports.patient_findAll = async (req, res) => {
+    const id = req.params.id;
     try {
-        const medicalRecord = await medicalRecords.findAll();
+        const medicalRecord = await medicalRecords.findAll({where : {patient_id : id}});
         res.status(201).json({ success: true, medicalRecords: medicalRecord });
     } catch (error) {
         console.log(error);

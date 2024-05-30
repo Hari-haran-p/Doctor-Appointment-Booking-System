@@ -15,10 +15,12 @@ export const UserDoctor = () => {
 
   const fetch_doctor_data = async () => {
     await axios
-      .get("/api/Doctor")
+      .get("/api/doctors/")
       .then((response) => {
-        setdoctordata(response.data);
-        setSearchResults(response.data);
+        if(response.data.success){
+          setdoctordata(response.data.doctors);
+          setSearchResults(response.data.doctors);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -234,27 +236,27 @@ export const UserDoctor = () => {
                                 scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                {row.doctorName}
+                                {row.name}
                               </th>
                               <td class="px-4 py-3 text-center ">
-                                {row.doctorDesignation}
+                                {row.designation}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.doctorQualification}
+                                {row.qualification}
                               </td>
                               <td class="px-4 py-3 text-center">
                                 {" "}
-                                {row.doctorStatus == "Leave" && (
+                                {row.status == "Leave" && (
                                   <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                     🏝️ Leave
                                   </span>
                                 )}
-                                {row.doctorStatus == "Available" && (
+                                {row.status == "Available" && (
                                   <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                     👨‍⚕️ Available
                                   </span>
                                 )}
-                                {row.doctorStatus == "Lunch" && (
+                                {row.status == "Lunch" && (
                                   <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
                                     🍰 Lunch
                                   </span>
@@ -265,7 +267,7 @@ export const UserDoctor = () => {
                                 {" "}
                                 <div className="flex space-x-2">
                                   <a
-                                    href={"tel:" + row.doctorMobile}
+                                    href={"tel:" + row.mobile}
                                     className="bg-green-800 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded"
                                   >
                                     ✆ Call

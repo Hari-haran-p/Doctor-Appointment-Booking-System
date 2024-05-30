@@ -5,14 +5,16 @@ import { UserSidebar } from "../navbar/UserSidebar";
 
 export const UserProfile = () => {
   const [profile, setProfile] = useState();
-
+console.log(profile);
   // fetch user data
 
   const fetch_patient_data = async (id) => {
     console.log("hi");
     try {
-      const response = await axios.get(`/api/Patient/${id}`);
-      setProfile(response.data);
+      const response = await axios.get(`/api/patients/${id}`);
+      if(response.data.success){
+        setProfile(response.data.patients[0]);
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
@@ -126,7 +128,7 @@ export const UserProfile = () => {
                       alt="Bonnie image"
                     />
                     <h5 class="mt-2 text-xl font-medium text-gray-900 dark:text-white">
-                      {profile.patientName}
+                      {profile.name}
                     </h5>
 
                     <div class="flex mt-3 space-x-3 md:mt-3">
@@ -171,28 +173,28 @@ export const UserProfile = () => {
                     <div class="grid md:grid-cols-2 text-sm">
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Full Name</div>
-                        <div class=" py-2">{profile.patientName}</div>
+                        <div class=" py-2">{profile.name}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Age</div>
-                        <div class=" py-2">{profile.patientAge}</div>
+                        <div class=" py-2">{profile.age}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Gender</div>
-                        <div class=" py-2">{profile.patientGender}</div>
+                        <div class=" py-2">{profile.gender}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Contact No.</div>
-                        <div class=" py-2">+91 {profile.patientMobile}</div>
+                        <div class=" py-2">+91 {profile.mobile}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">bloodGroup</div>
-                        <div class=" py-2">{profile.patientBloodGroup}</div>
+                        <div class=" py-2">{profile.blood_group}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Birthday</div>
                         <div class=" py-2">
-                          {new Date(profile.patientDOB).toLocaleDateString()}
+                          {new Date(profile.dob).toLocaleDateString()}
                         </div>
                       </div>
 
@@ -203,14 +205,14 @@ export const UserProfile = () => {
                             class="text-blue-800"
                             href="mailto:jane@example.com"
                           >
-                            {profile.patientEmail}
+                            {profile.email}
                           </a>
                         </div>
                       </div>
                     </div>
                   <div class="grid grid-cols-2 md:grid-cols-4">
                     <div class="px-2 py-2 font-semibold">Address</div>
-                    <div class="py-2">{profile.patientAddress}</div>
+                    <div class="py-2">{profile.address}</div>
                   </div>
                   </div>
                 </div>

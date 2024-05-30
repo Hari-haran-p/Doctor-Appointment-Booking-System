@@ -9,17 +9,17 @@ import { UserSidebar } from "../navbar/UserSidebar";
 export const UserMedicalRecords = () => {
   const navigate = useNavigate();
 
-
     // fetch medical records data
     const [medicalrecords, setmedicalrecords] = useState([]);
 
     const fetch_medicalrecord_data = async () => {
       await axios
-        .get("/api/MedicalRecord/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).userid)
+        .get("/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).userid)
         .then((response) => {
-          setmedicalrecords(response.data);
-          setSearchResults(response.data);
-
+          if(response.data.success){
+            setmedicalrecords(response.data.medicalRecords);
+            setSearchResults(response.data.medicalRecords);
+          }
         })
         .catch((error) => {
           if (error.response) {
@@ -55,7 +55,6 @@ export const UserMedicalRecords = () => {
   const offset = currentPage * itemsPerPage;
   var currentPageData = searchResults.slice(offset, offset + itemsPerPage);
 
-
   // Function to handle search query changes
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value);
@@ -68,9 +67,8 @@ export const UserMedicalRecords = () => {
     // Perform search logic here using searchQuery
     const filteredResults = medicalrecords.filter(
       (medical) =>
-        medical.attenderName.toLowerCase().includes(search.toLowerCase()) ||
-        medical.appointment.appointmentId==search
-
+        // medical.attenderName.toLowerCase().includes(search.toLowerCase()) ||
+        medical.id==search
     );
     console.log(filteredResults)
   
@@ -216,7 +214,7 @@ export const UserMedicalRecords = () => {
                             remark
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            attender
+                            Medications
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Actions
@@ -247,21 +245,21 @@ export const UserMedicalRecords = () => {
                               </div>
                             </td>
 
-                            <td class="px-4 py-3 text-center ">{row.appointment.appointmentId}</td>
+                            <td class="px-4 py-3 text-center ">{row.id}</td>
 
 
                             <th
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              {new Date(row.medicalRecordTimestamp).toLocaleDateString()}
+                              {new Date(row.createdAt).toLocaleDateString()}
                             </th>
                             <td class="px-4 py-3 text-center ">{row.height}</td>
                             <td class="px-4 py-3 text-center">{row.weight}</td>
                             <td class="px-4 py-3 text-center">{row.pressure}</td>
                             <td class="px-4 py-3 text-center">{row.temperature}</td>
-                            <td class="px-4 py-3 ">{row.medicalRecordRemark}</td>
-                            <td class="px-4 py-3 ">{row.attenderName}</td>
+                            <td class="px-4 py-3 ">{row.medical_record_mark}</td>
+                            <td class="px-4 py-3 ">{row.medications}</td>
 
                             <td className="px-4 py-3">
                               {" "}

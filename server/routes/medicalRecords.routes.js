@@ -3,7 +3,7 @@ module.exports = app =>{
 
     var router = require('express').Router();
 
-    router.get('/medicalrecords/', medicalRecords.findAll);
+    router.get('/medicalrecords/patient/:id', medicalRecords.patient_findAll);
 
     app.use("/api", router);
     

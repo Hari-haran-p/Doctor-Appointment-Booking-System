@@ -12,10 +12,10 @@ export const DoctorLogin = () => {
   const userData = {
     id:"",
     name: "",
-    speciality: "",
+    qualification: "",
     designation: "",
     mobile: "",
-    user_id: "",
+    status: "",
     role:"",
   }
 
@@ -28,10 +28,10 @@ export const DoctorLogin = () => {
         const user = (response.data.user);
         userData.id = user.id;
         userData.name =  user.name;
-        userData.speciality = user.speciality;
+        userData.qualification = user.qualification;
         userData.designation = user.designation;
         userData.mobile = user.contact;
-        userData.user_id = user.user_id;
+        userData.status = user.status;
         userData.role = user.role;
         sessionStorage.setItem("doctor_key", JSON.stringify(userData));
         setTimeout(() => {

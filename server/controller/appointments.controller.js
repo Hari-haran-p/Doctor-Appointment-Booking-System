@@ -1,8 +1,9 @@
 const appointments = require("../models/appointments.model.js");
 
-exports.findAll = async(req, res)=>{
+exports.patient_findAll = async(req, res)=>{
+    const id = req.params.id;
     try {
-        const appointment = await appointments.findAll();
+        const appointment = await appointments.findAll({where : {patient_id : id}});
         res.status(201).json({ success: true, appointments: appointment });
     } catch (error) {
         console.log(error);

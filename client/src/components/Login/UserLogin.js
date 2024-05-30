@@ -17,8 +17,9 @@ export const UserLogin = () => {
     blood_group:"",
     email:"",
     mobile:"",
-    user_id:"",
-    role:""
+    userid:"",
+    role:"",
+    status:"",
   }
 
   const handleLogin = async (e) => {
@@ -32,10 +33,10 @@ export const UserLogin = () => {
         userData.gender = user.gender;
         userData.age = user.age;
         userData.blood_group = user.blood_group;
-        userData.email = user.email;
         userData.mobile = user.mobile;
-        userData.user_id = user.user_id;
+        userData.userid = user.id;
         userData.role = user.role;
+        userData.status = user.account_status;
         sessionStorage.setItem("student_key", JSON.stringify(userData));
         setTimeout(() => {
           navigate("/user/dashboard");

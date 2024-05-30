@@ -15,12 +15,14 @@ export const UserPrescription = () => {
   const fetch_prescription_data = async () => {
     await axios
       .get(
-        "/api/Prescription/patient/" +
-          JSON.parse(sessionStorage.getItem("student_key")).userid
+        "/api/prescriptions/patient/" +
+        JSON.parse(sessionStorage.getItem("student_key")).userid
       )
       .then((response) => {
-        setprescription(response.data);
-        setSearchResults(response.data);
+        if (response.data.success) {
+          setprescription(response.data.prescriptions);
+          setSearchResults(response.data.prescriptions);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -65,10 +67,11 @@ export const UserPrescription = () => {
     // Perform search logic here using searchQuery
     const filteredResults = prescription.filter(
       (pres) =>
-        pres.doctor.doctorName.toLowerCase().includes(search.toLowerCase()) ||
-        pres.doctor.doctorDesignation
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        pres.doctor_id.toLowerCase().includes(search.toLowerCase()) 
+      // ||
+        // pres.doctor.doctorDesignation
+          // .toLowerCase()
+          // .includes(search.toLowerCase())
     );
     console.log(filteredResults);
 
@@ -245,20 +248,20 @@ export const UserPrescription = () => {
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
                                 {new Date(
-                                  row.prescriptionTimestamp
+                                  row.createdAt
                                 ).toLocaleDateString()}
                               </th>
                               <td class="px-4 py-3 text-center ">
-                                {row.doctor.doctorName}
+                                {row.doctor_id}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.doctor.doctorDesignation}
+                                {row.doctor_id}
                               </td>
                               <td class="px-4 py-3 text-center">
                                 {row.disease}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.allergy}
+                                {row.prescription}
                               </td>
 
                               <td class="px-4 py-3 ">

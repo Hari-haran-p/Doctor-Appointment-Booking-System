@@ -3,7 +3,7 @@ module.exports = app =>{
 
     var router = require('express').Router();
 
-    router.get('/prescriptions/', prescriptions.findAll);
+    router.get('/prescriptions/patient/:id', prescriptions.patient_findAll);
 
     app.use("/api", router);
     

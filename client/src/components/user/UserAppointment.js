@@ -21,13 +21,15 @@ export const UserAppointment = () => {
   const fetch_appointment_data = async () => {
     await axios
       .get(
-        "/api/Appointment/patient/" +
+        "/api/appointments/patient/" +
           JSON.parse(sessionStorage.getItem("student_key")).userid
       )
       .then((response) => {
-        setAppointmentdata(response.data);
-        calculateAppointmentCounts(response.data);
-        setSearchResults(response.data);
+        if(response.data.success){
+          setAppointmentdata(response.data.appointments);
+          calculateAppointmentCounts(response.data.appointments);
+          setSearchResults(response.data.appointments);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -55,11 +57,11 @@ export const UserAppointment = () => {
     let notPaid = 0;
 
     appointments.forEach(function(appointment) {
-      if (appointment.appointmentStatus === "waiting") {
+      if (appointment.status === "waiting") {
         waiting++;
-      } else if (appointment.appointmentStatus === "cancelled") {
+      } else if (appointment.status === "cancelled") {
         canceled++;
-      } else if (appointment.appointmentStatus === "booked") {
+      } else if (appointment.status === "booked") {
         booked++;
       }
 
@@ -102,10 +104,10 @@ export const UserAppointment = () => {
     // Perform search logic here using searchQuery
     const filteredResults = appointmentdata.filter(
       (appointment) =>
-        appointment.doctor.doctorName
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        appointment.appointmentStatus
+        // appointment.doctor.doctorName
+        //   .toLowerCase()
+        //   .includes(search.toLowerCase()) ||
+        appointment.status
           .toLowerCase()
           .includes(search.toLowerCase())
     );
@@ -409,16 +411,16 @@ export const UserAppointment = () => {
                                 scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                {row.doctor.doctorName}
+                                {row.doctor_id}
                               </th>
                               <td class="px-4 py-3 ">
                                 {new Date(
-                                  row.appointmentDate
+                                  row.date
                                 ).toLocaleDateString()}
                               </td>
-                              <td class="px-4 py-3 ">{row.appointmentTime}</td>
+                              <td class="px-4 py-3 ">{row.time}</td>
                               <td class="px-4 py-3 text-center">
-                                {row.appointmentStatus == "completed" && (
+                                {row.status == "completed" && (
                                   <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 border border-green-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -439,7 +441,7 @@ export const UserAppointment = () => {
                                     Completed
                                   </span>
                                 )}
-                                {row.appointmentStatus == "waiting" && (
+                                {row.status == "waiting" && (
                                   <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -453,7 +455,7 @@ export const UserAppointment = () => {
                                     Waiting
                                   </span>
                                 )}
-                                {row.appointmentStatus == "booked" && (
+                                {row.status == "booked" && (
                                   <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 border border-blue-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -467,7 +469,7 @@ export const UserAppointment = () => {
                                     Booked
                                   </span>
                                 )}
-                                {row.appointmentStatus == "cancelled" && (
+                                {row.status == "cancelled" && (
                                   <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 border border-red-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -520,7 +522,7 @@ export const UserAppointment = () => {
                                 )}
                               </td>
                               <td class="px-4 py-3 ">
-                                {row.appointmentReason}
+                                {row.reason}
                               </td>
                               <td className="px-4 py-3">
                                 {" "}
@@ -529,7 +531,7 @@ export const UserAppointment = () => {
                                     onClick={() =>
                                       navigate(
                                         "/user/appointment/view/" +
-                                          row.appointmentId
+                                          row.id
                                       )
                                     }
                                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded"
