@@ -25,7 +25,7 @@ export const UserLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/user/login", { username, password });
+      const response = await axios.post("http://localhost:4000/api/user/login", { username, password });
       if (response.data.success) {
         setMessage(response.data.message);
         const user = (response.data.user);
