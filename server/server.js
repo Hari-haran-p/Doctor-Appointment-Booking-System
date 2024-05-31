@@ -14,8 +14,15 @@ const patients = require("./models/patients.model.js");
 //server app
 const app = express();
 
-//app configurations
-app.use(cors());
+// Specify the client URL in the CORS options
+const corsOptions = {
+    origin: 'http://localhost:3000', // Replace with your client URL if different
+    optionsSuccessStatus: 200 
+  };
+  
+  // Apply CORS with the specified options
+  app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -199,6 +206,6 @@ require("./routes/prescriptions.routes.js")(app)
 require("./routes/auth.routes.js")(app)
 
 app.listen(4000, () => {
-    console.log(`Server running at 5000`);
+    console.log(`Server running at 4000`);
 });
 

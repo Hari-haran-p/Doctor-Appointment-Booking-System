@@ -17,6 +17,8 @@ services:
       - ./server:/app
     ports:
       - "4000:4000"
+    depends_on:
+      - db
     networks:
       - closed_network
 
@@ -28,6 +30,8 @@ services:
       - ./client:/app
     ports:
       - "3000:3000" 
+    depends_on:
+      - server
     networks:
       - closed_network
 

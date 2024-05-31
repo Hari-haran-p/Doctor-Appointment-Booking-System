@@ -7,7 +7,6 @@ import UserPrescriptionExport from "./UserPrescriptionExport";
 import { UserSidebar } from "../navbar/UserSidebar";
 
 export const UserPrescription = () => {
-  const navigate = useNavigate();
 
   // fetch prescription data
   const [prescription, setprescription] = useState([]);
