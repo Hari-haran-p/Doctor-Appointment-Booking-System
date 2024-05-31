@@ -10,29 +10,29 @@ export const DoctorLogin = () => {
   const navigate = useNavigate();
 
   const userData = {
-    id:"",
-    name: "",
-    qualification: "",
-    designation: "",
-    mobile: "",
-    status: "",
-    role:"",
+    DoctorId:"",
+    DoctorName: "",
+    DoctorQualification: "",
+    DoctorDesignation: "",
+    DoctorMobile: "",
+    DoctorStatus: "",
+    DoctorRole:"",
   }
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/doctor/login", { username, password });
+      const response = await axios.post("http://localhost:4000/api/doctor/login", { username, password });
       if (response.data.success) {
         setMessage(response.data.message);
         const user = (response.data.user);
-        userData.id = user.id;
-        userData.name =  user.name;
-        userData.qualification = user.qualification;
-        userData.designation = user.designation;
-        userData.mobile = user.contact;
-        userData.status = user.status;
-        userData.role = user.role;
+        userData.DoctorId = user.DoctorId;
+        userData.DoctorName =  user.DoctorName;
+        userData.DoctorQualification = user.DoctorQualification;
+        userData.DoctorDesignation = user.DoctorDesignation;
+        userData.DoctorMobile = user.DoctorMobile;
+        userData.DoctorStatus = user.DoctorStatus;
+        userData.DoctorRole = user.DoctorRole;
         sessionStorage.setItem("doctor_key", JSON.stringify(userData));
         setTimeout(() => {
           navigate("/doctor/dashboard");
@@ -48,7 +48,6 @@ export const DoctorLogin = () => {
       }, 2000);
     }
   };
-
 
   return (
     <>

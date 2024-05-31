@@ -15,7 +15,7 @@ export const UserPrescription = () => {
     await axios
       .get(
         "/api/prescriptions/patient/" +
-        JSON.parse(sessionStorage.getItem("student_key")).userid
+        JSON.parse(sessionStorage.getItem("student_key")).PatientId
       )
       .then((response) => {
         if (response.data.success) {
@@ -66,11 +66,11 @@ export const UserPrescription = () => {
     // Perform search logic here using searchQuery
     const filteredResults = prescription.filter(
       (pres) =>
-        pres.doctor_id.toLowerCase().includes(search.toLowerCase()) 
-      // ||
-        // pres.doctor.doctorDesignation
-          // .toLowerCase()
-          // .includes(search.toLowerCase())
+        pres.DoctorName.toLowerCase().includes(search.toLowerCase()) 
+      ||
+        pres.DoctorDesignation
+          .toLowerCase()
+          .includes(search.toLowerCase())
     );
     console.log(filteredResults);
 
@@ -251,28 +251,27 @@ export const UserPrescription = () => {
                                 ).toLocaleDateString()}
                               </th>
                               <td class="px-4 py-3 text-center ">
-                                {row.doctor_id}
+                                {row.DoctorName}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.doctor_id}
+                                {row.DoctorDesignation}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.disease}
+                                {row.Disease}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.prescription}
+                                {row.Prescription}
                               </td>
-
                               <td class="px-4 py-3 ">
-                                {row.prescriptionRemark}
+                                {row.PrescriptionRemark}
                               </td>
 
                               <td className="px-4 py-3">
                                 {" "}
                                 <div className="flex space-x-2">
-                                  {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
+                                  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
                                   View
-                                </button> */}
+                                </button>
                                   <UserPrescriptionExport rowData={row} />
                                 </div>
                               </td>

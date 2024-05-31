@@ -6,45 +6,45 @@ const appointments = require("./appointments.model.js");
 
 
 const prescriptions = sequelize.define('prescriptions', {
-    id: {
+    PrescriptionId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    disease: {
+    Disease: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    prescription: {
+    Prescription: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    prescription_remark: {
+    PrescriptionRemark: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    doctor_id: {
+    DoctorId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: doctors,
-            key: 'id',
+            key: 'DoctorId',
         },
     },
-    patient_id: {
+    PatientId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: patients,
-            key: 'id',
+            key: 'PatientId',
         },
     },
-    appointment_id: {
+    AppointmentId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: appointments,
-            key: 'id',
+            key: 'AppointmentId',
         },
     }
 })

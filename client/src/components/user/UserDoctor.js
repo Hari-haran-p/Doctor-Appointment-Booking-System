@@ -15,7 +15,7 @@ export const UserDoctor = () => {
 
   const fetch_doctor_data = async () => {
     await axios
-      .get("/api/doctors/")
+      .get("http://localhost:4000/api/doctors/")
       .then((response) => {
         if(response.data.success){
           setdoctordata(response.data.doctors);
@@ -64,8 +64,8 @@ export const UserDoctor = () => {
     // Perform search logic here using searchQuery
     const filteredResults = doctordata.filter(
       (doctor) =>
-        doctor.doctorName.toLowerCase().includes(search.toLowerCase()) ||
-        doctor.doctorDesignation.toLowerCase().includes(search.toLowerCase())
+        doctor.DoctorName.toLowerCase().includes(search.toLowerCase()) ||
+        doctor.DoctorDesignation.toLowerCase().includes(search.toLowerCase())
     );
     console.log(filteredResults);
 
@@ -236,27 +236,27 @@ export const UserDoctor = () => {
                                 scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                {row.name}
+                                {row.DoctorName}
                               </th>
                               <td class="px-4 py-3 text-center ">
-                                {row.designation}
+                                {row.DoctorDesignation}
                               </td>
                               <td class="px-4 py-3 text-center">
-                                {row.qualification}
+                                {row.DoctorQualification}
                               </td>
                               <td class="px-4 py-3 text-center">
                                 {" "}
-                                {row.status == "Leave" && (
+                                {row.DoctorStatus == "Leave" && (
                                   <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
                                     🏝️ Leave
                                   </span>
                                 )}
-                                {row.status == "Available" && (
+                                {row.DoctorStatus == "Available" && (
                                   <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                     👨‍⚕️ Available
                                   </span>
                                 )}
-                                {row.status == "Lunch" && (
+                                {row.DoctorStatus == "Lunch" && (
                                   <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
                                     🍰 Lunch
                                   </span>
@@ -267,7 +267,7 @@ export const UserDoctor = () => {
                                 {" "}
                                 <div className="flex space-x-2">
                                   <a
-                                    href={"tel:" + row.mobile}
+                                    href={"tel:" + row.DoctorMobile}
                                     className="bg-green-800 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded"
                                   >
                                     ✆ Call

@@ -5,6 +5,8 @@ module.exports = app =>{
 
     router.get('/prescriptions/patient/:id', prescriptions.patient_findAll);
 
+    router.get('/prescription/doctor',prescriptions.patient_findOne)
+
     app.use("/api", router);
     
 }

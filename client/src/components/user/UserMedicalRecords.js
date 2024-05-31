@@ -14,7 +14,7 @@ export const UserMedicalRecords = () => {
 
     const fetch_medicalrecord_data = async () => {
       await axios
-        .get("/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).userid)
+        .get("/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).PatientId)
         .then((response) => {
           if(response.data.success){
             setmedicalrecords(response.data.medicalRecords);
@@ -245,7 +245,7 @@ export const UserMedicalRecords = () => {
                               </div>
                             </td>
 
-                            <td class="px-4 py-3 text-center ">{row.id}</td>
+                            <td class="px-4 py-3 text-center ">{row.AppointmendtId}</td>
 
 
                             <th
@@ -254,12 +254,12 @@ export const UserMedicalRecords = () => {
                             >
                               {new Date(row.createdAt).toLocaleDateString()}
                             </th>
-                            <td class="px-4 py-3 text-center ">{row.height}</td>
-                            <td class="px-4 py-3 text-center">{row.weight}</td>
-                            <td class="px-4 py-3 text-center">{row.pressure}</td>
-                            <td class="px-4 py-3 text-center">{row.temperature}</td>
-                            <td class="px-4 py-3 ">{row.medical_record_mark}</td>
-                            <td class="px-4 py-3 ">{row.medications}</td>
+                            <td class="px-4 py-3 text-center ">{row.Height}</td>
+                            <td class="px-4 py-3 text-center">{row.Weight}</td>
+                            <td class="px-4 py-3 text-center">{row.Pressure}</td>
+                            <td class="px-4 py-3 text-center">{row.Temperature}</td>
+                            <td class="px-4 py-3 ">{row.MedicalRecordRemark}</td>
+                            <td class="px-4 py-3 ">{row.Medications}</td>
 
                             <td className="px-4 py-3">
                               {" "}

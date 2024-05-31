@@ -10,9 +10,9 @@ docker compose up
 
 ### credentials
 
-- phpmyadmin at localhost:8080
+- phpmyadmin at localhost:8081
 
 ```bash
 username = root
-password = example
+password = password
 ```

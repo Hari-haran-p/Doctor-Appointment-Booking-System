@@ -11,7 +11,7 @@ console.log(profile);
   const fetch_patient_data = async (id) => {
     console.log("hi");
     try {
-      const response = await axios.get(`/api/patients/${id}`);
+      const response = await axios.get(`http://localhost:4000/api/patients/${id}`);
       if(response.data.success){
         setProfile(response.data.patients[0]);
       }
@@ -30,12 +30,13 @@ console.log(profile);
 
   // fetch medical records
   const [medicalrecords, setmedicalrecords] = useState();
-
   const fetch_medicalrecord_data = async (id) => {
     await axios
-      .get(`/api/MedicalRecord/patient/last/${id}`)
+      .get(`http://localhost:4000/api/medicalrecords/patient/${id}`)
       .then((response) => {
-        setmedicalrecords(response.data);
+        if(response.data.success){
+          setmedicalrecords(response.data.medicalRecords[0]);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -53,8 +54,8 @@ console.log(profile);
   useEffect(() => {
     const profile = () => {
       var item_value = JSON.parse(sessionStorage.getItem("student_key"));
-      fetch_patient_data(item_value.userid);
-      fetch_medicalrecord_data(item_value.userid);
+      fetch_patient_data(item_value.PatientId);
+      fetch_medicalrecord_data(item_value.PatientId);
     };
     profile();
   }, []);
@@ -173,32 +174,32 @@ console.log(profile);
                     <div class="grid md:grid-cols-2 text-sm">
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Full Name</div>
-                        <div class=" py-2">{profile.name}</div>
+                        <div class=" py-2">{profile.PatientName}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Age</div>
-                        <div class=" py-2">{profile.age}</div>
+                        <div class=" py-2">{profile.PatientAge}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Gender</div>
-                        <div class=" py-2">{profile.gender}</div>
+                        <div class=" py-2">{profile.PatientGender}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Contact No.</div>
-                        <div class=" py-2">+91 {profile.mobile}</div>
+                        <div class=" py-2">+91 {profile.PatientMobile}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">bloodGroup</div>
-                        <div class=" py-2">{profile.blood_group}</div>
+                        <div class=" py-2">{profile.PatientBloodGroup}</div>
                       </div>
                       <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Birthday</div>
                         <div class=" py-2">
-                          {new Date(profile.dob).toLocaleDateString()}
+                          {new Date(profile.PatientDOB).toLocaleDateString()}
                         </div>
                       </div>
 
-                      <div class="grid grid-cols-2">
+                      {/* <div class="grid grid-cols-2">
                         <div class="px-2 py-2 font-semibold">Email:</div>
                         <div class=" py-2">
                           <a
@@ -208,11 +209,11 @@ console.log(profile);
                             {profile.email}
                           </a>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   <div class="grid grid-cols-2 md:grid-cols-4">
                     <div class="px-2 py-2 font-semibold">Address</div>
-                    <div class="py-2">{profile.address}</div>
+                    <div class="py-2">{profile.PatientAddress}</div>
                   </div>
                   </div>
                 </div>
@@ -229,7 +230,7 @@ console.log(profile);
                     </h6>
                     <h4 class="font-bold mt-2 dark:text-white">
                       <span class="text-3.5">
-                        {medicalrecords ? medicalrecords.weight + "cm" : "NIL"}
+                        {medicalrecords ? medicalrecords.Weight + "cm" : "NIL"}
                       </span>
                     </h4>
                   </div>
@@ -243,7 +244,7 @@ console.log(profile);
                     </h6>
                     <h4 class="font-bold mt-2 dark:text-white">
                       <span class="text-3.5">
-                        {medicalrecords ? medicalrecords.height + "cm" : "NIL"}
+                        {medicalrecords ? medicalrecords.Height + "cm" : "NIL"}
                       </span>
                     </h4>
                   </div>
@@ -258,7 +259,7 @@ console.log(profile);
                     <h4 class="font-bold mt-2 ">
                       <span class="text-3.5">
                         {medicalrecords
-                          ? medicalrecords.pressure + "cm"
+                          ? medicalrecords.Pressure + "cm"
                           : "NIL"}
                       </span>
                     </h4>
@@ -274,7 +275,7 @@ console.log(profile);
                     <h4 class="font-bold mt-2">
                       <span class="text-3.5">
                         {medicalrecords
-                          ? medicalrecords.temperature + "cm"
+                          ? medicalrecords.Temperature + "cm"
                           : "NIL"}
                       </span>
                     </h4>

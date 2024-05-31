@@ -11,15 +11,14 @@ export const UserLogin = () => {
 
 
   const userData = {
-    name:"",
-    gender:"",
-    age:"",
-    blood_group:"",
-    email:"",
-    mobile:"",
-    userid:"",
-    role:"",
-    status:"",
+    PatientName:"",
+    PatientGender:"",
+    PatientAge:"",
+    PatientBloodGroup:"",
+    PatientMobile:"",
+    PatientId:"",
+    PatientRole:"",
+    PatientAccountStatus:"",
   }
 
   const handleLogin = async (e) => {
@@ -29,14 +28,14 @@ export const UserLogin = () => {
       if (response.data.success) {
         setMessage(response.data.message);
         const user = (response.data.user);
-        userData.name =  user.name;
-        userData.gender = user.gender;
-        userData.age = user.age;
-        userData.blood_group = user.blood_group;
-        userData.mobile = user.mobile;
-        userData.userid = user.id;
-        userData.role = user.role;
-        userData.status = user.account_status;
+        userData.PatientName =  user.PatientName;
+        userData.PatientGender = user.PatientGender;
+        userData.PatientAge = user.PatientAge;
+        userData.PatientBloodGroup = user.PatientBloodGroup;
+        userData.PatientMobile = user.PatientMobile;
+        userData.PatientId = user.PatientId;
+        userData.PatientRole = user.PatientRole;
+        userData.PatientAccountStatus = user.PatientAccountStatus;
         sessionStorage.setItem("student_key", JSON.stringify(userData));
         setTimeout(() => {
           navigate("/user/dashboard");

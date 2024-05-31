@@ -5,57 +5,57 @@ const patients = require("./patients.model.js");
 
 
 const medicalRecords = sequelize.define('medicalRecords', {
-    id: {
+    MedicalRecordId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    height: {
+    Height: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    weight: {
+    Weight: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    pressure: {
+    Pressure: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    temperature: {
+    Temperature: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    medical_record_mark: {
+    MedicalRecordRemark: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    symptoms: {
+    Symptoms: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    medications: {
+    Medications: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    treatments: {
+    Treatments: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    patient_id: {
+    PatientId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: patients,
-            key: 'id',
+            key: 'PatientId',
         },
     },
-    doctor_id: {
+    DoctorId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: doctors,
-            key: 'id',
+            key: 'DoctorId',
         },
     }
 })

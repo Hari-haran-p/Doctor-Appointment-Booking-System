@@ -4,49 +4,50 @@ const users = require("./users.model.js");
 
 
 const patients = sequelize.define('patients', {
-    id: {
+    PatientId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
+    PatientName: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    age: {
+    PatientAge: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    gender: {
+    PatientGender: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    dob: {
+    PatientDOB: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    mobile: {
+    PatientMobile: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    blood_group: {
+    PatientBloodGroup: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    address: {
+    PatientAddress: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    account_status: {
+    PatientAccountStatus: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue:"true"
     },
-    user_id: {
+    UserId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: users,
-            key: 'id',
+            key: 'UserId',
         },
     }
 })

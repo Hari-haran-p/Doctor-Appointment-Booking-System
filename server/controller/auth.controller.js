@@ -10,23 +10,24 @@ const { promisify } = require('util');
 const fs = require("fs");
 const readFile = promisify(fs.readFile);
 const transporter = require("../config/email.js");
+const { log } = require("console");
 
 exports.user_login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     try {
-        const user = await users.findOne({ where: { username: username } });
+        const user = await users.findOne({ where: { UserEmail: username } });
         if (!user) {
             throw new Error('User not found');
         }
-        if (user.password != password) {
+        if (user.UserPassword != password) {
             throw new Error('Incorrect password');
         }
-        const patient = await patients.findOne({ where: { user_id: user.id } })
+        const patient = await patients.findOne({ where: { UserId: user.UserId } })
         if (patient.length === 0) {
             throw new Error('User not found');
         }
-        let result = { ...patient.dataValues, role: 'patient' };
+        let result = { ...patient.dataValues, UserRole: 'patient' };
         console.log(result);
         return res.status(201).json({ success: true, message: "Login successful", user: result });
     } catch (error) {
@@ -36,22 +37,23 @@ exports.user_login = async (req, res) => {
 }
 
 exports.doctor_login = async (req, res) => {
+    console.log("HIIII.........");
     const username = req.body.username;
     const password = req.body.password;
-
+console.log(username,"    ", password);
     try {
-        const user = await users.findOne({ where: { username: username } });
+        const user = await users.findOne({ where: { UserEmail: username } });
         if (!user) {
             throw new Error('User not found');
         }
-        if (user.password != password) {
+        if (user.UserPassword != password) {
             throw new Error('Incorrect password');
         }
-        const doctor = await doctors.findOne({ where: { user_id: user.id } })
+        const doctor = await doctors.findOne({ where: { UserId: user.UserId } })
         if (doctor.length === 0) {
             throw new Error('User not found');
         }
-        let result = { ...doctor.dataValues, role: 'doctor' };
+        let result = { ...doctor.dataValues, UserRole: 'doctor' };
         console.log(result);
         return res.status(201).json({ success: true, message: "Login successful", user: result });
     } catch (error) {
@@ -66,31 +68,30 @@ exports.register = async (req, res) => {
         const { patientName, patientDOB, patientGender, patientAge, patientBloodGroup, patientEmail, patientContactInfo, patientAddress, patientPassword } = req.body;
         //create user record in users table
         const user = await users.create({
-            username: patientEmail,
-            password: patientPassword,
-            role: "patient"
+            UserEmail: patientEmail,
+            UserPassword: patientPassword,
+            UserRole: "patient"
         }, {
             transaction: transaction
         });
-        console.log(user.id);
+        console.log(user.userId);
         //with the user created create a patient table record
         const patient = await patients.create(
             {
-                name: patientName,
-                dob: patientDOB,
-                gender: patientGender,
-                age: patientAge,
-                blood_group: patientBloodGroup,
-                email: patientEmail,
-                mobile: patientContactInfo,
-                address: patientAddress,
-                user_id: user.id,
+                PatientName: patientName,
+                PatientAge: patientAge,
+                PatientGender: patientGender,
+                patientDOB: patientDOB,
+                PatientMobile: patientContactInfo,
+                patientBloodGroup: patientBloodGroup,
+                PatientAddress: patientAddress,
+                UserId: user.userId,
             }, {
             transaction: transaction
         });
         //send a welcome email to customer via nodemailer
-        const imageAttachment = await readFile('../register.jpg');
-        const htmlTemplate = await readFile("../mail.html", 'utf-8');
+        const imageAttachment = await readFile('../assets/images/register.jpg');
+        const htmlTemplate = await readFile("..//assets/mail/mail.html", 'utf-8');
         transporter.sendMail({
             from: process.env.EMAIL_ID,
             to: patientEmail,

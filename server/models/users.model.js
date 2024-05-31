@@ -3,21 +3,21 @@ const sequelize  = require('../config/database.js');
 
 
 const users = sequelize.define('users', {
-    id: {
+    UserId: {
         type: Sequelize .INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    username: {
+    UserEmail: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
     },
-    password: {
+    UserPassword: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    role: {
+    UserRole: {
         type: Sequelize.STRING,
         allowNull: false
     }

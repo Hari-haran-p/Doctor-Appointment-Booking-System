@@ -3,41 +3,41 @@ const sequelize  = require('../config/database.js');
 const users = require("./users.model.js");
 
 const doctors = sequelize.define('doctors', {
-    id: {
+    DoctorId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
+    DoctorName: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-    designation: {
+    DoctorDesignation: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    qualification: {
+    DoctorQualification: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    mobile: {
+    DoctorMobile: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    address: {
+    DoctorAddress: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    status: {
+    DoctorStatus: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    user_id: {
+    UserId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
             model: users,
-            key: 'id',
+            key: 'UserId',
         },
     }
 })

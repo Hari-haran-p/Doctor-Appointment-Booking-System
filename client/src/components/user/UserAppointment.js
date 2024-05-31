@@ -21,11 +21,12 @@ export const UserAppointment = () => {
   const fetch_appointment_data = async () => {
     await axios
       .get(
-        "/api/appointments/patient/" +
-          JSON.parse(sessionStorage.getItem("student_key")).userid
+        "http://localhost:4000/api/appointments/patient/" +
+        JSON.parse(sessionStorage.getItem("student_key")).PatientId
       )
       .then((response) => {
-        if(response.data.success){
+        if (response.data.success) {
+          console.log(response.data.appointments);
           setAppointmentdata(response.data.appointments);
           calculateAppointmentCounts(response.data.appointments);
           setSearchResults(response.data.appointments);
@@ -56,18 +57,18 @@ export const UserAppointment = () => {
     let booked = 0;
     let notPaid = 0;
 
-    appointments.forEach(function(appointment) {
-      if (appointment.status === "waiting") {
+    appointments.forEach(function (appointment) {
+      if (appointment.AppointmentStatus === "waiting") {
         waiting++;
-      } else if (appointment.status === "cancelled") {
+      } else if (appointment.AppointmentStatus === "cancelled") {
         canceled++;
-      } else if (appointment.status === "booked") {
+      } else if (appointment.AppointmentStatus === "booked") {
         booked++;
       }
 
-      if (appointment.paymentStatus === "not paid") {
-        notPaid++;
-      }
+      // if (appointment.paymentStatus === "not paid") {
+      //   notPaid++;
+      // }
     });
 
     setWaitingCount(waiting);
@@ -172,8 +173,8 @@ export const UserAppointment = () => {
             </nav>
           </div>
 
-          <div class="flex  items-center justify-center h-58 mb-6 rounded-md  dark:bg-gray-800">
-            <div class="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4 gap-4">
+          <div class="flex items-center justify-center h-58 pb-3 mb-6 rounded-md  dark:bg-gray-800">
+            <div class="grid w-full grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mt-4 gap-10">
               <div class="flex w-full items-start p-4 rounded-xl shadow-lg bg-white">
                 <div class="flex items-center justify-center bg-blue-50 h-12 w-12 rounded-full border border-blue-100">
                   <svg
@@ -195,7 +196,7 @@ export const UserAppointment = () => {
                 <div class="ml-4">
                   <h2 class="font-semibold">{bookedCount} - Appointment </h2>
                   <p class="mt-2 text-sm text-gray-500">
-                   📆 Booked to see doctor
+                    📆 Booked to see doctor
                   </p>
                 </div>
               </div>
@@ -221,7 +222,7 @@ export const UserAppointment = () => {
                 <div class="ml-4">
                   <h2 class="font-semibold">{waitingCount} - Appointment</h2>
                   <p class="mt-2 text-sm text-gray-500">
-                   ⏰ waiting to see doctor
+                    ⏰ waiting to see doctor
                   </p>
                 </div>
               </div>
@@ -244,13 +245,13 @@ export const UserAppointment = () => {
                 </div>
 
                 <div class="ml-4">
-                <h2 class="font-semibold">{canceledCount} - Appointment </h2>
+                  <h2 class="font-semibold">{canceledCount} - Appointment </h2>
                   <p class="mt-2 text-sm text-gray-500">
-                   ❌ Canceled  appointment
+                    ❌ Canceled  appointment
                   </p>
                 </div>
               </div>
-              <div class="flex items-start p-4 rounded-xl shadow-lg bg-white">
+              {/* <div class="flex items-start p-4 rounded-xl shadow-lg bg-white">
                 <div class="flex items-center justify-center bg-indigo-50 h-12 w-12 rounded-full border border-indigo-100">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -271,10 +272,10 @@ export const UserAppointment = () => {
                 <div class="ml-4">
                   <h2 class="font-semibold">{notPaidCount} - Appointment</h2>
                   <p class="mt-2 text-sm text-gray-500">
-                   💳 Not paid appointment
+                    💳 Not paid appointment
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -373,9 +374,9 @@ export const UserAppointment = () => {
                             Appointment status
                           </th>
 
-                          <th scope="col" class="px-4 py-3">
+                          {/* <th scope="col" class="px-4 py-3">
                             Appointment payment
-                          </th>
+                          </th> */}
                           <th scope="col" class="px-4 py-3">
                             Appointment Reason
                           </th>
@@ -411,16 +412,16 @@ export const UserAppointment = () => {
                                 scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                {row.doctor_id}
+                                {row.DoctorName}
                               </th>
                               <td class="px-4 py-3 ">
                                 {new Date(
-                                  row.date
+                                  row.AppointmentDate
                                 ).toLocaleDateString()}
                               </td>
-                              <td class="px-4 py-3 ">{row.time}</td>
+                              <td class="px-4 py-3 ">{row.AppointmentTime}</td>
                               <td class="px-4 py-3 text-center">
-                                {row.status == "completed" && (
+                                {row.AppointmentStatus == "completed" && (
                                   <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 border border-green-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -441,7 +442,7 @@ export const UserAppointment = () => {
                                     Completed
                                   </span>
                                 )}
-                                {row.status == "waiting" && (
+                                {row.AppointmentStatus == "waiting" && (
                                   <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -455,7 +456,7 @@ export const UserAppointment = () => {
                                     Waiting
                                   </span>
                                 )}
-                                {row.status == "booked" && (
+                                {row.AppointmentStatus == "booked" && (
                                   <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 border border-blue-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -469,7 +470,7 @@ export const UserAppointment = () => {
                                     Booked
                                   </span>
                                 )}
-                                {row.status == "cancelled" && (
+                                {row.AppointmentStatus == "cancelled" && (
                                   <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 border border-red-400">
                                     <svg
                                       class="w-3 h-3 mr-2 "
@@ -484,7 +485,7 @@ export const UserAppointment = () => {
                                   </span>
                                 )}
                               </td>
-                              <td class="px-4 py-3 text-center">
+                              {/* <td class="px-4 py-3 text-center">
                                 {row.paymentStatus == "paid" && (
                                   <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 border border-green-400">
                                     <svg
@@ -520,9 +521,9 @@ export const UserAppointment = () => {
                                     Not Paid
                                   </span>
                                 )}
-                              </td>
+                              </td> */}
                               <td class="px-4 py-3 ">
-                                {row.reason}
+                                {row.AppointmentReason}
                               </td>
                               <td className="px-4 py-3">
                                 {" "}
@@ -531,7 +532,7 @@ export const UserAppointment = () => {
                                     onClick={() =>
                                       navigate(
                                         "/user/appointment/view/" +
-                                          row.id
+                                        row.AppointmentId
                                       )
                                     }
                                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded"
