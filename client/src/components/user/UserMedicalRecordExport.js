@@ -4,7 +4,7 @@ import 'jspdf-autotable';
 
  const UserMedicalRecordExport = ({ rowData }) => {
   const handleExport = () => {
-    var date = new Date(rowData.medicalRecordTimestamp).toLocaleDateString();
+    var date = new Date(rowData.createdAt).toLocaleDateString();
 
     // Create a new jsPDF instance
     const doc = new jsPDF({ orientation: "landscape",});
@@ -16,7 +16,7 @@ import 'jspdf-autotable';
     doc.text(
       doc.internal.pageSize.getWidth() / 2,
       y,
-      "Prescription Details on " + date,
+      "Medical Record Details on " + date,
       { align: "center" }
     );
     y += 10; // Move down by 10 units for the line
@@ -30,11 +30,11 @@ import 'jspdf-autotable';
      doc.line(20, y, doc.internal.pageSize.getWidth() - 20, y);
 
      
-    const headers = [["Appointment Date", "Appointment Time","height","weight","pressure","temperature","medicalRecordRemark"]]; // Modify this array for more columns
+    const headers = [["Height","Weight","Pressure","Temperature","MedicalRecordRemark", "Medications"]]; // Modify this array for more columns
 
         //console.log(rowData);
     // Prepare the data for the table
-    const rows = [[date, ""+rowData.appointment.appointmentTime,rowData.height,rowData.weight,rowData.pressure,rowData.temperature,rowData.medicalRecordRemark]]; // Modify this for more columns
+    const rows = [[rowData.Height,rowData.Weight,rowData.Pressure,rowData.Temperature,rowData.MedicalRecordRemark, rowData.Medications]]; // Modify this for more columns
 
     console.log(rows);
 

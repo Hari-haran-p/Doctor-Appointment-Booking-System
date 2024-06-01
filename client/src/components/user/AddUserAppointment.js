@@ -35,7 +35,8 @@ export const AddUserAppointment = () => {
   const [formData, setFormData] = useState({
     appointmentStatus: "booked",
     appointmentRemark: "booked by patient",
-    paymentStatus: "not paid",
+
+    // paymentStatus: "not paid",
     medicalrecordStatus: false,
   });
 
@@ -44,7 +45,7 @@ export const AddUserAppointment = () => {
     e.preventDefault();
 
     axios
-      .post("/api/Appointment", formData, {
+      .post("/api/appointment", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -101,12 +102,13 @@ export const AddUserAppointment = () => {
       var item_value = JSON.parse(sessionStorage.getItem("student_key"));
       const patientdata = {
         patient: {
-          patientId: item_value.userid,
+          PatientId: item_value.PatientId,
+          PatientName: item_value.PatientName
         },
       };
       setFormData((prevFormData) => ({
         ...prevFormData,
-        ...patientdata,
+        ...patientdata
       }));
       setprofile(item_value);
     };
@@ -114,21 +116,22 @@ export const AddUserAppointment = () => {
   }, []);
 
   function selecteddoctor(data) {
+    // console.log(data);
     const doctordata = {
       appointmentFees: data.doctorFees,
       doctor: {
-        doctorId: data.doctorId,
-        doctorName: data.doctorName,
+        DoctorId: data.DoctorId,
+        DoctorName: data.DoctorName,
       },
     };
-    console.log(data);
+    // console.log(data);
     setFormData((prevFormData) => ({
       ...prevFormData,
       ...doctordata,
     }));
     setDoctorshowModal(false);
   }
-
+console.log(formData);
   return (
     <>
       <UserSidebar />
@@ -223,8 +226,8 @@ export const AddUserAppointment = () => {
                     type="text"
                     name=""
                     disabled
-                    value={profile ? profile.name : ""}
-                    placeholder={profile ? profile.name : ""}
+                    value={profile ? profile.PatientName : ""}
+                    placeholder={profile ? profile.PatientName : ""}
                     className="w-full md:w-3/4 px-2 py-1 border border-gray-300 rounded"
                   />
                 </div>
@@ -235,7 +238,7 @@ export const AddUserAppointment = () => {
                   <input
                     type="email"
                     id="email"
-                    value={profile ? profile.mobile : ""}
+                    value={profile ? profile.PatientMobile : ""}
                     disabled
                     className="w-full md:w-3/4 px-2 py-1 border border-gray-300 rounded"
                   />
@@ -252,7 +255,7 @@ export const AddUserAppointment = () => {
                       disabled
                       placeholder={
                         formData.doctor
-                          ? formData.doctor.doctorName
+                          ? formData.doctor.DoctorName
                           : "select doctor"
                       }
                       className="flex-grow px-2 py-1 border border-gray-300 rounded"

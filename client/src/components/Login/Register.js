@@ -26,7 +26,7 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/register", formData);
+      const response = await axios.post("http://localhost:4000/api/register", formData);
       if (response.data.success) {
         setMessage(response.data.message);
         setTimeout(() => {

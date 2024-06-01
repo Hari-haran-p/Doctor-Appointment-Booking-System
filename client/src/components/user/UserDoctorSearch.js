@@ -3,16 +3,18 @@ import axios from "axios";
 // import { Backend_Url } from "../../../config/connection";
 import ReactPaginate from "react-paginate";
 
-export const UserDoctorSearch = ({selecteddoctor}) => {
+export const UserDoctorSearch = ({ selecteddoctor }) => {
   // fetch doctor data
   const [doctordetails, setDoctorDetails] = useState([]);
 
   const fetch_doctor_data = async () => {
     await axios
-      .get("/api/Doctor/")
+      .get("http://localhost:4000/api/doctors/")
       .then((response) => {
-        setDoctorDetails(response.data);
-         setSearchResults(response.data);
+        if (response.data.success) {
+          setDoctorDetails(response.data.doctors);
+          setSearchResults(response.data.doctors);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -33,19 +35,19 @@ export const UserDoctorSearch = ({selecteddoctor}) => {
 
 
   const sliceDoctorById = (doctorId) => {
-    selecteddoctor(doctordetails.find(doctor => doctor.doctorId === doctorId));
+    selecteddoctor(doctordetails.find(doctor => doctor.DoctorId === doctorId));
   };
 
 
 
-   const itemsPerPage = 5; // Number of items to display per page
-   const pageCount = Math.ceil(doctordetails.length / itemsPerPage);
-   const [currentPage, setCurrentPage] = useState(0);
- 
-   const handlePageChange = ({ selected }) => {
-     setCurrentPage(selected);
-   };
- const [searchQuery, setSearchQuery] = useState("");
+  const itemsPerPage = 5; // Number of items to display per page
+  const pageCount = Math.ceil(doctordetails.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   const offset = currentPage * itemsPerPage;
@@ -63,8 +65,8 @@ export const UserDoctorSearch = ({selecteddoctor}) => {
     // Perform search logic here using searchQuery
     const filteredResults = doctordetails.filter(
       (doctor) =>
-        doctor.doctorName.toLowerCase().includes(search.toLowerCase()) ||
-        doctor.doctorDesignation.toLowerCase().includes(search.toLowerCase()) 
+        doctor.DoctorName.toLowerCase().includes(search.toLowerCase()) ||
+        doctor.DoctorDesignation.toLowerCase().includes(search.toLowerCase())
     );
     console.log(filteredResults);
 
@@ -75,7 +77,7 @@ export const UserDoctorSearch = ({selecteddoctor}) => {
   };
 
 
-return (
+  return (
     <>
       <div class="flex w-full mb-4 h-full rounded bg-gray-50 dark:bg-gray-800">
         <section class="bg-gray-50 dark:bg-gray-900 w-full h-full">
@@ -145,9 +147,9 @@ return (
                       <th scope="col" class="px-4 py-3">
                         Doctor Qualification
                       </th>
-                      <th scope="col" class="px-4 py-3">
+                      {/* <th scope="col" class="px-4 py-3">
                         Doctor Fees
-                      </th>
+                      </th> */}
 
                       <th scope="col" class="px-4 py-3">
                         Doctor Status
@@ -159,56 +161,55 @@ return (
                   </thead>
                   {doctordetails && (
 
-                  <tbody>
-                    {currentPageData.map((row, index) => (
-                      <tr
-                        key={index}
-                        class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                      >
-                        <td class="w-4 px-4 py-3">
-                          <div class="flex items-center">
-                            <input
-                              id="checkbox-table-search-1"
-                              type="checkbox"
-                              onclick="event.stopPropagation()"
-                              class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                              for="checkbox-table-search-1"
-                              class="sr-only"
-                            >
-                              checkbox
-                            </label>
-                          </div>
-                        </td>
-
-                        <th
-                          scope="row"
-                          class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    <tbody>
+                      {currentPageData.map((row, index) => (
+                        <tr
+                          key={index}
+                          class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                         >
-                          {row.doctorName}
-                        </th>
-                        <td class="px-4 py-3 text-center ">
-                          {row.doctorDesignation}
-                        </td>
-                        <td class="px-4 py-3 text-center">{row.doctorQualification}</td>
-                        <td class="px-4 py-3 text-center">{row.doctorFees}</td>
-                        <td class="px-4 py-3 text-center">{row.doctorStatus}</td>
+                          <td class="w-4 px-4 py-3">
+                            <div class="flex items-center">
+                              <input
+                                id="checkbox-table-search-1"
+                                type="checkbox"
+                                onclick="event.stopPropagation()"
+                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                              />
+                              <label
+                                for="checkbox-table-search-1"
+                                class="sr-only"
+                              >
+                                checkbox
+                              </label>
+                            </div>
+                          </td>
 
-                        <td className="px-4 py-3">
-                          {" "}
-                          <div className="flex space-x-2">
-                            <button 
-                                    onClick={() => sliceDoctorById(row.doctorId)}
+                          <th
+                            scope="row"
+                            class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {row.DoctorName}
+                          </th>
+                          <td class="px-4 py-3 text-center ">
+                            {row.DoctorDesignation}
+                          </td>
+                          <td class="px-4 py-3 text-center">{row.DoctorQualification}</td>
+                          {/* <td class="px-4 py-3 text-center">{row.DoctorFees}</td> */}
+                          <td class="px-4 py-3 text-center">{row.DoctorStatus}</td>
 
-                            className="bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded">
-                              SELECT
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
+                          <td className="px-4 py-3">
+                            {" "}
+                            <div className="flex space-x-2">
+                              <button
+                                onClick={() => sliceDoctorById(row.DoctorId)}
+                                className="bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded">
+                                SELECT
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
                   )}
                 </table>
               </div>

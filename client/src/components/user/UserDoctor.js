@@ -274,7 +274,7 @@ export const UserDoctor = () => {
                                   </a>
                                 </div>
                               </td>
-                            </tr>
+                            </tr> 
                           ))}
                         </tbody>
                       )}

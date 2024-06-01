@@ -10,15 +10,21 @@ const CancelUserAppointment = ({ id, fetch_appointment_data }) => {
     console.log(id);
   };
 
+
+  const [appointmentRemark, setAppointmentRemark ] = useState();
+
   const handleDelete = () => {
     axios
-      .put("/api/appointment/patient/" + id)
+      .put(`http://localhost:4000/api/appointment/patient/${id}?reason=${appointmentRemark}` )
       .then((response) => {
         // Handle successful response
-        console.log("Appointment Cancelled", response);
-        alert("Appointment Cancelled");
-        toggleModal();
-        fetch_appointment_data(id);
+        if (response.data.success) {
+          console.log(response.data);
+          console.log("Appointment Cancelled", response);
+          alert("Appointment Cancelled");
+          toggleModal();
+          fetch_appointment_data(id);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -39,7 +45,7 @@ const CancelUserAppointment = ({ id, fetch_appointment_data }) => {
         onClick={toggleModal}
         className="mx-2 bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded"
       >
-       cancel
+        cancel
       </button>
 
       {isModalOpen && (
@@ -102,6 +108,26 @@ const CancelUserAppointment = ({ id, fetch_appointment_data }) => {
                   <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                     Are you sure you want to cancel this Appointment?
                   </h3>
+                  <div className="w-full">
+                    <label
+                      htmlFor="patientAge"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Cancel Reason
+                    </label>
+                    <input
+                      type="text"
+                      name="AppointmentRemark"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-2 focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Reason"
+                      autoComplete="off"
+                      required
+                      onChange={(e)=>{
+                        setAppointmentRemark(e.target.value);
+                      }}
+                      value={appointmentRemark}
+                    />
+                  </div>
                   <button
                     onClick={() => handleDelete()}
                     type="button"

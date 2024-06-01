@@ -10,6 +10,7 @@ const AppointmentViewQuery = `CREATE VIEW AppointmentView AS
                     T1.AppointmentHealthStatus, 
                     T1.AppointmentRemark, 
                     T1.MedicalRecordStatus, 
+                    T1.MedicalRecordId,
                     T2.DoctorId, 
                     T2.DoctorName, 
                     T2.DoctorDesignation,

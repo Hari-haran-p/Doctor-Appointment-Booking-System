@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const sequelize  = require('../config/database.js');
 const doctors = require("./doctors.model.js");
 const patients = require("./patients.model.js");
+const medicalRecords = require('./medicalRecords.model.js');
 
 
 const appointments = sequelize.define('appointments', {
@@ -53,7 +54,15 @@ const appointments = sequelize.define('appointments', {
             model: doctors,
             key: 'DoctorId',
         },
-    }
+    },
+    MedicalRecordId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+            model: medicalRecords,
+            key: 'MedicalRecordId',
+        },
+    },
 })
 
 

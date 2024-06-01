@@ -74,24 +74,24 @@ exports.register = async (req, res) => {
         }, {
             transaction: transaction
         });
-        console.log(user.userId);
+        console.log(user.UserId);
         //with the user created create a patient table record
         const patient = await patients.create(
             {
                 PatientName: patientName,
                 PatientAge: patientAge,
                 PatientGender: patientGender,
-                patientDOB: patientDOB,
+                PatientDOB: patientDOB,
                 PatientMobile: patientContactInfo,
-                patientBloodGroup: patientBloodGroup,
+                PatientBloodGroup: patientBloodGroup,
                 PatientAddress: patientAddress,
-                UserId: user.userId,
+                UserId: user.UserId,
             }, {
             transaction: transaction
         });
         //send a welcome email to customer via nodemailer
-        const imageAttachment = await readFile('../assets/images/register.jpg');
-        const htmlTemplate = await readFile("..//assets/mail/mail.html", 'utf-8');
+        const imageAttachment = await readFile('./assets/images/register.jpg');
+        const htmlTemplate = await readFile("./assets/mail/mail.html", 'utf-8');
         transporter.sendMail({
             from: process.env.EMAIL_ID,
             to: patientEmail,

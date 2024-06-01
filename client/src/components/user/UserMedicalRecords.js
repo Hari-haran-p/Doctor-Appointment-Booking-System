@@ -191,9 +191,7 @@ export const UserMedicalRecords = () => {
                               </label>
                             </div>
                           </th>
-                          <th scope="col" class="px-4 py-3">
-                            Appointment Id
-                          </th>
+
                           <th scope="col" class="px-4 py-3">
                             Date
                           </th>
@@ -245,7 +243,6 @@ export const UserMedicalRecords = () => {
                               </div>
                             </td>
 
-                            <td class="px-4 py-3 text-center ">{row.AppointmendtId}</td>
 
 
                             <th

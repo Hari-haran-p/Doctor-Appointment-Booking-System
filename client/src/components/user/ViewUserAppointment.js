@@ -1,13 +1,14 @@
 import { React, useEffect, useRef } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserSidebar } from "../navbar/UserSidebar";
 import CancelUserAppointment from "./CancelUserAppointment";
+import { AddMedicalrecord } from "./AddMedicalRecord";
 
 export const ViewUserAppointment = () => {
     const { id } = useParams();
-
+    const navigate = useNavigate();
     const [appointmentdata, setAppointmentdata] = useState();
 
     console.log(id);
@@ -19,10 +20,12 @@ export const ViewUserAppointment = () => {
             if (response.data.success) {
                 setAppointmentdata(response.data.appointment[0]);
                 console.log(response.data.appointment[0]);
-                fetch_medicalrecord_data(
-                    response.data.appointment[0].PatientId,
-                    response.data.appointment[0].AppointmentId
-                );
+                if (response.data.appointment[0].MedicalRecordStatus)
+                    fetch_medicalrecord_data(
+                        response.data.appointment[0].PatientId,
+                        response.data.appointment[0].DoctorId,
+                        response.data.appointment[0].MedicalRecordId
+                    );
             }
         } catch (error) {
             if (error.response) {
@@ -40,11 +43,12 @@ export const ViewUserAppointment = () => {
     // fetch medical records
     const [medicalrecords, setmedicalrecords] = useState();
 
-    const fetch_medicalrecord_data = async (id1, id2) => {
+    const fetch_medicalrecord_data = async (id1, id2, id3) => {
         await axios
-            .get(`http://localhost:4000/api/medicalrecord/reception?id1=${id1}&id2=${id2}`)
+            .get(`http://localhost:4000/api/medicalrecord/reception?id1=${id3}`)
             .then((response) => {
-                if(response.data.success){console.log(response.data.medicalRecord);
+                if (response.data.success) {
+                    console.log(response.data.medicalRecord);
                     setmedicalrecords(response.data.medicalRecord);
                     fetch_prescription_data(id1, id2);
                 }
@@ -69,7 +73,7 @@ export const ViewUserAppointment = () => {
         await axios
             .get(`http://localhost:4000/api/prescription/doctor?id1=${id1}&id2=${id2}`)
             .then((response) => {
-                if(response.data.success){
+                if (response.data.success) {
                     // console.log(response.data.prescription);
                     setPrescription(response.data.prescription[0]);
                 }
@@ -267,7 +271,7 @@ export const ViewUserAppointment = () => {
                                         </div>
 
                                         <div className="flex items-end justify-end">
-                                            {appointmentdata.AppointmentStatus != "canceled" &&
+                                            {appointmentdata.AppointmentStatus != "cancelled" &&
                                                 appointmentdata.AppointmentStatus != "completed" && (
                                                     <CancelUserAppointment
                                                         id={appointmentdata.AppointmentId}
@@ -407,6 +411,9 @@ export const ViewUserAppointment = () => {
                                                         <th scope="col" class="px-4 py-3">
                                                             Medical Record Status
                                                         </th>
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Actions
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -545,6 +552,29 @@ export const ViewUserAppointment = () => {
                                                                     </svg>
                                                                     <span class="sr-only">Done</span>
                                                                 </span>
+                                                            )}
+                                                        </td>
+                                                        <td class="px-4 py-3 text-center">
+                                                            {appointmentdata.MedicalRecordStatus == 1 && (
+                                                                <div className="flex space-x-2">
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            navigate("/user/medicalrecords")
+                                                                        }
+                                                                        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+                                                                    >
+                                                                        View
+                                                                    </button>
+
+                                                                </div>
+                                                            )}{console.log(appointmentdata)}
+                                                            {appointmentdata.MedicalRecordStatus == 0 && (
+                                                                <AddMedicalrecord
+                                                                    AppointmentId={appointmentdata.AppointmentId}
+                                                                    DoctorId={appointmentdata.DoctorId}
+                                                                    PatientId={appointmentdata.PatientId}
+                                                                    fetch_appointment_data={fetch_appointment_data}
+                                                                />
                                                             )}
                                                         </td>
                                                     </tr>

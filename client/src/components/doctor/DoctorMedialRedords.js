@@ -209,7 +209,6 @@ export const DoctorMedicalRecords = () => {
                           <th scope="col" class="px-4 py-3">
                             Weight ( KG )
                           </th>
-
                           <th scope="col" class="px-4 py-3">
                             Pressure ( Pa )
                           </th>

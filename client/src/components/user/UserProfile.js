@@ -32,10 +32,10 @@ console.log(profile);
   const [medicalrecords, setmedicalrecords] = useState();
   const fetch_medicalrecord_data = async (id) => {
     await axios
-      .get(`http://localhost:4000/api/medicalrecords/patient/${id}`)
+      .get(`http://localhost:4000/api/medicalrecords/patient/last/${id}`)
       .then((response) => {
         if(response.data.success){
-          setmedicalrecords(response.data.medicalRecords[0]);
+          setmedicalrecords(response.data.medicalRecords);
         }
       })
       .catch((error) => {
