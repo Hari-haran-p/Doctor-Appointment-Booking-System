@@ -93,8 +93,8 @@ exports.register = async (req, res) => {
         const imageAttachment = await readFile('./assets/images/register.jpg');
         const htmlTemplate = await readFile("./assets/mail/mail.html", 'utf-8');
         transporter.sendMail({
-            from: process.env.EMAIL_ID,
-            to: patientEmail,
+            from: "support@doctorapp.com",
+            to: "user@myapp.com",
             subject: 'Sucessfully registered...!!',
             html: htmlTemplate.replace("${recipientName}", patientName),
             attachments: [{

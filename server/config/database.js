@@ -5,6 +5,4 @@ const sequelize  = new Sequelize("Doctor", "root", "password", {
     dialect:'mysql'
 });
 
-
-
 module.exports=sequelize;

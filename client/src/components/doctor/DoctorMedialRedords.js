@@ -9,13 +9,15 @@ export const DoctorMedicalRecords = () => {
 
   // fetch medical records data
   const [medicalrecords, setmedicalrecords] = useState([]);
-
+// console.log(medicalrecords);
   const fetch_medicalrecord_data = async () => {
     await axios
-      .get("/api/MedicalRecord/")
+      .get("/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
       .then((response) => {
-        setmedicalrecords(response.data);
-        setSearchResults(response.data);
+        if(response.data.success){
+          setmedicalrecords(response.data.medicalRecords);
+          setSearchResults(response.data.medicalRecords);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -63,10 +65,8 @@ export const DoctorMedicalRecords = () => {
     // Perform search logic here using searchQuery
     const filteredResults = medicalrecords.filter(
       (medical) =>
-        medical.patient.patientName.toLowerCase().includes(search.toLowerCase()) ||
-        medical.patient.patientMobile.includes(search)||
-        medical.attenderName.toLowerCase().includes(search.toLowerCase()) 
-
+        medical.PatientName.toLowerCase().includes(search.toLowerCase()) ||
+        medical.PatientMobile.includes(search)
     );
     console.log(filteredResults)
   
@@ -191,14 +191,14 @@ export const DoctorMedicalRecords = () => {
                               </label>
                             </div>
                           </th>
-                          <th scope="col" class="px-4 py-3">
+                          {/* <th scope="col" class="px-4 py-3">
                             Appointment No
-                          </th>
+                          </th> */}
                           <th scope="col" class="px-4 py-3">
                             Patient Name
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            Patient Mbile
+                            Patient Mobile
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Date
@@ -217,9 +217,6 @@ export const DoctorMedicalRecords = () => {
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Remark
-                          </th>
-                          <th scope="col" class="px-4 py-3">
-                            Attender Name
                           </th>
                         </tr>
                       </thead>
@@ -245,30 +242,29 @@ export const DoctorMedicalRecords = () => {
                                 </label>
                               </div>
                             </td>
+                            {/* <th
+                              scope="row"
+                              class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                            >
+                              {row.AppointmentId}
+                            </th> */}
                             <th
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              {row.appointment.appointmentId}
+                              {row.PatientName}
                             </th>
-                            <th
-                              scope="row"
-                              class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              {row.patient.patientName}
-                            </th>
-                            <td class="px-4 py-3 text-center ">{row.patient.patientMobile}</td>
+                            <td class="px-4 py-3 text-center ">{row.PatientMobile}</td>
                             <td class="px-4 py-3 text-center ">
-                            {new Date(row.medicalRecordTimestamp).toLocaleDateString()}
+                            {new Date(row.createdAt).toLocaleDateString()}
                               </td>
-                            <td class="px-4 py-3 text-center">{row.height}</td>
+                            <td class="px-4 py-3 text-center">{row.Height}</td>
 
-                            <td class="px-4 py-3 text-center">{row.weight}</td>
-                            <td class="px-4 py-3 text-center">{row.pressure}</td>
-                            <td class="px-4 py-3 text-center">{row.temperature}</td>
+                            <td class="px-4 py-3 text-center">{row.Weight}</td>
+                            <td class="px-4 py-3 text-center">{row.Pressure}</td>
+                            <td class="px-4 py-3 text-center">{row.Temperature}</td>
                            
-                            <td class="px-4 py-3 text-center">{row.medicalRecordRemark}</td>
-                            <td class="px-4 py-3 text-center">{row.attenderName}</td>
+                            <td class="px-4 py-3 text-center">{row.MedicalRecordRemark}</td>
 
                             
                           </tr>

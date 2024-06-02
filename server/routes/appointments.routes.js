@@ -5,6 +5,10 @@ module.exports = app =>{
 
     router.get('/appointments/patient/:id', appointments.patient_findAll);
 
+    router.get('/appointments/doctor/:id', appointments.doctor_findAll);
+
+    router.get('/appointment/doctor/today/:id', appointments.doctor_findToday);
+
     router.put('/appointment/patient/:id', appointments.cancelAppointment);
 
     router.get('/appointment/:id', appointments.patient_findOne);

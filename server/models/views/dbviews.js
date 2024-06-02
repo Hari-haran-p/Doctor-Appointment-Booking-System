@@ -38,6 +38,7 @@ const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
                             T1.Disease,
                             T1.Prescription,
                             T1.PrescriptionRemark,
+                            T1.createdAt,
                             T2.DoctorId,
                             T2.DoctorName,
                             T2.DoctorDesignation,
@@ -65,6 +66,29 @@ const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
                         JOIN
                             appointments AS T4 ON T1.AppointmentId = T4.AppointmentId`
 
+const MedicalRecordViewQuery = `CREATE VIEW MedicalRecordView AS
+                                SELECT
+                                    T1.MedicalRecordId,
+                                    T1.Height,
+                                    T1.Weight,
+                                    T1.Pressure,
+                                    T1.temperature,
+                                    T1.MedicalRecordRemark,
+                                    T1.Symptoms,
+                                    T1.Medications,
+                                    T1.Treatments,
+                                    T2.PatientId,
+                                    T2.PatientName,
+                                    T2.PatientMobile,
+                                    T3.DoctorId,
+                                    T3.DoctorName
+                                FROM 
+                                    medicalrecords AS T1
+                                JOIN
+                                    patients AS T2 ON T1.PatientId = T2.PatientId
+                                JOIN
+                                    doctors AS T3 ON T1.DoctorId = T3.DoctorId`
+
 async function viewExist(view) {
     const [results] = await sequelize.query(`
     SELECT TABLE_NAME 
@@ -83,6 +107,10 @@ async function createViews() {
         flag = await viewExist("PrescriptionView");
         if(!flag){
             await sequelize.query(PrescriptionViewQuery)
+        }
+        flag = await viewExist("MedicalRecordView")
+        if(!flag){
+            await sequelize.query(MedicalRecordViewQuery)
         }
         console.log("Views created sucessfully");
     } catch (error) {

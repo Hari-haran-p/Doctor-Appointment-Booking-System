@@ -8,7 +8,7 @@ import { UserSidebar } from "../navbar/UserSidebar";
 
 
 export const UserAppointment = () => {
-  const [waitingCount, setWaitingCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
   const [canceledCount, setCanceledCount] = useState(0);
   const [bookedCount, setBookedCount] = useState(0);
   const [notPaidCount, setNotPaidCount] = useState(0);
@@ -52,26 +52,25 @@ export const UserAppointment = () => {
 
 
   const calculateAppointmentCounts = (appointments) => {
-    let waiting = 0;
+    let completedCount = 0;
     let canceled = 0;
     let booked = 0;
     let notPaid = 0;
 
     appointments.forEach(function (appointment) {
-      if (appointment.AppointmentStatus === "waiting") {
-        waiting++;
+      if (appointment.AppointmentStatus === "completed") {
+        completedCount++;
       } else if (appointment.AppointmentStatus === "cancelled") {
         canceled++;
       } else if (appointment.AppointmentStatus === "booked") {
         booked++;
       }
-
       // if (appointment.paymentStatus === "not paid") {
       //   notPaid++;
       // }
     });
 
-    setWaitingCount(waiting);
+    setCompletedCount(completedCount);
     setCanceledCount(canceled);
     setBookedCount(booked);
     setNotPaidCount(notPaid);
@@ -202,10 +201,10 @@ export const UserAppointment = () => {
               </div>
 
               <div class="flex items-start p-4 rounded-xl shadow-lg bg-white">
-                <div class="flex items-center justify-center bg-orange-50 h-12 w-12 rounded-full border border-orange-100">
+                <div class="flex items-center justify-center bg-green-50 h-12 w-12 rounded-full border border-green-100">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 text-orange-400"
+                    class="h-6 w-6 text-green-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -220,9 +219,9 @@ export const UserAppointment = () => {
                 </div>
 
                 <div class="ml-4">
-                  <h2 class="font-semibold">{waitingCount} - Appointment</h2>
+                  <h2 class="font-semibold">{completedCount} - Appointment</h2>
                   <p class="mt-2 text-sm text-gray-500">
-                    ⏰ waiting to see doctor
+                    ✅ Completed appointment
                   </p>
                 </div>
               </div>

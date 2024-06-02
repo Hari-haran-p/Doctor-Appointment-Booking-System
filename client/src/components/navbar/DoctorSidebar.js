@@ -375,7 +375,7 @@ export const DoctorSidebar = () => {
               </a>
             </li>
 
-            <li>
+            {/* <li>
               <a
                 onClick={() => navigate("/doctor/leave/")}
                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -391,7 +391,7 @@ export const DoctorSidebar = () => {
                 </svg>
                 <span class="flex-1 ml-3 whitespace-nowrap">Leave Apply</span>
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </aside>

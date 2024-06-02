@@ -2,8 +2,6 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from './components/Login/Login';
 import { Register } from './components/Login/Register';
-import UserHome from './components/user/Home';
-import DoctorHome from './components/doctor/Home';
 import UserDashboard from './components/user/UserDashboard';
 import DoctorDashboard from './components/doctor/DoctorDashboard';
 import Redirect from './components/others/Redirect';
@@ -21,6 +19,7 @@ import { DoctorPrescription } from './components/doctor/DoctorPrescription';
 import { DoctorProfile } from './components/doctor/DoctorProfile';
 import { DoctorLeave } from './components/doctor/DoctorLeave';
 import { ViewUserAppointment } from './components/user/ViewUserAppointment';
+import { ViewDoctorAppointment } from './components/doctor/ViewDoctorAppointment';
 
 
 
@@ -50,7 +49,7 @@ function App() {
       <Route path='/doctor/dashboard'            element={<DoctorDashboard/>}/>
       <Route path='/doctor/appointment/today'    element={<DoctorTodayAppointment/>}/>
       <Route path='/doctor/appointment/'         element={<DoctorAppointment/>}/>
-      <Route path='/doctor/appointment/view/:id' element={<DoctorDashboard/>}/>
+      <Route path='/doctor/appointment/view/:id' element={<ViewDoctorAppointment/>}/>
       <Route path='/doctor/medicalrecords/'      element={<DoctorMedicalRecords/>}/>
       <Route path='/doctor/prescription//'       element={<DoctorPrescription/>}/>
       <Route path='/doctor/leave/'               element={<DoctorLeave/>}/>

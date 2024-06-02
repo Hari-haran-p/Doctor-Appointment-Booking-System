@@ -74,7 +74,7 @@ export const AddUserAppointment = () => {
           // The request was made and the server responded with a status code that falls out of the range of 2xx
           console.log(error.response.status);
 
-          toast.error(error.response.data.detail, {
+          toast.error(error.response.data.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,

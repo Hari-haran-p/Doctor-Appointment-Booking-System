@@ -12,11 +12,12 @@ export const DoctorPrescription = () => {
 
   const fetch_prescription_data = async () => {
     await axios
-      .get("/api/Prescription/")
+      .get("http://localhost:4000/api/prescription/doctor/" + (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
       .then((response) => {
-        setprescription(response.data);
-        setSearchResults(response.data);
-
+        if (response.data.success) {
+          setprescription(response.data.prescriptions);
+          setSearchResults(response.data.prescriptions);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -63,7 +64,7 @@ export const DoctorPrescription = () => {
       (pres) =>
         pres.appointment.patient.patientName.toLowerCase().includes(search.toLowerCase()) ||
         pres.appointment.patient.patientMobile.includes(search) ||
-        pres.doctor.doctorName.toLowerCase().includes(search.toLowerCase()) 
+        pres.doctor.doctorName.toLowerCase().includes(search.toLowerCase())
     );
     console.log(filteredResults);
 
@@ -242,7 +243,7 @@ export const DoctorPrescription = () => {
                             </td>
                             <td class="px-4 py-3 ">
                               {" "}
-                              {row.appointment.appointmentId}
+                              {row.AppointmentId}
                             </td>
 
                             <th
@@ -250,31 +251,29 @@ export const DoctorPrescription = () => {
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               {new Date(
-                                row.prescriptionTimestamp
+                                row.createdAt
                               ).toLocaleDateString()}
                             </th>
                             <td class="px-4 py-3 text-center ">
-                              {row.appointment.patient.patientName}
+                              {row.PatientName}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.appointment.patient.patientMobile}
+                              {row.PatientMobile}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.doctor.doctorName}
+                              {row.DoctorName}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.doctor.doctorDesignation}
+                              {row.DoctorDesignation}
                             </td>
-                            <td class="px-4 py-3 text-center">{row.disease}</td>
-                            <td class="px-4 py-3 text-center">{row.allergy}</td>
+                            <td class="px-4 py-3 text-center">{row.Disease}</td>
+                            <td class="px-4 py-3 text-center">{row.Allergy}</td>
                             <td class="px-4 py-3 text-center">
-                              {row.prescription}
+                              {row.Prescription}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.prescriptionRemark}
+                              {row.PrescriptionRemark}
                             </td>
-
-                          
                           </tr>
                         ))}
                       </tbody>

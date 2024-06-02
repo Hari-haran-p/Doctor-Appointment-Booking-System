@@ -13,13 +13,14 @@ export const DoctorAppointment = () => {
   const fetch_appointment_data = async () => {
     await axios
       .get(
-        "/api/Appointment/doctor/" +
-          JSON.parse(sessionStorage.getItem("doctor_key")).userid
+        "http://localhost:4000/api/appointments/doctor/" +
+          JSON.parse(sessionStorage.getItem("doctor_key")).DoctorId
       )
       .then((response) => {
-        setAppointmentdata(response.data);
-        setSearchResults(response.data);
-
+        if(response.data.success){
+          setAppointmentdata(response.data.appointments);
+          setSearchResults(response.data.appointments);
+        }
       })
       .catch((error) => {
         if (error.response) {
@@ -64,12 +65,12 @@ export const DoctorAppointment = () => {
     // Perform search logic here using searchQuery
     const filteredResults = appointmentdata.filter(
       (appointment) =>
-        appointment.patient.patientName
+        appointment.PatientName
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        appointment.patient.patientMobile.includes(search)
+        appointment.PatientMobile.includes(search)
         ||
-        appointment.appointmentStatus.toLowerCase()
+        appointment.AppointmentStatus.toLowerCase()
         .includes(search.toLowerCase())
     );
     console.log(filteredResults);
@@ -251,22 +252,22 @@ export const DoctorAppointment = () => {
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              {row.patient.patientName}{" "}
+                              {row.PatientName}{" "}
                             </th>
                             <td class="px-4 py-3 ">
-                              {row.patient.patientMobile}
+                              {row.PatientMobile}
                             </td>
                             <td class="px-4 py-3 ">
                               {" "}
                               {new Date(
-                                row.appointmentDate
+                                row.AppointmentDate
                               ).toLocaleDateString()}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.appointmentTime}
+                              {row.AppointmentTime}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.appointmentStatus == "completed" && (
+                              {row.AppointmentStatus == "completed" && (
                                 <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 border border-green-400">
                                   <svg
                                     class="w-3 h-3 mr-2 "
@@ -287,7 +288,7 @@ export const DoctorAppointment = () => {
                                   Completed
                                 </span>
                               )}
-                              {row.appointmentStatus == "booked" && (
+                              {row.AppointmentStatus == "booked" && (
                                 <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 border border-blue-400">
                                   <svg
                                     class="w-3 h-3 mr-2 "
@@ -301,7 +302,7 @@ export const DoctorAppointment = () => {
                                   Booked
                                 </span>
                               )}
-                              {row.appointmentStatus == "cancelled" && (
+                              {row.AppointmentStatus == "cancelled" && (
                                 <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 border border-red-400">
                                   <svg
                                     class="w-3 h-3 mr-2 "
@@ -315,7 +316,7 @@ export const DoctorAppointment = () => {
                                   Cancelled
                                 </span>
                               )}
-                              {row.appointmentStatus == "waiting" && (
+                              {row.AppointmentStatus == "waiting" && (
                                 <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-400">
                                   <svg
                                     class="w-3 h-3 mr-2 "
@@ -331,7 +332,7 @@ export const DoctorAppointment = () => {
                               )}
                             </td>
                             <td class="px-4 py-3 text-center">
-                              {row.medicalrecordStatus == true && (
+                              {row.MedicalRecordStatus == 1 && (
                                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-green-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-green-400">
                                   <svg
                                     class="w-4 h-4"
@@ -352,7 +353,7 @@ export const DoctorAppointment = () => {
                                   <span class="sr-only">Done</span>
                                 </span>
                               )}
-                              {row.medicalrecordStatus == false && (
+                              {row.MedicalRecordStatus == 0 && (
                                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-red-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-red-400">
                                   <svg
                                       class="w-4 h-4"
@@ -368,7 +369,7 @@ export const DoctorAppointment = () => {
                               )}
                             </td>
 
-                            <td class="px-4 py-3 ">{row.appointmentReason}</td>
+                            <td class="px-4 py-3 ">{row.AppointmentReason}</td>
                             <td className="px-4 py-3">
                               {" "}
                               <div className="flex space-x-2">
@@ -376,7 +377,7 @@ export const DoctorAppointment = () => {
                                   onClick={() =>
                                     navigate(
                                       "/doctor/appointment/view/" +
-                                        row.appointmentId
+                                        row.AppointmentId
                                     )
                                   }
                                   className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded"

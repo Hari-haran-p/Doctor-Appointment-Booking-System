@@ -13,6 +13,17 @@ exports.patient_findAll = async (req, res) => {
     }
 }
 
+exports.doctor_findAll = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const [medicalRecord] = await sequelize.query(`SELECT * FROM MedicalRecordView WHERE DoctorId = ${id}`);
+        res.status(201).json({ success: true, medicalRecords: medicalRecord });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("some error fetching data");
+    }
+}
+
 exports.findLatest = async (req, res) => {
     const id = req.params.id;
     try {

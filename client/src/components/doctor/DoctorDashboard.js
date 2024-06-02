@@ -8,7 +8,7 @@ import { DoctorSidebar } from "../navbar/DoctorSidebar";
 function DoctorDashboard() {
 
 
-  const [waitingCount, setWaitingCount] = useState(0);
+  const [completedCount, setCompletedCount] = useState(0);
   const [canceledCount, setCanceledCount] = useState(0);
   const [bookedCount, setBookedCount] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
@@ -19,12 +19,14 @@ function DoctorDashboard() {
     const fetch_appointment_data = async () => {
       await axios
         .get(
-          "/api/Appointment/doctor/" +
-            JSON.parse(sessionStorage.getItem("doctor_key")).userid
+          "http://localhost:4000/api/appointments/doctor/" +
+            JSON.parse(sessionStorage.getItem("doctor_key")).DoctorId
         )
         .then((response) => {
-          setAppointmentdata(response.data);
-          calculateAppointmentCounts(response.data);
+          if(response.data.success){
+            setAppointmentdata(response.data.appointments);
+            calculateAppointmentCounts(response.data.appointments);
+          }
         })
         .catch((error) => {
           if (error.response) {
@@ -42,29 +44,29 @@ function DoctorDashboard() {
     useEffect(() => {
       fetch_appointment_data();
     }, []);
-
+console.log(appointmentdata);
 
     // calculate appointment data
     
 
   const calculateAppointmentCounts = (appointments) => {
-    let waiting = 0;
+    let completedCount = 0;
     let canceled = 0;
     let booked = 0;
     let total = 0;
 
     appointments.forEach(function(appointment) {
-      if (appointment.appointmentStatus === "waiting") {
-        waiting++;
-      } else if (appointment.appointmentStatus === "cancelled") {
+      if (appointment.AppointmentStatus === "completed") {
+        completedCount++;
+      } else if (appointment.AppointmentStatus === "cancelled") {
         canceled++;
-      } else if (appointment.appointmentStatus === "booked") {
+      } else if (appointment.AppointmentStatus === "booked") {
         booked++;
       }
       total++;
     });
 
-    setWaitingCount(waiting);
+    setCompletedCount(completedCount);
     setCanceledCount(canceled);
     setBookedCount(booked);
     setTotalCount(total);
@@ -106,10 +108,10 @@ function DoctorDashboard() {
                   </div>
     
                   <div class="flex items-start p-4 rounded-xl shadow-lg bg-white">
-                    <div class="flex items-center justify-center bg-orange-50 h-12 w-12 rounded-full border border-orange-100">
+                    <div class="flex items-center justify-center bg-green-50 h-12 w-12 rounded-full border border-green-100">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 text-orange-400"
+                        class="h-6 w-6 text-green-400"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -124,9 +126,9 @@ function DoctorDashboard() {
                     </div>
     
                     <div class="ml-4">
-                      <h2 class="font-semibold">{waitingCount} - Appointment</h2>
+                      <h2 class="font-semibold">{completedCount} - Appointment</h2>
                       <p class="mt-2 text-sm text-gray-500">
-                       ⏰ waiting to see doctor
+                       ✅ Completed Appointment
                       </p>
                     </div>
                   </div>

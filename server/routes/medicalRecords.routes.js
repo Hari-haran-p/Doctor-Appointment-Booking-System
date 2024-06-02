@@ -9,6 +9,8 @@ module.exports = app =>{
 
     router.get('/medicalrecord/reception', medicalRecords.patient_findOne);
 
+    router.get('/medicalrecord/doctor/:id', medicalRecords.doctor_findAll)
+
     router.post('/medicalrecord', medicalRecords.create);
 
     app.use("/api", router);
