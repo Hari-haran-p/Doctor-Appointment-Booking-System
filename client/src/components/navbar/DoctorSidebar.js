@@ -206,10 +206,10 @@ export const DoctorSidebar = () => {
               >
                 <div className="py-3 px-4">
                   <span className="block text-sm font-semibold text-gray-900 dark:text-white">
-                    {profile.name}
+                    {profile.DoctorName}
                   </span>
                   <span className="block text-sm font-light text-gray-500 truncate dark:text-gray-400">
-                    {profile.email}
+                    {profile.DoctorMobile}
                   </span>
                 </div>
                 <ul
