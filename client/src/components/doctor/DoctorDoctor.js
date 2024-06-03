@@ -193,13 +193,16 @@ export const DoctorDoctor = () => {
                           <th scope="col" class="px-4 py-3">
                             Doctor Name
                           </th>
-                          <th scope="col" class="px-4 py-3 text-center">
+                          <th scope="col" class="px-4 py-3">
                             Doctor Designation
                           </th>
-                          <th scope="col" class="px-4 py-3 text-center">
+                          <th scope="col" class="px-4 py-3 ">
                             Doctor Qualification
                           </th>
-                          <th scope="col" class="px-4 py-3 text-center">
+                          <th scope="col" class="px-4 py-3">
+                            Doctor Address
+                          </th>
+                          <th scope="col" class="px-4 py-3">
                             Doctor Status
                           </th>
                           <th scope="col" class="px-4 py-3">
@@ -241,10 +244,13 @@ export const DoctorDoctor = () => {
                               <td class="px-4 py-3 text-center ">
                                 {row.DoctorDesignation}
                               </td>
-                              <td class="px-4 py-3 text-center">
+                              <td class="px-4 py-3 ">
                                 {row.DoctorQualification}
                               </td>
-                              <td class="px-4 py-3 text-center">
+                              <td class="px-4 py-3">
+                                {row.DoctorAddress}
+                              </td>
+                              <td class="px-4 py-3">
                                 {" "}
                                 {row.DoctorStatus == "Leave" && (
                                   <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">

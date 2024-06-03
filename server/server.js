@@ -5,6 +5,7 @@ require('dotenv').config();
 const sequelize = require("./config/database.js");
 const {syncAndAddDcotor, syncAndAddPatient, syncAndAddUsers} = require("./config/InitialUsers.js");
 const {createViews} = require("./models/views/dbviews.js");
+require("./config/jobs.js");
 
 //server app
 const app = express();

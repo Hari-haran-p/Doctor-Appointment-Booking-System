@@ -45,7 +45,7 @@ export const AddUserAppointment = () => {
     e.preventDefault();
 
     axios
-      .post("/api/appointment", formData, {
+      .post("http://localhost:4000/api/appointment", formData, {
         headers: {
           "Content-Type": "application/json",
         },

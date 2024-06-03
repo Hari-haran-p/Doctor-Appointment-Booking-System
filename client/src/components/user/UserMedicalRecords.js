@@ -251,10 +251,10 @@ export const UserMedicalRecords = () => {
                             >
                               {new Date(row.createdAt).toLocaleDateString()}{console.log(row)}
                             </th>
-                            <td class="px-4 py-3 text-center ">{row.Height}</td>
-                            <td class="px-4 py-3 text-center">{row.Weight}</td>
-                            <td class="px-4 py-3 text-center">{row.Pressure}</td>
-                            <td class="px-4 py-3 text-center">{row.Temperature}</td>
+                            <td class="px-4 py-3">{row.Height}</td>
+                            <td class="px-4 py-3 ">{row.Weight}</td>
+                            <td class="px-4 py-3 ">{row.Pressure}</td>
+                            <td class="px-4 py-3 ">{row.Temperature}</td>
                             <td class="px-4 py-3 ">{row.Symptoms}</td>
                             <td class="px-4 py-3 ">{row.Medications}</td>
                             <td class="px-4 py-3 ">{row.Treatments}</td>

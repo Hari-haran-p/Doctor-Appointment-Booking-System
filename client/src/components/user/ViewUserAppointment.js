@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserSidebar } from "../navbar/UserSidebar";
 import CancelUserAppointment from "./CancelUserAppointment";
 import { AddMedicalrecord } from "./AddMedicalRecord";
+import { EditMedicalrecord } from "./EditMedicalrecord";
 
 export const ViewUserAppointment = () => {
     const { id } = useParams();
@@ -158,7 +159,27 @@ export const ViewUserAppointment = () => {
                                                 ></path>
                                             </svg>
                                             <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                                                Profile
+                                                Appointments
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="flex items-center">
+                                            <svg
+                                                aria-hidden="true"
+                                                class="w-6 h-6 text-gray-400"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                                                View
                                             </a>
                                         </div>
                                     </li>
@@ -562,19 +583,28 @@ export const ViewUserAppointment = () => {
                                                             )}
                                                         </td>
                                                         <td class="px-4 py-3 text-center">
-                                                            {appointmentdata.MedicalRecordStatus == 1 && (
-                                                                <div className="flex space-x-2">
+                                                            <div className="flex space-x-2">
+                                                                {appointmentdata.MedicalRecordStatus == 1 && appointmentdata.AppointmentStatus == 'booked' && medicalrecords && (
+
+                                                                    < EditMedicalrecord
+                                                                        AppointmentId={appointmentdata.AppointmentId}
+                                                                        DoctorId={appointmentdata.DoctorId}
+                                                                        PatientId={appointmentdata.PatientId}
+                                                                        fetch_appointment_data={fetch_appointment_data}
+                                                                        row={medicalrecords}
+                                                                    />
+                                                                )}
+                                                                {appointmentdata.MedicalRecordStatus == 1 && (
                                                                     <button
                                                                         onClick={() =>
-                                                                            navigate("/user/medicalrecords")
+                                                                            navigate(`/user/medicalrecords/view/${appointmentdata.MedicalRecordId}/${appointmentdata.PatientId}`)
                                                                         }
                                                                         className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
                                                                     >
                                                                         View
                                                                     </button>
-
-                                                                </div>
-                                                            )}
+                                                                )}
+                                                            </div>
                                                             {appointmentdata.MedicalRecordStatus == 0 && (
                                                                 <AddMedicalrecord
                                                                     AppointmentId={appointmentdata.AppointmentId}
@@ -623,6 +653,9 @@ export const ViewUserAppointment = () => {
                                                         <th scope="col" class="px-4 py-3 ">
                                                             Doctor Name
                                                         </th>
+                                                        <th scope="col" class="px-4 py-3 ">
+                                                            Doctor Qualification
+                                                        </th>
                                                         <th scope="col" class="px-4 py-3">
                                                             Doctor Designation
                                                         </th>
@@ -633,7 +666,7 @@ export const ViewUserAppointment = () => {
                                                         <th scope="col" class="px-4 py-3 text-center">
                                                             Doctor status
                                                         </th>
-                                                        
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -659,7 +692,11 @@ export const ViewUserAppointment = () => {
                                                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                         >
                                                             {appointmentdata.DoctorName}
-                                                        </th>
+                                                        </th> {console.log(appointmentdata)}
+                                                        <td class="px-4 py-3 ">
+                                                            {" "}
+                                                            {appointmentdata.DoctorQualification}
+                                                        </td>
                                                         <td class="px-4 py-3 ">
                                                             {" "}
                                                             {appointmentdata.DoctorDesignation}
@@ -689,7 +726,7 @@ export const ViewUserAppointment = () => {
                                                                     </span>
                                                                 )}
                                                         </td>
-                                                        
+
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -756,7 +793,7 @@ export const ViewUserAppointment = () => {
                                                                     </label>
                                                                 </div>
                                                             </td>
-    
+
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
                                                                 {Prescription.Prescription}
@@ -767,7 +804,8 @@ export const ViewUserAppointment = () => {
                                                             </td>
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
-                                                                {Prescription.AppointmentTime}
+                                                                {Prescription.createdAt && Prescription.createdAt.split("T")[0] + " "}
+                                                                {"  " + Prescription.createdAt && Prescription.createdAt.split("T")[1]}
                                                             </td>
                                                         </tr>
                                                     </tbody>

@@ -3,9 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import { UserSidebar } from "../navbar/UserSidebar";
 import { useParams } from "react-router-dom";
-import { DoctorSidebar } from "../navbar/DoctorSidebar";
 
-export const DoctorViewMedicalRecord = () => {
+export const UserViewMedicalRecord = () => {
 
     const { id1, id2 } = useParams();
 
@@ -69,7 +68,7 @@ export const DoctorViewMedicalRecord = () => {
 
     return (
         <>
-            <DoctorSidebar />
+            <UserSidebar />
 
             {profile && (
                 <div class="p-2 md:p-4 min-h-screen bg-gray-200 sm:ml-64">

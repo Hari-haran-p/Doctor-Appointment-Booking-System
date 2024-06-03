@@ -71,3 +71,23 @@ exports.create = async (req, res) => {
     }
 
 }
+
+
+exports.update = async (req, res) => {
+    console.log(req.body);
+    const { PrescriptionId, Prescription, PrescriptionRemark } = req.body;
+    console.log(PrescriptionId, Prescription, PrescriptionRemark);
+    try {
+        const prescriptionData = await prescriptions.update({
+            Prescription:Prescription,
+            PrescriptionRemark:PrescriptionRemark,
+        },{
+            where: {PrescriptionId : PrescriptionId}
+        });
+        res.status(201).json({success:true, message:"Prescription added Successfully"})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("some internal error");
+    }
+
+}

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { DoctorSidebar } from "../navbar/DoctorSidebar";
 import { AddDoctorPrescription } from "./AddDoctorPrescription";
+import { EditDoctorPrescription } from "./EditDoctorPrescription";
 
 export const ViewDoctorAppointment = () => {
 
@@ -398,6 +399,9 @@ export const ViewDoctorAppointment = () => {
                                                             Appointment remark
                                                         </th>
                                                         <th scope="col" class="px-4 py-3">
+                                                            Appointment Reason
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
                                                             Medical Record Status
                                                         </th>
 
@@ -503,7 +507,10 @@ export const ViewDoctorAppointment = () => {
                                                         <td class="px-4 py-3 ">
                                                             {appointmentdata.AppointmentRemark}
                                                         </td>
-
+                                                        <td class="px-4 py-3 ">
+                                                            {" "}
+                                                            {appointmentdata.AppointmentReason}
+                                                        </td>
                                                         <td class="px-4 py-3 text-center ">
                                                             {appointmentdata.MedicalRecordStatus == 1 && (
                                                                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-green-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-green-400">
@@ -601,9 +608,11 @@ export const ViewDoctorAppointment = () => {
                                                             Doctor Name
                                                         </th>
                                                         <th scope="col" class="px-4 py-3">
+                                                            Doctor Qualification
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
                                                             Doctor Designation
                                                         </th>
-
 
                                                         <th scope="col" class="px-4 py-3">
                                                             Doctor Mobile
@@ -612,9 +621,7 @@ export const ViewDoctorAppointment = () => {
                                                         <th scope="col" class="px-4 py-3 text-center">
                                                             Doctor status
                                                         </th>
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Appointment Reason
-                                                        </th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -643,6 +650,10 @@ export const ViewDoctorAppointment = () => {
                                                         </th>
                                                         <td class="px-4 py-3 ">
                                                             {" "}
+                                                            {appointmentdata.DoctorQualification}
+                                                        </td>
+                                                        <td class="px-4 py-3 ">
+                                                            {" "}
                                                             {appointmentdata.DoctorDesignation}
                                                         </td>
 
@@ -665,10 +676,7 @@ export const ViewDoctorAppointment = () => {
 
                                                             )}
                                                         </td>
-                                                        <td class="px-4 py-3 ">
-                                                            {" "}
-                                                            {appointmentdata.AppointmentReason}
-                                                        </td>
+
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -716,6 +724,10 @@ export const ViewDoctorAppointment = () => {
                                                             Prescription Timestamp
                                                         </th>
 
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Action
+                                                        </th>
+
                                                     </tr>
                                                 </thead>
                                                 {Prescription && (
@@ -751,7 +763,9 @@ export const ViewDoctorAppointment = () => {
                                                                 {Prescription.createdAt && Prescription.createdAt.split("T")[0]}
                                                                 {Prescription.createdAt && " " + Prescription.createdAt.split("T")[1]}
                                                             </td>
-
+                                                            <td class="px-4 py-3 ">
+                                                                <EditDoctorPrescription id={Prescription.AppointmentId} fetch_appointment_data={fetch_appointment_data} prescription={Prescription} />
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 )}
