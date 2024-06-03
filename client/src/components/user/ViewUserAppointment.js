@@ -311,7 +311,7 @@ export const ViewUserAppointment = () => {
                                         </h6>
                                         <h4 class="font-bold mt-2 dark:text-white">
                                             <span class="text-3.5">
-                                                {medicalrecords ? medicalrecords.Weight + "cm" : "NIL"}
+                                                {medicalrecords ? medicalrecords.Weight + "kg" : "NIL"}
                                             </span>
                                         </h4>
                                     </div>
@@ -340,7 +340,7 @@ export const ViewUserAppointment = () => {
                                         <h4 class="font-bold mt-2 dark:text-white ">
                                             <span class="text-3.5">
                                                 {medicalrecords
-                                                    ? medicalrecords.Pressure + "cm"
+                                                    ? medicalrecords.Pressure + " mm Hg"
                                                     : "NIL"}
                                             </span>
                                         </h4>
@@ -356,7 +356,7 @@ export const ViewUserAppointment = () => {
                                         <h4 class="font-bold mt-2 dark:text-white">
                                             <span class="text-3.5">
                                                 {medicalrecords
-                                                    ? medicalrecords.Temperature + "cm"
+                                                    ? medicalrecords.Temperature + "°F"
                                                     : "NIL"}
                                             </span>
                                         </h4>
@@ -407,6 +407,9 @@ export const ViewUserAppointment = () => {
 
                                                         <th scope="col" class="px-4 py-3">
                                                             Appointment remark
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Appointment Reason
                                                         </th>
                                                         <th scope="col" class="px-4 py-3">
                                                             Medical Record Status
@@ -517,6 +520,10 @@ export const ViewUserAppointment = () => {
                                                         <td class="px-4 py-3 ">
                                                             {appointmentdata.AppointmentRemark}
                                                         </td>
+                                                        <td class="px-4 py-3 ">
+                                                            {" "}
+                                                            {appointmentdata.AppointmentReason}
+                                                        </td>
                                                         <td class="px-4 py-3 text-center">
                                                             {appointmentdata.MedicalRecordStatus == 1 && (
                                                                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-green-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-green-400">
@@ -567,7 +574,7 @@ export const ViewUserAppointment = () => {
                                                                     </button>
 
                                                                 </div>
-                                                            )}{console.log(appointmentdata)}
+                                                            )}
                                                             {appointmentdata.MedicalRecordStatus == 0 && (
                                                                 <AddMedicalrecord
                                                                     AppointmentId={appointmentdata.AppointmentId}
@@ -626,9 +633,7 @@ export const ViewUserAppointment = () => {
                                                         <th scope="col" class="px-4 py-3 text-center">
                                                             Doctor status
                                                         </th>
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Appointment Reason
-                                                        </th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -684,10 +689,7 @@ export const ViewUserAppointment = () => {
                                                                     </span>
                                                                 )}
                                                         </td>
-                                                        <td class="px-4 py-3 ">
-                                                            {" "}
-                                                            {appointmentdata.AppointmentReason}
-                                                        </td>
+                                                        
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -723,14 +725,6 @@ export const ViewUserAppointment = () => {
                                                                 </label>
                                                             </div>
                                                         </th>
-
-                                                        <th scope="col" class="px-4 py-3 ">
-                                                            Disease
-                                                        </th>
-                                                        {/* <th scope="col" class="px-4 py-3">
-                                                            Allergy
-                                                        </th> */}
-
                                                         <th scope="col" class="px-4 py-3">
                                                             Prescription
                                                         </th>
@@ -762,16 +756,7 @@ export const ViewUserAppointment = () => {
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <th
-                                                                scope="row"
-                                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                            >
-                                                                {Prescription.Disease}
-                                                            </th>
-                                                            {/* <td class="px-4 py-3 ">
-                                                                {" "}
-                                                                {Prescription.allergy}
-                                                            </td> */}
+    
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
                                                                 {Prescription.Prescription}

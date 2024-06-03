@@ -2,7 +2,7 @@ import { React, useEffect } from "react";
 import { useState } from "react";
 import CancelDoctorAppointment from "./CancelDoctorAppointment";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DoctorSidebar } from "../navbar/DoctorSidebar";
 import { AddDoctorPrescription } from "./AddDoctorPrescription";
 
@@ -12,6 +12,7 @@ export const ViewDoctorAppointment = () => {
 
     const [appointmentdata, setAppointmentdata] = useState();
 
+    const navigate = useNavigate();
     console.log(id);
 
     // fetch user data
@@ -38,7 +39,7 @@ export const ViewDoctorAppointment = () => {
             }
         }
     };
-console.log(appointmentdata);
+    console.log(appointmentdata);
     // fetch medical records
     const [medicalrecords, setmedicalrecords] = useState();
 
@@ -66,12 +67,12 @@ console.log(appointmentdata);
 
     // fetch prescription records
     const [Prescription, setPrescription] = useState();
-
+    const today = new Date().toISOString().split('T')[0];
     const fetch_prescription_data = async (id1, id2) => {
         await axios
             .get(`http://localhost:4000/api/prescriptions/doctor?id1=${id2}`)
             .then((response) => {
-                if(response.data.success){
+                if (response.data.success) {
                     console.log(response.data.prescriptions[0]);
                     setPrescription(response.data.prescriptions[0]);
                 }
@@ -139,7 +140,27 @@ console.log(appointmentdata);
                                                 ></path>
                                             </svg>
                                             <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                                                Profile
+                                                Appointments
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="flex items-center">
+                                            <svg
+                                                aria-hidden="true"
+                                                class="w-6 h-6 text-gray-400"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                                                View
                                             </a>
                                         </div>
                                     </li>
@@ -253,9 +274,9 @@ console.log(appointmentdata);
 
                                         <div className="flex items-end justify-end">
 
-                                            {appointmentdata.MedicalRecordStatus == 1 && appointmentdata.AppointmentStatus != "cancelled" && appointmentdata.AppointmentStatus != "completed" && (
+                                            {appointmentdata.MedicalRecordStatus == 1 && appointmentdata.AppointmentStatus != "cancelled" && appointmentdata.AppointmentStatus != "completed" && appointmentdata.AppointmentDate == today && (
 
-                                                <AddDoctorPrescription id={appointmentdata.AppointmentId} fetch_appointment_data={fetch_appointment_data} patientId={appointmentdata.PatientId}  setPrescription={setPrescription} />
+                                                <AddDoctorPrescription id={appointmentdata.AppointmentId} fetch_appointment_data={fetch_appointment_data} patientId={appointmentdata.PatientId} setPrescription={setPrescription} />
                                             )}
 
                                             {appointmentdata.AppointmentStatus != "cancelled" && appointmentdata.AppointmentStatus != "completed" && (
@@ -279,7 +300,7 @@ console.log(appointmentdata);
                                         </h6>
                                         <h4 class="font-bold mt-2 dark:text-white">
                                             <span class="text-3.5">
-                                                {medicalrecords ? medicalrecords.Weight + "cm" : "NIL"}
+                                                {medicalrecords ? medicalrecords.Weight + "kg" : "NIL"}
                                             </span>
                                         </h4>
                                     </div>
@@ -308,7 +329,7 @@ console.log(appointmentdata);
                                         <h4 class="font-bold mt-2 ">
                                             <span class="text-3.5">
                                                 {medicalrecords
-                                                    ? medicalrecords.Pressure + "cm"
+                                                    ? medicalrecords.Pressure + " mm Hg"
                                                     : "NIL"}
                                             </span>
                                         </h4>
@@ -324,7 +345,7 @@ console.log(appointmentdata);
                                         <h4 class="font-bold mt-2">
                                             <span class="text-3.5">
                                                 {medicalrecords
-                                                    ? medicalrecords.Temperature + "cm"
+                                                    ? medicalrecords.Temperature + "°F"
                                                     : "NIL"}
                                             </span>
                                         </h4>
@@ -376,10 +397,12 @@ console.log(appointmentdata);
                                                         <th scope="col" class="px-4 py-3">
                                                             Appointment remark
                                                         </th>
-
-                                                        
                                                         <th scope="col" class="px-4 py-3">
                                                             Medical Record Status
+                                                        </th>
+
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Actions
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -412,7 +435,7 @@ console.log(appointmentdata);
                                                         <td class="px-4 py-3 ">
                                                             {appointmentdata.AppointmentTime}
                                                         </td>
-                                                        <td class="px-4 py-3 text-center">
+                                                        <td class="px-4 py-3">
                                                             {appointmentdata.AppointmentStatus == "completed" && (
                                                                 <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 border border-green-400">
                                                                     <svg
@@ -480,46 +503,9 @@ console.log(appointmentdata);
                                                         <td class="px-4 py-3 ">
                                                             {appointmentdata.AppointmentRemark}
                                                         </td>
-                                                        {/* <td class="px-4 py-3 text-center">
-                                                            {appointmentdata.paymentStatus == "paid" && (
-                                                                <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300 border border-green-400">
-                                                                    <svg
-                                                                        class="w-3 h-3 mr-2 "
-                                                                        aria-hidden="true"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="currentColor"
-                                                                        viewBox="0 0 20 20"
-                                                                    >
-                                                                        <path
-                                                                            fill="currentColor"
-                                                                            d="m18.774 8.245-.892-.893a1.5 1.5 0 0 1-.437-1.052V5.036a2.484 2.484 0 0 0-2.48-2.48H13.7a1.5 1.5 0 0 1-1.052-.438l-.893-.892a2.484 2.484 0 0 0-3.51 0l-.893.892a1.5 1.5 0 0 1-1.052.437H5.036a2.484 2.484 0 0 0-2.48 2.481V6.3a1.5 1.5 0 0 1-.438 1.052l-.892.893a2.484 2.484 0 0 0 0 3.51l.892.893a1.5 1.5 0 0 1 .437 1.052v1.264a2.484 2.484 0 0 0 2.481 2.481H6.3a1.5 1.5 0 0 1 1.052.437l.893.892a2.484 2.484 0 0 0 3.51 0l.893-.892a1.5 1.5 0 0 1 1.052-.437h1.264a2.484 2.484 0 0 0 2.481-2.48V13.7a1.5 1.5 0 0 1 .437-1.052l.892-.893a2.484 2.484 0 0 0 0-3.51Z"
-                                                                        />
-                                                                        <path
-                                                                            fill="#fff"
-                                                                            d="M8 13a1 1 0 0 1-.707-.293l-2-2a1 1 0 1 1 1.414-1.414l1.42 1.42 5.318-3.545a1 1 0 0 1 1.11 1.664l-6 4A1 1 0 0 1 8 13Z"
-                                                                        />
-                                                                    </svg>
-                                                                    Paid
-                                                                </span>
-                                                            )}
-                                                            {appointmentdata.paymentStatus == "not paid" && (
-                                                                <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 border border-red-400">
-                                                                    <svg
-                                                                        class="w-3 h-3 mr-2 "
-                                                                        aria-hidden="true"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="currentColor"
-                                                                        viewBox="0 0 20 20"
-                                                                    >
-                                                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
-                                                                    </svg>
-                                                                    Not Paid
-                                                                </span>
-                                                            )}
 
-                                                        </td> */}
-                                                        <td class="px-4 py-3 text-center">
-                                                            {appointmentdata.MedicalRecordStatus == true && (
+                                                        <td class="px-4 py-3 text-center ">
+                                                            {appointmentdata.MedicalRecordStatus == 1 && (
                                                                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-green-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-green-400">
                                                                     <svg
                                                                         class="w-4 h-4"
@@ -540,7 +526,7 @@ console.log(appointmentdata);
                                                                     <span class="sr-only">Done</span>
                                                                 </span>
                                                             )}
-                                                            {appointmentdata.MedicalRecordStatus == false && (
+                                                            {appointmentdata.MedicalRecordStatus == 0 && (
                                                                 <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-sm font-semibold text-red-800 bg-blue-100 rounded-full dark:bg-gray-700 dark:text-red-400">
                                                                     <svg
                                                                         class="w-4 h-4"
@@ -553,6 +539,26 @@ console.log(appointmentdata);
                                                                     </svg>
                                                                     <span class="sr-only">Done</span>
                                                                 </span>
+                                                            )}
+                                                        </td>
+
+                                                        <td class="px-4 py-3 text-center ">
+                                                            {appointmentdata.MedicalRecordStatus == 1 && (
+                                                                <div className="flex space-x-2">
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            navigate(`/doctor/medicalrecords/view/${appointmentdata.MedicalRecordId}/${appointmentdata.PatientId}`)
+                                                                        }
+                                                                        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+                                                                    >
+                                                                        View
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                            {appointmentdata.MedicalRecordStatus == 0 && (
+                                                                <div className="flex space-x-2">
+                                                                        Not Added
+                                                                </div>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -598,9 +604,7 @@ console.log(appointmentdata);
                                                             Doctor Designation
                                                         </th>
 
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Doctor Fees
-                                                        </th>
+
                                                         <th scope="col" class="px-4 py-3">
                                                             Doctor Mobile
                                                         </th>
@@ -641,10 +645,7 @@ console.log(appointmentdata);
                                                             {" "}
                                                             {appointmentdata.DoctorDesignation}
                                                         </td>
-                                                        <td class="px-4 py-3 ">
-                                                            {" "}
-                                                            {appointmentdata.DoctorFees}
-                                                        </td>
+
                                                         <td class="px-4 py-3 ">
                                                             {" "}
                                                             {appointmentdata.DoctorMobile}
@@ -704,12 +705,6 @@ console.log(appointmentdata);
                                                                 </label>
                                                             </div>
                                                         </th>
-
-                                                        <th scope="col" class="px-4 py-3 ">
-                                                            Disease
-                                                        </th>
-                                                     
-
                                                         <th scope="col" class="px-4 py-3">
                                                             Prescription
                                                         </th>
@@ -743,13 +738,6 @@ console.log(appointmentdata);
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <th
-                                                                scope="row"
-                                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                            >
-                                                                {Prescription.Disease}
-                                                            </th>
-                                                          
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
                                                                 {Prescription.Prescription}
@@ -761,7 +749,7 @@ console.log(appointmentdata);
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
                                                                 {Prescription.createdAt && Prescription.createdAt.split("T")[0]}
-                                                                {Prescription.createdAt && " " +Prescription.createdAt.split("T")[1]}
+                                                                {Prescription.createdAt && " " + Prescription.createdAt.split("T")[1]}
                                                             </td>
 
                                                         </tr>

@@ -3,8 +3,9 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 const UserPrescriptionExport = ({ rowData }) => {
+  console.log(rowData);
   const handleExport = () => {
-    var date = new Date(rowData.prescriptionTimestamp).toLocaleDateString();
+    var date = new Date(rowData.createdAt).toLocaleDateString();
 
     // // Create a new jsPDF instance
     const doc = new jsPDF({ orientation: "landscape" });
@@ -40,13 +41,13 @@ const UserPrescriptionExport = ({ rowData }) => {
     // Prepare the data for the table
     const rows = [
       [
-        "" + rowData.prescriptionId,
-        "" + rowData.doctor.doctorName,
-        rowData.doctor.doctorDesignation,
-        rowData.disease,
-        rowData.allergy,
-        rowData.prescription,
-        rowData.prescriptionRemark,
+        "" + rowData.PrescriptionId,
+        "" + rowData.DoctorName,
+        rowData.DoctorDesignation,
+        rowData.Disease,
+        rowData.Allergy,
+        rowData.Prescription,
+        rowData.PrescriptionRemark,
       ],
     ]; // Modify this for more columns
 

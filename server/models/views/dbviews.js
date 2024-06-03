@@ -66,14 +66,15 @@ const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
                         JOIN
                             appointments AS T4 ON T1.AppointmentId = T4.AppointmentId`
 
-const MedicalRecordViewQuery = `CREATE VIEW MedicalRecordView AS
+const MedicalRecordViewQuery = `ALTER VIEW MedicalRecordView AS
                                 SELECT
                                     T1.MedicalRecordId,
                                     T1.Height,
                                     T1.Weight,
                                     T1.Pressure,
-                                    T1.temperature,
+                                    T1.Temperature,
                                     T1.MedicalRecordRemark,
+                                    T1.createdAt,
                                     T1.Symptoms,
                                     T1.Medications,
                                     T1.Treatments,

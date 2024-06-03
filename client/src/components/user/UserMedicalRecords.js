@@ -14,7 +14,7 @@ export const UserMedicalRecords = () => {
 
     const fetch_medicalrecord_data = async () => {
       await axios
-        .get("/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).PatientId)
+        .get("http://localhost:4000/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).PatientId)
         .then((response) => {
           if(response.data.success){
             setmedicalrecords(response.data.medicalRecords);
@@ -209,10 +209,13 @@ export const UserMedicalRecords = () => {
                             Temperature ( ∘C )
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            remark
+                            Symptoms
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Medications
+                          </th>
+                          <th scope="col" class="px-4 py-3">
+                            Treatment
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Actions
@@ -242,21 +245,19 @@ export const UserMedicalRecords = () => {
                                 </label>
                               </div>
                             </td>
-
-
-
                             <th
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              {new Date(row.createdAt).toLocaleDateString()}
+                              {new Date(row.createdAt).toLocaleDateString()}{console.log(row)}
                             </th>
                             <td class="px-4 py-3 text-center ">{row.Height}</td>
                             <td class="px-4 py-3 text-center">{row.Weight}</td>
                             <td class="px-4 py-3 text-center">{row.Pressure}</td>
                             <td class="px-4 py-3 text-center">{row.Temperature}</td>
-                            <td class="px-4 py-3 ">{row.MedicalRecordRemark}</td>
+                            <td class="px-4 py-3 ">{row.Symptoms}</td>
                             <td class="px-4 py-3 ">{row.Medications}</td>
+                            <td class="px-4 py-3 ">{row.Treatments}</td>
 
                             <td className="px-4 py-3">
                               {" "}
@@ -270,7 +271,6 @@ export const UserMedicalRecords = () => {
                           </tr>
                         ))}
                       </tbody>
-
                       )}
                     </table>
                   </div>

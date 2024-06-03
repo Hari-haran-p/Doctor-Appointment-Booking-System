@@ -11,10 +11,12 @@ export const UserPrescription = () => {
   // fetch prescription data
   const [prescription, setprescription] = useState([]);
 
+  const navigate= useNavigate();
+
   const fetch_prescription_data = async () => {
     await axios
       .get(
-        "/api/prescriptions/patient/" +
+        "http://localhost:4000/api/prescriptions/patient/" +
         JSON.parse(sessionStorage.getItem("student_key")).PatientId
       )
       .then((response) => {
@@ -203,11 +205,11 @@ export const UserPrescription = () => {
                           <th scope="col" class="px-4 py-3 ">
                             Designation
                           </th>
-                          <th scope="col" class="px-4 py-3">
+                          {/* <th scope="col" class="px-4 py-3">
                             Disease
-                          </th>
+                          </th> */}
                           <th scope="col" class="px-4 py-3">
-                            Allergy
+                            Prescription
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Remark
@@ -250,15 +252,15 @@ export const UserPrescription = () => {
                                   row.createdAt
                                 ).toLocaleDateString()}
                               </th>
-                              <td class="px-4 py-3 text-center ">
+                              <td class="px-4 py-3 text-center">
                                 {row.DoctorName}
                               </td>
                               <td class="px-4 py-3 text-center">
                                 {row.DoctorDesignation}
                               </td>
-                              <td class="px-4 py-3 text-center">
+                              {/* <td class="px-4 py-3 text-center">
                                 {row.Disease}
-                              </td>
+                              </td> */}
                               <td class="px-4 py-3 text-center">
                                 {row.Prescription}
                               </td>
@@ -269,7 +271,7 @@ export const UserPrescription = () => {
                               <td className="px-4 py-3">
                                 {" "}
                                 <div className="flex space-x-2">
-                                  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded">
+                                  <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded" onClick={()=>navigate('/user/appointment/view/'+row.AppointmentId)}>
                                   View
                                 </button>
                                   <UserPrescriptionExport rowData={row} />
