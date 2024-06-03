@@ -13,8 +13,10 @@ export const DoctorProfile = () => {
    const fetch_doctor_data = async (id) => {
     console.log("hi");
     try {
-      const response = await axios.get(`/api/Doctor/${id}`);
-      setProfile(response.data);
+      const response = await axios.get(`http://localhost:4000/api/doctor/${id}`);
+      if(response.data.success){
+        setProfile(response.data.doctor);
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
@@ -28,12 +30,10 @@ export const DoctorProfile = () => {
     }
   };
 
-
-  
   useEffect(() => {
     const profile = () => {
       var item_value = JSON.parse(sessionStorage.getItem("doctor_key"));
-      fetch_doctor_data(item_value.userid);
+      fetch_doctor_data(item_value.DoctorId);
     };
     profile();
   }, []);
@@ -119,7 +119,7 @@ export const DoctorProfile = () => {
                     alt="Bonnie image"
                   />
                   <h5 class="mt-2 text-xl font-medium text-gray-900 dark:text-white">
-                  {profile.doctorName}
+                  {profile.DoctorName}
                   </h5>
 
                   <div class="flex mt-3 space-x-3 md:mt-3">
@@ -164,36 +164,26 @@ export const DoctorProfile = () => {
                   <div class="grid md:grid-cols-2 text-sm">
                     <div class="grid grid-cols-2">
                       <div class="px-4 py-2 font-semibold">Full Name</div>
-                      <div class="px-4 py-2">{profile.doctorName}</div>
+                      <div class="px-4 py-2">{profile.DoctorName}</div>
                     </div>
                     <div class="grid grid-cols-2">
                       <div class="px-4 py-2 font-semibold">Qualification</div>
-                      <div class="px-4 py-2">{profile.doctorQualification}</div>
+                      <div class="px-4 py-2">{profile.DoctorQualification}</div>
                     </div>
                     <div class="grid grid-cols-2">
                       <div class="px-4 py-2 font-semibold">Designation</div>
-                      <div class="px-4 py-2">{profile.doctorDesignation}</div>
+                      <div class="px-4 py-2">{profile.DoctorDesignation}</div>
                     </div>
                     <div class="grid grid-cols-2">
                       <div class="px-4 py-2 font-semibold">Contact No.</div>
-                      <div class="px-4 py-2">+91 {profile.doctorMobile}</div>
-                    </div>
-                    <div class="grid grid-cols-2">
-                      <div class="px-4 py-2 font-semibold">Email</div>
-                      <div class="px-4 py-2">
-                      <a class="text-blue-800" href="mailto:jane@example.com">
-                      {profile.doctorEmail}
-                        </a>
-                      </div>
-                      
+                      <div class="px-4 py-2">+91 {profile.DoctorMobile}</div>
                     </div>
                     <div class="grid grid-cols-2">
                       <div class="px-4 py-2 font-semibold">Address</div>
                       <div class="px-4 py-2">
-                       {profile.doctorAddress}
+                       {profile.DoctorAddress}
                       </div>
                     </div>
-                    
                   </div>
                 </div>
               </div>

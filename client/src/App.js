@@ -20,6 +20,8 @@ import { DoctorProfile } from './components/doctor/DoctorProfile';
 import { DoctorLeave } from './components/doctor/DoctorLeave';
 import { ViewUserAppointment } from './components/user/ViewUserAppointment';
 import { ViewDoctorAppointment } from './components/doctor/ViewDoctorAppointment';
+import { DoctorDoctor } from './components/doctor/DoctorDoctor';
+import { DoctorPatient } from './components/doctor/DoctorPatient';
 
 
 
@@ -53,6 +55,8 @@ function App() {
       <Route path='/doctor/medicalrecords/'      element={<DoctorMedicalRecords/>}/>
       <Route path='/doctor/prescription//'       element={<DoctorPrescription/>}/>
       <Route path='/doctor/leave/'               element={<DoctorLeave/>}/>
+      <Route path='/doctor/doctors/'               element={<DoctorDoctor/>}/>
+      <Route path='/doctor/patients/'               element={<DoctorPatient/>}/>
       <Route path='/doctor/profile/'             element={<DoctorProfile/>}/>
 
       {/* Admin Routes */}

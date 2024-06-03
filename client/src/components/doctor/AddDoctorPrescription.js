@@ -7,7 +7,7 @@ export const AddDoctorPrescription = ({ id, patientId, fetch_appointment_data, s
 
     const [showModal, setShowModal] = React.useState(false);
     const [formData, setFormData] = useState({
-        disease: "",
+
         prescription: "",
         prescriptionRemark: "",
         doctor: {
@@ -106,7 +106,7 @@ export const AddDoctorPrescription = ({ id, patientId, fetch_appointment_data, s
                                                 onSubmit={(e) => submitrecord(e)}
                                                 className=" grid grid-cols-1 md:grid-cols-1 gap-4"
                                             >
-                                                <div>
+                                                {/* <div>
                                                     <label
                                                         htmlFor="email"
                                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -132,7 +132,7 @@ export const AddDoctorPrescription = ({ id, patientId, fetch_appointment_data, s
                                                         <option value="Headaches">Headaches</option>
 
                                                     </select>
-                                                </div>
+                                                </div> */}
                                                 {/* <div>
                                                     <label
                                                         htmlFor="password"

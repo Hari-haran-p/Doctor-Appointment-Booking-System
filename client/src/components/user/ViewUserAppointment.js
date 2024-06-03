@@ -311,7 +311,7 @@ export const ViewUserAppointment = () => {
                                         </h6>
                                         <h4 class="font-bold mt-2 dark:text-white">
                                             <span class="text-3.5">
-                                                {medicalrecords ? medicalrecords.Weight + "cm" : "NIL"}
+                                                {medicalrecords ? medicalrecords.Weight + "kg" : "NIL"}
                                             </span>
                                         </h4>
                                     </div>
@@ -340,7 +340,7 @@ export const ViewUserAppointment = () => {
                                         <h4 class="font-bold mt-2 dark:text-white ">
                                             <span class="text-3.5">
                                                 {medicalrecords
-                                                    ? medicalrecords.Pressure + "cm"
+                                                    ? medicalrecords.Pressure + " mm Hg"
                                                     : "NIL"}
                                             </span>
                                         </h4>
@@ -356,7 +356,7 @@ export const ViewUserAppointment = () => {
                                         <h4 class="font-bold mt-2 dark:text-white">
                                             <span class="text-3.5">
                                                 {medicalrecords
-                                                    ? medicalrecords.Temperature + "cm"
+                                                    ? medicalrecords.Temperature + "°F"
                                                     : "NIL"}
                                             </span>
                                         </h4>
@@ -567,7 +567,7 @@ export const ViewUserAppointment = () => {
                                                                     </button>
 
                                                                 </div>
-                                                            )}{console.log(appointmentdata)}
+                                                            )}
                                                             {appointmentdata.MedicalRecordStatus == 0 && (
                                                                 <AddMedicalrecord
                                                                     AppointmentId={appointmentdata.AppointmentId}
@@ -723,14 +723,6 @@ export const ViewUserAppointment = () => {
                                                                 </label>
                                                             </div>
                                                         </th>
-
-                                                        <th scope="col" class="px-4 py-3 ">
-                                                            Disease
-                                                        </th>
-                                                        {/* <th scope="col" class="px-4 py-3">
-                                                            Allergy
-                                                        </th> */}
-
                                                         <th scope="col" class="px-4 py-3">
                                                             Prescription
                                                         </th>
@@ -762,16 +754,7 @@ export const ViewUserAppointment = () => {
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <th
-                                                                scope="row"
-                                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                            >
-                                                                {Prescription.Disease}
-                                                            </th>
-                                                            {/* <td class="px-4 py-3 ">
-                                                                {" "}
-                                                                {Prescription.allergy}
-                                                            </td> */}
+    
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
                                                                 {Prescription.Prescription}

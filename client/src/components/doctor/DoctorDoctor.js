@@ -2,21 +2,24 @@ import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { DoctorSidebar } from "../navbar/DoctorSidebar";
 
-export const DoctorPrescription = () => {
+
+export const DoctorDoctor = () => {
   const navigate = useNavigate();
 
   // fetch prescription data
-  const [prescription, setprescription] = useState([]);
+  const [doctordata, setdoctordata] = useState([]);
 
-  const fetch_prescription_data = async () => {
+  const fetch_doctor_data = async () => {
     await axios
-      .get("http://localhost:4000/api/prescription/doctor/" + (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
+      .get("http://localhost:4000/api/doctors/")
       .then((response) => {
-        if (response.data.success) {
-          setprescription(response.data.prescriptions);
-          setSearchResults(response.data.prescriptions);
+        if(response.data.success){
+          setdoctordata(response.data.doctors);
+          setSearchResults(response.data.doctors);
         }
       })
       .catch((error) => {
@@ -33,17 +36,16 @@ export const DoctorPrescription = () => {
   };
 
   useEffect(() => {
-    fetch_prescription_data();
+    fetch_doctor_data();
   }, []);
 
   const itemsPerPage = 5; // Number of items to display per page
-  const pageCount = Math.ceil(prescription.length / itemsPerPage);
+  const pageCount = Math.ceil(doctordata.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(0);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
-
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
@@ -60,11 +62,10 @@ export const DoctorPrescription = () => {
   const handleSearch = (search) => {
     console.log(search);
     // Perform search logic here using searchQuery
-    const filteredResults = prescription.filter(
-      (pres) =>
-        pres.PatientName.toLowerCase().includes(search.toLowerCase()) ||
-        pres.PatientMobile.includes(search) ||
-        pres.DoctorName.toLowerCase().includes(search.toLowerCase())
+    const filteredResults = doctordata.filter(
+      (doctor) =>
+        doctor.DoctorName.toLowerCase().includes(search.toLowerCase()) ||
+        doctor.DoctorDesignation.toLowerCase().includes(search.toLowerCase())
     );
     console.log(filteredResults);
 
@@ -74,11 +75,10 @@ export const DoctorPrescription = () => {
     setCurrentPage(0);
   };
 
-
   return (
     <>
       <DoctorSidebar />
-
+      <ToastContainer />
       <div class="p-2 md:p-4 min-h-screen bg-gray-200 sm:ml-64">
         <div class=" p-2 md:p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
           {/* bread crumbs  */}
@@ -121,7 +121,7 @@ export const DoctorPrescription = () => {
                       ></path>
                     </svg>
                     <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                      Prescription Records
+                      Doctor Details
                     </a>
                   </div>
                 </li>
@@ -136,7 +136,7 @@ export const DoctorPrescription = () => {
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                   <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <caption class="w-full p-2 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                      Prescription Record Details
+                      Doctor Details
                     </caption>
                     <div class="w-full md:w-1/2">
                       <form class="flex items-center">
@@ -188,87 +188,96 @@ export const DoctorPrescription = () => {
                             </div>
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            appointment No
+                            Sn no
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            Date
-                          </th>
-                          <th scope="col" class="px-4 py-3 ">
-                            Patient Name
-                          </th>
-                          <th scope="col" class="px-4 py-3 ">
-                            Mobile Number
-                          </th>
-                          <th scope="col" class="px-4 py-3 ">
                             Doctor Name
                           </th>
-                          <th scope="col" class="px-4 py-3 ">
+                          <th scope="col" class="px-4 py-3 text-center">
                             Doctor Designation
                           </th>
-                          <th scope="col" class="px-4 py-3">
-                            Prescription
+                          <th scope="col" class="px-4 py-3 text-center">
+                            Doctor Qualification
+                          </th>
+                          <th scope="col" class="px-4 py-3 text-center">
+                            Doctor Status
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            Remark
+                            Actions
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {currentPageData.map((row, index) => (
-                          <tr
-                            key={index}
-                            class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          >
-                            <td class="w-4 px-4 py-3">
-                              <div class="flex items-center">
-                                <input
-                                  id="checkbox-table-search-1"
-                                  type="checkbox"
-                                  onclick="event.stopPropagation()"
-                                  class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                />
-                                <label
-                                  for="checkbox-table-search-1"
-                                  class="sr-only"
-                                >
-                                  checkbox
-                                </label>
-                              </div>
-                            </td>
-                            <td class="px-4 py-3 ">
-                              {" "}
-                              {row.AppointmentId}
-                            </td>
-
-                            <th
-                              scope="row"
-                              class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      {doctordata && (
+                        <tbody>
+                          {currentPageData.map((row, index) => (
+                            <tr
+                              key={index}
+                              class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             >
-                              {new Date(
-                                row.createdAt
-                              ).toLocaleDateString()}
-                            </th>
-                            <td class="px-4 py-3 text-center ">
-                              {row.PatientName}
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.PatientMobile}
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.DoctorName}
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.DoctorDesignation}
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.Prescription}
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.PrescriptionRemark}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
+                              <td class="w-4 px-4 py-3">
+                                <div class="flex items-center">
+                                  <input
+                                    id="checkbox-table-search-1"
+                                    type="checkbox"
+                                    onclick="event.stopPropagation()"
+                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                  />
+                                  <label
+                                    for="checkbox-table-search-1"
+                                    class="sr-only"
+                                  >
+                                    checkbox
+                                  </label>
+                                </div>
+                              </td>
+                              <td class="px-4 py-3 ">{index + 1}</td>
+
+                              <th
+                                scope="row"
+                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              >
+                                {row.DoctorName}
+                              </th>
+                              <td class="px-4 py-3 text-center ">
+                                {row.DoctorDesignation}
+                              </td>
+                              <td class="px-4 py-3 text-center">
+                                {row.DoctorQualification}
+                              </td>
+                              <td class="px-4 py-3 text-center">
+                                {" "}
+                                {row.DoctorStatus == "Leave" && (
+                                  <span class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                    🏝️ Leave
+                                  </span>
+                                )}
+                                {row.DoctorStatus == "Available" && (
+                                  <span class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                    👨‍⚕️ Available
+                                  </span>
+                                )}
+                                {row.DoctorStatus == "Lunch" && (
+                                  <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                                    🍰 Lunch
+                                  </span>
+                                )}
+                              </td>
+
+                              <td className="px-4 py-3">
+                                {" "}
+                                <div className="flex space-x-2">
+                                  <a
+                                    href={"tel:" + row.DoctorMobile}
+                                    className="bg-green-800 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded"
+                                  >
+                                    ✆ Call
+                                  </a>
+                                </div>
+                              </td>
+                            </tr> 
+                          ))}
+                        </tbody>
+                      )}
                     </table>
                   </div>
                   <nav

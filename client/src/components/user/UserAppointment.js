@@ -104,10 +104,10 @@ export const UserAppointment = () => {
     // Perform search logic here using searchQuery
     const filteredResults = appointmentdata.filter(
       (appointment) =>
-        // appointment.doctor.doctorName
-        //   .toLowerCase()
-        //   .includes(search.toLowerCase()) ||
-        appointment.status
+        appointment.AppointmentDate
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        appointment.AppointmentStatus
           .toLowerCase()
           .includes(search.toLowerCase())
     );

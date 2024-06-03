@@ -4,19 +4,20 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DoctorSidebar } from "../navbar/DoctorSidebar";
 
-export const DoctorPrescription = () => {
+
+export const DoctorPatient = () => {
   const navigate = useNavigate();
 
-  // fetch prescription data
-  const [prescription, setprescription] = useState([]);
+  // fetch patient data
+  const [patientdata, setpatientdata] = useState([]);
 
-  const fetch_prescription_data = async () => {
+  const fetch_doctor_data = async () => {
     await axios
-      .get("http://localhost:4000/api/prescription/doctor/" + (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
+      .get("http://localhost:4000/api/patients")
       .then((response) => {
-        if (response.data.success) {
-          setprescription(response.data.prescriptions);
-          setSearchResults(response.data.prescriptions);
+        if(response.data.success){
+            setpatientdata(response.data.patients);
+            setSearchResults(response.data.patients);
         }
       })
       .catch((error) => {
@@ -33,18 +34,18 @@ export const DoctorPrescription = () => {
   };
 
   useEffect(() => {
-    fetch_prescription_data();
+    fetch_doctor_data();
   }, []);
 
   const itemsPerPage = 5; // Number of items to display per page
-  const pageCount = Math.ceil(prescription.length / itemsPerPage);
+  const pageCount = Math.ceil(patientdata.length / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(0);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
   const offset = currentPage * itemsPerPage;
@@ -60,11 +61,10 @@ export const DoctorPrescription = () => {
   const handleSearch = (search) => {
     console.log(search);
     // Perform search logic here using searchQuery
-    const filteredResults = prescription.filter(
-      (pres) =>
-        pres.PatientName.toLowerCase().includes(search.toLowerCase()) ||
-        pres.PatientMobile.includes(search) ||
-        pres.DoctorName.toLowerCase().includes(search.toLowerCase())
+    const filteredResults = patientdata.filter(
+      (patient) =>
+        patient.PatientName.toLowerCase().includes(search.toLowerCase()) ||
+        patient.PatientMobile.includes(search)
     );
     console.log(filteredResults);
 
@@ -73,7 +73,6 @@ export const DoctorPrescription = () => {
     // Reset pagination to the first page
     setCurrentPage(0);
   };
-
 
   return (
     <>
@@ -121,7 +120,7 @@ export const DoctorPrescription = () => {
                       ></path>
                     </svg>
                     <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                      Prescription Records
+                      Patient Details
                     </a>
                   </div>
                 </li>
@@ -136,7 +135,7 @@ export const DoctorPrescription = () => {
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                   <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                     <caption class="w-full p-2 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                      Prescription Record Details
+                      Patient Details
                     </caption>
                     <div class="w-full md:w-1/2">
                       <form class="flex items-center">
@@ -165,11 +164,35 @@ export const DoctorPrescription = () => {
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Search"
                             value={searchQuery}
-                            onChange={handleSearchQueryChange}
+                             onChange={handleSearchQueryChange}
+        
                           />
                         </div>
                       </form>
                     </div>
+                    {/* <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => navigate("/admin/patient/new")}
+                        class="flex items-center justify-center text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800"
+                      >
+                        <svg
+                          class="h-3.5 w-3.5 mr-2"
+                          fill="currentColor"
+                          viewbox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            fill-rule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                          />
+                        </svg>
+                        Add Patient
+                      </button>
+                      <div class="flex items-center space-x-3 w-full md:w-auto"></div>
+                    </div> */}
                   </div>
                   <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -188,28 +211,23 @@ export const DoctorPrescription = () => {
                             </div>
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            appointment No
+                            Sn no
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            Date
-                          </th>
-                          <th scope="col" class="px-4 py-3 ">
                             Patient Name
                           </th>
-                          <th scope="col" class="px-4 py-3 ">
-                            Mobile Number
-                          </th>
-                          <th scope="col" class="px-4 py-3 ">
-                            Doctor Name
-                          </th>
-                          <th scope="col" class="px-4 py-3 ">
-                            Doctor Designation
-                          </th>
                           <th scope="col" class="px-4 py-3">
-                            Prescription
+                            Patient Mobile
                           </th>
+
                           <th scope="col" class="px-4 py-3">
-                            Remark
+                            Patient age
+                          </th>
+                          <th scope="col" class="px-4 py-3 ">
+                            Patient bloodGroup
+                          </th>
+                          <th scope="col" class="px-4 py-3 ">
+                            Patient DOB
                           </th>
                         </tr>
                       </thead>
@@ -235,37 +253,42 @@ export const DoctorPrescription = () => {
                                 </label>
                               </div>
                             </td>
-                            <td class="px-4 py-3 ">
-                              {" "}
-                              {row.AppointmentId}
-                            </td>
+                            <td class="px-4 py-3 ">{index + 1}</td>
 
                             <th
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              {new Date(
-                                row.createdAt
-                              ).toLocaleDateString()}
-                            </th>
-                            <td class="px-4 py-3 text-center ">
                               {row.PatientName}
-                            </td>
-                            <td class="px-4 py-3 text-center">
+                            </th>
+                            <td class="px-4 py-3 ">
                               {row.PatientMobile}
                             </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.DoctorName}
+
+                            <td class="px-4 py-3">
+                              {row.PatientAge}
                             </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.DoctorDesignation}
+
+                            <td class="px-4 py-3 ">{row.PatientBloodGroup}</td>
+                            <td class="px-4 py-3 ">
+                              {" "}
+                              {new Date(row.PatientDOB).toLocaleDateString()}
                             </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.Prescription}
-                            </td>
-                            <td class="px-4 py-3 text-center">
-                              {row.PrescriptionRemark}
-                            </td>
+
+                            {/* <td className="px-4 py-3">
+                              {" "}
+                              <div className="flex space-x-2">
+                                <EditAdminPatient
+                                  id={row.patientId}
+                                  fetch_doctor_data={fetch_doctor_data}
+                                />
+
+                                <DeleteAdminPatient
+                                  id={row.patientId}
+                                  fetch_doctor_data={fetch_doctor_data}
+                                />
+                              </div>
+                            </td> */}
                           </tr>
                         ))}
                       </tbody>

@@ -14,7 +14,7 @@ export const UserMedicalRecords = () => {
 
     const fetch_medicalrecord_data = async () => {
       await axios
-        .get("/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).PatientId)
+        .get("http://localhost:4000/api/medicalrecords/patient/"+(JSON.parse(sessionStorage.getItem("student_key"))).PatientId)
         .then((response) => {
           if(response.data.success){
             setmedicalrecords(response.data.medicalRecords);
@@ -242,9 +242,6 @@ export const UserMedicalRecords = () => {
                                 </label>
                               </div>
                             </td>
-
-
-
                             <th
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -270,7 +267,6 @@ export const UserMedicalRecords = () => {
                           </tr>
                         ))}
                       </tbody>
-
                       )}
                     </table>
                   </div>

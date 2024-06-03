@@ -50,10 +50,10 @@ exports.patient_findOne = async (req, res) => {
 
 exports.create = async (req, res) => {
     console.log(req.body);
-    const { disease, prescription, prescriptionRemark, doctor, appointment, patient } = req.body;
+    const { prescription, prescriptionRemark, doctor, appointment, patient } = req.body;
     try {
         const prescriptionData = await prescriptions.create({
-            Disease:disease,
+            Disease:"dummy",
             Prescription:prescription,
             PrescriptionRemark:prescriptionRemark,
             DoctorId: doctor.doctorId,

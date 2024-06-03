@@ -110,7 +110,7 @@ export const AddMedicalrecord = ({AppointmentId, DoctorId, PatientId, fetch_appo
                                                         htmlFor="email"
                                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                                     >
-                                                        Height
+                                                        Height(cm)
                                                     </label>
                                                     <input
                                                         type="text"
@@ -130,7 +130,7 @@ export const AddMedicalrecord = ({AppointmentId, DoctorId, PatientId, fetch_appo
                                                         htmlFor="password"
                                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                                     >
-                                                        Weight
+                                                        Weight(kg)
                                                     </label>
                                                     <input
                                                         type="text"
@@ -149,7 +149,7 @@ export const AddMedicalrecord = ({AppointmentId, DoctorId, PatientId, fetch_appo
                                                         htmlFor="repeat-password"
                                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                                     >
-                                                        Pressure
+                                                        Pressure(mm Hg)
                                                     </label>
                                                     <input
                                                         type="text"
@@ -168,7 +168,7 @@ export const AddMedicalrecord = ({AppointmentId, DoctorId, PatientId, fetch_appo
                                                         htmlFor="input4"
                                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                                     >
-                                                        Temperature
+                                                        Temperature(°F)
                                                     </label>
                                                     <input
                                                         type="text"

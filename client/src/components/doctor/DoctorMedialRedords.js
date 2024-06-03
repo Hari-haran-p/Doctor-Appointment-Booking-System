@@ -12,7 +12,7 @@ export const DoctorMedicalRecords = () => {
 // console.log(medicalrecords);
   const fetch_medicalrecord_data = async () => {
     await axios
-      .get("/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
+      .get("http://localhost:4000/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
       .then((response) => {
         if(response.data.success){
           setmedicalrecords(response.data.medicalRecords);
@@ -191,9 +191,6 @@ export const DoctorMedicalRecords = () => {
                               </label>
                             </div>
                           </th>
-                          {/* <th scope="col" class="px-4 py-3">
-                            Appointment No
-                          </th> */}
                           <th scope="col" class="px-4 py-3">
                             Patient Name
                           </th>
@@ -242,12 +239,6 @@ export const DoctorMedicalRecords = () => {
                                 </label>
                               </div>
                             </td>
-                            {/* <th
-                              scope="row"
-                              class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
-                              {row.AppointmentId}
-                            </th> */}
                             <th
                               scope="row"
                               class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -259,11 +250,10 @@ export const DoctorMedicalRecords = () => {
                             {new Date(row.createdAt).toLocaleDateString()}
                               </td>
                             <td class="px-4 py-3 text-center">{row.Height}</td>
-
+                     {     console.log(row)}
                             <td class="px-4 py-3 text-center">{row.Weight}</td>
                             <td class="px-4 py-3 text-center">{row.Pressure}</td>
                             <td class="px-4 py-3 text-center">{row.Temperature}</td>
-                           
                             <td class="px-4 py-3 text-center">{row.MedicalRecordRemark}</td>
 
                             

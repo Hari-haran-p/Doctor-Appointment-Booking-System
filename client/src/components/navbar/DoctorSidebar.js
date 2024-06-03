@@ -3,10 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-// import logo from "../../images/logo.png";
-// import profileimage from "../../images/profile.png";
-// import { Backend_Url } from "../../config/connection";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -66,12 +62,12 @@ export const DoctorSidebar = () => {
     sessionStorage.setItem("doctor_key", JSON.stringify(temp));
 
     setIsstatusOpen(!isstatusOpen);
-    update_status(temp.userid, status);
+    update_status(temp.DoctorId, status);
   };
 
   const update_status = (id, status) => {
     axios
-      .put(`/api/Doctor?id=${id}&status=${status}`)
+      .put(`http://localhost:4000/api/doctor?id=${id}&status=${status}`)
       .then((response) => {
         console.log("Status updated");
       })
@@ -96,9 +92,9 @@ export const DoctorSidebar = () => {
   if (!sessionStorage.getItem("doctor_key")) return <Navigate to="/login" />;
 
   return (
-    
+
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-300 px-4 lg:px-6 py-2.5 dark:bg-gray-800 ">
         <div class="flex flex-wrap justify-between items-center">
           <div class="flex justify-start items-center">
@@ -142,8 +138,8 @@ export const DoctorSidebar = () => {
                 (profile.status == "Available"
                   ? "🟢 Available"
                   : profile.status == "Leave"
-                  ? " 🔴 Leave "
-                  : "🍔 Lunch")}
+                    ? " 🔴 Leave "
+                    : "🍔 Lunch")}
             </button>
             {/* dropdown */}
 
@@ -245,9 +241,8 @@ export const DoctorSidebar = () => {
 
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+          } bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700`}
         aria-label="Sidebar"
       >
         <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
@@ -290,9 +285,8 @@ export const DoctorSidebar = () => {
                   Appointment{" "}
                 </span>
                 <svg
-                  className={`w-6 h-6 ${
-                    isdropdownOpen ? "transform rotate-180" : ""
-                  }`}
+                  className={`w-6 h-6 ${isdropdownOpen ? "transform rotate-180" : ""
+                    }`}
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
@@ -306,9 +300,8 @@ export const DoctorSidebar = () => {
               </button>
               <ul
                 id="dropdown-example"
-                className={` py-2 space-y-2 ${
-                  isdropdownOpen ? "block" : "hidden"
-                }`}
+                className={` py-2 space-y-2 ${isdropdownOpen ? "block" : "hidden"
+                  }`}
               >
                 <li></li>
                 <li>
@@ -355,7 +348,7 @@ export const DoctorSidebar = () => {
                 onClick={() => navigate("/doctor/prescription/")}
                 class="flex items-center p-2  dark:hover:bg-gray-700 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                  <svg
+                <svg
                   class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   fill="none"
                   stroke="currentColor"
@@ -374,7 +367,44 @@ export const DoctorSidebar = () => {
                 <span class="flex-1 ml-3 whitespace-nowrap">Prescription</span>
               </a>
             </li>
-
+            <li>
+              <a
+                onClick={() => navigate("/doctor/doctors")}
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  viewBox="0 0 448 512"
+                  fill="currentColor"
+                  height="1em"
+                  width="1em"
+                >
+                  <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm-96 55.2C54 332.9 0 401.3 0 482.3 0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7 0-81-54-149.4-128-171.1V362c27.6 7.1 48 32.2 48 62v40c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16s7.2-16 16-16v-24c0-17.7-14.3-32-32-32s-32 14.3-32 32v24c8.8 0 16 7.2 16 16s-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-40c0-29.8 20.4-54.9 48-62v-57.1c-6-.6-12.1-.9-18.3-.9h-91.4c-6.2 0-12.3.3-18.3.9v65.4c23.1 6.9 40 28.3 40 53.7 0 30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7v-59.1zM144 448c13.3 0 24-10.7 24-24s-10.7-24-24-24-24 10.7-24 24 10.7 24 24 24z" />
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">
+                  Doctor Details
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={() => navigate("/doctor/patients")}
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <svg
+                  class="flex-shrink-0 w-6 h-6  dark:hover:bg-gray-700 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  height="1em"
+                  width="1em"
+                >
+                  <path d="M12.3 12.22A4.92 4.92 0 0014 8.5a5 5 0 00-10 0 4.92 4.92 0 001.7 3.72A8 8 0 001 19.5a1 1 0 002 0 6 6 0 0112 0 1 1 0 002 0 8 8 0 00-4.7-7.28zM9 11.5a3 3 0 113-3 3 3 0 01-3 3zm9.74.32A5 5 0 0015 3.5a1 1 0 000 2 3 3 0 013 3 3 3 0 01-1.5 2.59 1 1 0 00-.5.84 1 1 0 00.45.86l.39.26.13.07a7 7 0 014 6.38 1 1 0 002 0 9 9 0 00-4.23-7.68z" />
+                </svg>
+                <span class="flex-1 ml-3 whitespace-nowrap">
+                  Patient Details
+                </span>
+              </a>
+            </li>
             {/* <li>
               <a
                 onClick={() => navigate("/doctor/leave/")}

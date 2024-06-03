@@ -230,7 +230,7 @@ console.log(profile);
                     </h6>
                     <h4 class="font-bold mt-2 dark:text-white">
                       <span class="text-3.5">
-                        {medicalrecords ? medicalrecords.Weight + "cm" : "NIL"}
+                        {medicalrecords ? medicalrecords.Weight + "kg" : "NIL"}
                       </span>
                     </h4>
                   </div>
@@ -259,7 +259,7 @@ console.log(profile);
                     <h4 class="font-bold mt-2 ">
                       <span class="text-3.5">
                         {medicalrecords
-                          ? medicalrecords.Pressure + "cm"
+                          ? medicalrecords.Pressure + " mm Hg"
                           : "NIL"}
                       </span>
                     </h4>
@@ -275,7 +275,7 @@ console.log(profile);
                     <h4 class="font-bold mt-2">
                       <span class="text-3.5">
                         {medicalrecords
-                          ? medicalrecords.Temperature + "cm"
+                          ? medicalrecords.Temperature + "°F"
                           : "NIL"}
                       </span>
                     </h4>
