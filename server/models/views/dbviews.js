@@ -46,6 +46,7 @@ const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
                             T2.DoctorId,
                             T2.DoctorName,
                             T2.DoctorDesignation,
+                            T2.DoctorQualification,
                             T2.DoctorStatus,
                             T2.DoctorMobile,
                             T3.PatientId,

@@ -86,7 +86,7 @@ console.log("thisis me", prescription);
                                 </button>
                                 <div className="pt-4 py-3 lg:px-5">
                                     <h3 className="pb-2 px-3 text-xl font-medium border-b text-gray-900 dark:text-white">
-                                        Add Medical Records
+                                        Update Prescription
                                     </h3>
                                     <div>
                                         <div className="p-3">
@@ -94,52 +94,6 @@ console.log("thisis me", prescription);
                                                 onSubmit={(e) => submitrecord(e)}
                                                 className=" grid grid-cols-1 md:grid-cols-1 gap-4"
                                             >
-                                                {/* <div>
-                                                    <label
-                                                        htmlFor="email"
-                                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                    >
-                                                        Disease
-                                                    </label>
-                                                    <select
-                                                        type="text"
-                                                        onChange={(e) =>
-                                                            setFormData({
-                                                                ...formData,
-                                                                disease: e.target.value,
-                                                            })
-                                                        }
-                                                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                                        required
-                                                    >   
-                                                        <option selected>Select any one...</option>
-                                                        <option value="Diabetes">Diabetes</option>
-                                                        <option value="Depression">Depression</option>
-                                                        <option value="Anxiety">Anxiety</option>
-                                                        <option value="Colds and Flu">Colds and Flu</option>
-                                                        <option value="Headaches">Headaches</option>
-
-                                                    </select>
-                                                </div> */}
-                                                {/* <div>
-                                                    <label
-                                                        htmlFor="password"
-                                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                    >
-                                                        Allergy
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        onChange={(e) =>
-                                                            setFormData({
-                                                                ...formData,
-                                                                allergy: e.target.value,
-                                                            })
-                                                        }
-                                                        className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                                                        required
-                                                    />
-                                                </div> */}
                                                 <div className="col-span-2">
                                                     <label
                                                         htmlFor="repeat-password"
@@ -188,7 +142,7 @@ console.log("thisis me", prescription);
                                                         type="submit"
                                                         className="inline-flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                                                     >
-                                                        Add Prescription
+                                                        Update
                                                     </button>
                                                     <button
                                                         className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"

@@ -12,15 +12,12 @@ export const ViewUserAppointment = () => {
     const navigate = useNavigate();
     const [appointmentdata, setAppointmentdata] = useState();
 
-    console.log(id);
-
     // fetch user data
     const fetch_appointment_data = async (id) => {
         try {
             const response = await axios.get(`http://localhost:4000/api/appointment/${id}`);
             if (response.data.success) {
                 setAppointmentdata(response.data.appointment[0]);
-                console.log(response.data.appointment[0]);
                 if (response.data.appointment[0].MedicalRecordStatus)
                     fetch_medicalrecord_data(
                         response.data.appointment[0].PatientId,
@@ -49,7 +46,6 @@ export const ViewUserAppointment = () => {
             .get(`http://localhost:4000/api/medicalrecord/reception?id1=${id3}`)
             .then((response) => {
                 if (response.data.success) {
-                    console.log(response.data.medicalRecord);
                     setmedicalrecords(response.data.medicalRecord);
                     fetch_prescription_data(id1, id2);
                 }
@@ -103,7 +99,8 @@ export const ViewUserAppointment = () => {
         const content = contentRef.current;
         if (content) {
             const originalClassName = content.className;
-            content.className = "print-only"; // Add a class to hide the sidebar when printing
+            console.log()
+            content.className = "print-only p-2 md:p-4 min-h-screen bg-gray-200 sm:ml-64"; // Add a class to hide the sidebar when printing
             window.print();
             content.className = originalClassName; // Restore the original class after printing
         }
@@ -118,7 +115,7 @@ export const ViewUserAppointment = () => {
                     class="p-2 md:p-4 min-h-screen bg-gray-200 sm:ml-64"
                     ref={contentRef}
                 >
-                    <div class=" p-2 md:p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 mt-14">
+                    <div class="p-2 md:p-4 border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-700 mt-14">
                         {/* bread crumbs  */}
                         <div class="flex w-full mb-4 rounded bg-white dark:bg-gray-800">
                             <nav
@@ -206,7 +203,7 @@ export const ViewUserAppointment = () => {
 
                                         <div class="flex mt-3 space-x-3 md:mt-3">
                                             <a
-                                                href="#"
+                                                href={"tel:" + appointmentdata.PatientMobile}
                                                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                             >
                                                 📞 Call
@@ -692,7 +689,7 @@ export const ViewUserAppointment = () => {
                                                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                                         >
                                                             {appointmentdata.DoctorName}
-                                                        </th> {console.log(appointmentdata)}
+                                                        </th>
                                                         <td class="px-4 py-3 ">
                                                             {" "}
                                                             {appointmentdata.DoctorQualification}

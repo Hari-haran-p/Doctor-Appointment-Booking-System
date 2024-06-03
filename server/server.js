@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //sequlize connection 
-sequelize.sync({ force: false }).then(async () => {
+sequelize.sync({ force: true }).then(async () => {
     await syncAndAddUsers();
     await syncAndAddDcotor();
     await syncAndAddPatient();

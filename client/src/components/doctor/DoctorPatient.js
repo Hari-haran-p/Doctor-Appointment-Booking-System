@@ -59,14 +59,12 @@ export const DoctorPatient = () => {
 
     // Function to handle search
     const handleSearch = (search) => {
-        console.log(search);
         // Perform search logic here using searchQuery
         const filteredResults = patientdata.filter(
             (patient) =>
                 patient.PatientName.toLowerCase().includes(search.toLowerCase()) ||
                 patient.PatientMobile.includes(search)
         );
-        console.log(filteredResults);
 
         setSearchResults(filteredResults);
 

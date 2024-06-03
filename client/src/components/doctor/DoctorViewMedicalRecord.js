@@ -181,7 +181,7 @@ export const DoctorViewMedicalRecord = () => {
 
                                         <div class="flex mt-3 space-x-3 md:mt-3">
                                             <a
-                                                href="#"
+                                                href={"tel:" + profile.PatientMobile}
                                                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                             >
                                                 📞 Call
@@ -359,19 +359,7 @@ export const DoctorViewMedicalRecord = () => {
                                                                 </label>
                                                             </div>
                                                         </th>
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Weight(kg)
-                                                        </th>
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Height(cm)
-                                                        </th>
 
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Pressure(mm Hg)
-                                                        </th>
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Temperature(F)
-                                                        </th>
                                                         <th scope="col" class="px-4 py-3">
                                                             Symptoms
                                                         </th>
@@ -406,22 +394,7 @@ export const DoctorViewMedicalRecord = () => {
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <td class="px-4 py-3 ">
-                                                                {" "}
-                                                                {medicalrecords.Weight}
-                                                            </td>
-                                                            <td class="px-4 py-3 ">
-                                                                {" "}
-                                                                {medicalrecords.Height}
-                                                            </td>
-                                                            <td class="px-4 py-3 ">
-                                                                {" "}
-                                                                {medicalrecords.Pressure}
-                                                            </td>
-                                                            <td class="px-4 py-3 ">
-                                                                {" "}
-                                                                {medicalrecords.Temperature}
-                                                            </td>
+                                                           
                                                             <td class="px-4 py-3 ">
                                                                 {" "}
                                                                 {medicalrecords.Symptoms}

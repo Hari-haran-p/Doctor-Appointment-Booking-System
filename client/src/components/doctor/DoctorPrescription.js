@@ -59,7 +59,6 @@ export const DoctorPrescription = () => {
 
   // Function to handle search
   const handleSearch = (search) => {
-    console.log(search);
     // Perform search logic here using searchQuery
     const filteredResults = prescription.filter(
       (pres) =>
@@ -67,7 +66,6 @@ export const DoctorPrescription = () => {
         pres.PatientMobile.includes(search) ||
         pres.DoctorName.toLowerCase().includes(search.toLowerCase())
     );
-    console.log(filteredResults);
 
     setSearchResults(filteredResults);
 
