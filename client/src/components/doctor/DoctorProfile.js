@@ -7,7 +7,6 @@ export const DoctorProfile = () => {
 
   const [profile, setProfile] = useState();
 
-
    // fetch user data
 
    const fetch_doctor_data = async (id) => {
