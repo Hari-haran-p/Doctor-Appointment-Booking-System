@@ -409,6 +409,9 @@ export const ViewUserAppointment = () => {
                                                             Appointment remark
                                                         </th>
                                                         <th scope="col" class="px-4 py-3">
+                                                            Appointment Reason
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
                                                             Medical Record Status
                                                         </th>
                                                         <th scope="col" class="px-4 py-3">
@@ -516,6 +519,10 @@ export const ViewUserAppointment = () => {
                                                         </td>
                                                         <td class="px-4 py-3 ">
                                                             {appointmentdata.AppointmentRemark}
+                                                        </td>
+                                                        <td class="px-4 py-3 ">
+                                                            {" "}
+                                                            {appointmentdata.AppointmentReason}
                                                         </td>
                                                         <td class="px-4 py-3 text-center">
                                                             {appointmentdata.MedicalRecordStatus == 1 && (
@@ -626,9 +633,7 @@ export const ViewUserAppointment = () => {
                                                         <th scope="col" class="px-4 py-3 text-center">
                                                             Doctor status
                                                         </th>
-                                                        <th scope="col" class="px-4 py-3">
-                                                            Appointment Reason
-                                                        </th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -684,10 +689,7 @@ export const ViewUserAppointment = () => {
                                                                     </span>
                                                                 )}
                                                         </td>
-                                                        <td class="px-4 py-3 ">
-                                                            {" "}
-                                                            {appointmentdata.AppointmentReason}
-                                                        </td>
+                                                        
                                                     </tr>
                                                 </tbody>
                                             </table>

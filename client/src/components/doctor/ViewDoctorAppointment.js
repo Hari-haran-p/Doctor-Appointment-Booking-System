@@ -67,7 +67,7 @@ export const ViewDoctorAppointment = () => {
 
     // fetch prescription records
     const [Prescription, setPrescription] = useState();
-
+    const today = new Date().toISOString().split('T')[0];
     const fetch_prescription_data = async (id1, id2) => {
         await axios
             .get(`http://localhost:4000/api/prescriptions/doctor?id1=${id2}`)
@@ -254,7 +254,7 @@ export const ViewDoctorAppointment = () => {
 
                                         <div className="flex items-end justify-end">
 
-                                            {appointmentdata.MedicalRecordStatus == 1 && appointmentdata.AppointmentStatus != "cancelled" && appointmentdata.AppointmentStatus != "completed" && (
+                                            {appointmentdata.MedicalRecordStatus == 1 && appointmentdata.AppointmentStatus != "cancelled" && appointmentdata.AppointmentStatus != "completed" && appointmentdata.AppointmentDate == today && (
 
                                                 <AddDoctorPrescription id={appointmentdata.AppointmentId} fetch_appointment_data={fetch_appointment_data} patientId={appointmentdata.PatientId} setPrescription={setPrescription} />
                                             )}

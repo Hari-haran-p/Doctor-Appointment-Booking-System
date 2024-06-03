@@ -30,11 +30,11 @@ import 'jspdf-autotable';
      doc.line(20, y, doc.internal.pageSize.getWidth() - 20, y);
 
      
-    const headers = [["Height","Weight","Pressure","Temperature","MedicalRecordRemark", "Medications"]]; // Modify this array for more columns
+    const headers = [["Height","Weight","Pressure","Temperature","Medications", "Symptoms", "Treatments", "MedicalRecordRemark" ]]; // Modify this array for more columns
 
         //console.log(rowData);
     // Prepare the data for the table
-    const rows = [[rowData.Height,rowData.Weight,rowData.Pressure,rowData.Temperature,rowData.MedicalRecordRemark, rowData.Medications]]; // Modify this for more columns
+    const rows = [[rowData.Height,rowData.Weight,rowData.Pressure,rowData.Temperature,rowData.Medications,rowData.Symptoms,rowData.Treatments,rowData.MedicalRecordRemark]]; // Modify this for more columns
 
     console.log(rows);
 
