@@ -23,6 +23,7 @@ import { ViewDoctorAppointment } from './components/doctor/ViewDoctorAppointment
 import { DoctorDoctor } from './components/doctor/DoctorDoctor';
 import { DoctorPatient } from './components/doctor/DoctorPatient';
 import { DoctorPatientView } from './components/doctor/DoctorPatientView';
+import { DoctorViewMedicalRecord } from './components/doctor/DoctorViewMedicalRecord';
 
 
 
@@ -54,6 +55,7 @@ function App() {
       <Route path='/doctor/appointment/'         element={<DoctorAppointment/>}/>
       <Route path='/doctor/appointment/view/:id' element={<ViewDoctorAppointment/>}/>
       <Route path='/doctor/medicalrecords/'      element={<DoctorMedicalRecords/>}/>
+      <Route path='/doctor/medicalrecords/view/:id1/:id2'      element={<DoctorViewMedicalRecord/>}/>
       <Route path='/doctor/prescription//'       element={<DoctorPrescription/>}/>
       <Route path='/doctor/leave/'               element={<DoctorLeave/>}/>
       <Route path='/doctor/doctors/'             element={<DoctorDoctor/>}/>

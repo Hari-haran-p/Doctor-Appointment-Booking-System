@@ -5,9 +5,9 @@ import { UserSidebar } from "../navbar/UserSidebar";
 import { useParams } from "react-router-dom";
 import { DoctorSidebar } from "../navbar/DoctorSidebar";
 
-export const DoctorPatientView = () => {
+export const DoctorViewMedicalRecord = () => {
 
-    const { id } = useParams();
+    const {id1, id2} = useParams(); 
 
     const [profile, setProfile] = useState();
     console.log(profile);
@@ -16,7 +16,7 @@ export const DoctorPatientView = () => {
     const fetch_patient_data = async () => {
         console.log("hi");
         try {
-            const response = await axios.get(`http://localhost:4000/api/patients/${id}`);
+            const response = await axios.get(`http://localhost:4000/api/patients/${id2}`);
             if (response.data.success) {
                 setProfile(response.data.patients[0]);
             }
@@ -37,10 +37,10 @@ export const DoctorPatientView = () => {
     const [medicalrecords, setmedicalrecords] = useState();
     const fetch_medicalrecord_data = async () => {
         await axios
-            .get(`http://localhost:4000/api/medicalrecords/patient/last/${id}`)
+            .get(`http://localhost:4000/api/medicalrecord/reception?id1=${id1}`)
             .then((response) => {
                 if (response.data.success) {
-                    setmedicalrecords(response.data.medicalRecords);
+                    setmedicalrecords(response.data.medicalRecord);
                 }
             })
             .catch((error) => {
@@ -56,9 +56,15 @@ export const DoctorPatientView = () => {
             });
     };
 
+console.log(medicalrecords);
+
     useEffect(() => {
-        fetch_patient_data();
-        fetch_medicalrecord_data();
+        const profile = () => {
+            // var item_value = JSON.parse(sessionStorage.getItem("student_key"));
+            fetch_patient_data();
+            fetch_medicalrecord_data();
+        };
+        profile();
     }, []);
 
     return (
@@ -108,27 +114,7 @@ export const DoctorPatientView = () => {
                                                 ></path>
                                             </svg>
                                             <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                                                Patient Details
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="flex items-center">
-                                            <svg
-                                                aria-hidden="true"
-                                                class="w-6 h-6 text-gray-400"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    fill-rule="evenodd"
-                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                                    clip-rule="evenodd"
-                                                ></path>
-                                            </svg>
-                                            <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                                                View
+                                                Profile
                                             </a>
                                         </div>
                                     </li>
