@@ -12,7 +12,7 @@ const app = express();
 
 // Specify the client URL in the CORS options
 const corsOptions = {
-    origin: 'http://localhost:3000', // Replace with your client URL if different
+    origin: ['http://localhost','http://localhost:3000'], // Replace with your client URL if different
     optionsSuccessStatus: 200
 };
 
@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //sequlize connection 
-sequelize.sync({ force: true }).then(async () => {
+sequelize.sync({ force: false }).then(async () => {
     await syncAndAddUsers();
     await syncAndAddDcotor();
     await syncAndAddPatient();

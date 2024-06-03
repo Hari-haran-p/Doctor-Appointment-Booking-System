@@ -5,7 +5,9 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     ports:
-      - "5500:80" 
+      - "80:80" 
+    depends_on:
+      - client
     networks:
       - closed_network
 
@@ -49,6 +51,8 @@ services:
       - "3305:3306" 
     volumes:
       - mysqldb:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+
     networks:
       - closed_network
   

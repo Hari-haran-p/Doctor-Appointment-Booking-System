@@ -26,7 +26,7 @@ import { DoctorPatientView } from './components/doctor/DoctorPatientView';
 import { DoctorViewMedicalRecord } from './components/doctor/DoctorViewMedicalRecord';
 import { UserViewMedicalRecord } from './components/user/UserViewMedicalRecord';
 
-
+import { Main } from './components/Login/Main';
 
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       {/* Login & Register routes */}
-      <Route path = "/"       element={<Redirect />} />
+      <Route path = "/"       element={<Main />} />
       <Route path="/login"    element={<Login />}/>
       <Route path='/register' element={<Register/>}/>
 
