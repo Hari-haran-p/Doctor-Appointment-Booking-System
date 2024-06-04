@@ -13,6 +13,7 @@ const AppointmentViewQuery = `CREATE VIEW AppointmentView AS
                     T1.MedicalRecordId,
                     T2.DoctorId, 
                     T2.DoctorName, 
+                    T2.DoctorQualification,
                     T2.DoctorDesignation,
                     T2.DoctorStatus,
                     T2.DoctorMobile,
@@ -23,13 +24,16 @@ const AppointmentViewQuery = `CREATE VIEW AppointmentView AS
                     T3.PatientDOB,
                     T3.PatientAge,
                     T3.PatientAddress,
-                    T3.PatientMobile
+                    T3.PatientMobile,
+                    T4.UserEmail
                 FROM 
                     appointments as T1
                 JOIN 
                     doctors AS T2 ON T1.DoctorId = T2.DoctorId
                 JOIN
                     patients AS T3 ON T1.PatientId = T3.PatientId
+                JOIN
+                    users AS T4 ON T3.PatientId = T4.UserId
                 `
 
 const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
@@ -42,6 +46,7 @@ const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
                             T2.DoctorId,
                             T2.DoctorName,
                             T2.DoctorDesignation,
+                            T2.DoctorQualification,
                             T2.DoctorStatus,
                             T2.DoctorMobile,
                             T3.PatientId,
@@ -66,7 +71,7 @@ const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS
                         JOIN
                             appointments AS T4 ON T1.AppointmentId = T4.AppointmentId`
 
-const MedicalRecordViewQuery = `ALTER VIEW MedicalRecordView AS
+const MedicalRecordViewQuery = `CREATE VIEW MedicalRecordView AS
                                 SELECT
                                     T1.MedicalRecordId,
                                     T1.Height,
@@ -106,11 +111,11 @@ async function createViews() {
             await sequelize.query(AppointmentViewQuery);
         }
         flag = await viewExist("PrescriptionView");
-        if(!flag){
+        if (!flag) {
             await sequelize.query(PrescriptionViewQuery)
         }
         flag = await viewExist("MedicalRecordView")
-        if(!flag){
+        if (!flag) {
             await sequelize.query(MedicalRecordViewQuery)
         }
         console.log("Views created sucessfully");

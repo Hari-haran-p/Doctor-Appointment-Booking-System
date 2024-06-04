@@ -13,6 +13,8 @@ module.exports = app =>{
 
     router.post('/prescription', prescriptions.create);
 
+    router.put('/prescription', prescriptions.update);
+
     app.use("/api", router);
     
 }

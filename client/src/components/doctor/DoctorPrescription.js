@@ -3,6 +3,7 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DoctorSidebar } from "../navbar/DoctorSidebar";
+import DoctorPrescriptionExport from "./DoctorPrescriptionExport";
 
 export const DoctorPrescription = () => {
   const navigate = useNavigate();
@@ -58,7 +59,6 @@ export const DoctorPrescription = () => {
 
   // Function to handle search
   const handleSearch = (search) => {
-    console.log(search);
     // Perform search logic here using searchQuery
     const filteredResults = prescription.filter(
       (pres) =>
@@ -66,7 +66,6 @@ export const DoctorPrescription = () => {
         pres.PatientMobile.includes(search) ||
         pres.DoctorName.toLowerCase().includes(search.toLowerCase())
     );
-    console.log(filteredResults);
 
     setSearchResults(filteredResults);
 
@@ -211,6 +210,9 @@ export const DoctorPrescription = () => {
                           <th scope="col" class="px-4 py-3">
                             Remark
                           </th>
+                          <th scope="col" class="px-4 py-3">
+                            Actions
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -265,6 +267,9 @@ export const DoctorPrescription = () => {
                             </td>
                             <td class="px-4 py-3 text-center">
                               {row.PrescriptionRemark}
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                              <DoctorPrescriptionExport rowData={row} />
                             </td>
                           </tr>
                         ))}

@@ -78,3 +78,27 @@ exports.create = async (req, res) => {
         res.status(500).send("Some internal Error");
     }
 }
+
+
+exports.update = async (req, res) => {
+    console.log(req.body);
+    const { Id, Height, Weight, Pressure, Temperature, Medications, Symptoms, MedicalRecordremark, Treatments } = req.body;
+    try {
+        const medicalrecord = await medicalRecords.update({
+            Height: Height,
+            Weight: Weight,
+            Pressure: Pressure,
+            Temperature: Temperature,
+            MedicalRecordRemark: MedicalRecordremark,
+            Symptoms: Symptoms,
+            Medications: Medications,
+            Treatments: Treatments,
+        }, {
+            where: { MedicalRecordId: Id }
+        })
+        res.status(201).json({ success: true, message: "Medical Record created successfully" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Some internal Error");
+    }
+}

@@ -9,7 +9,6 @@ console.log(profile);
   // fetch user data
 
   const fetch_patient_data = async (id) => {
-    console.log("hi");
     try {
       const response = await axios.get(`http://localhost:4000/api/patients/${id}`);
       if(response.data.success){
@@ -134,7 +133,7 @@ console.log(profile);
 
                     <div class="flex mt-3 space-x-3 md:mt-3">
                       <a
-                        href="#"
+                        href={"tel:" + profile.mobile}
                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       >
                         📞 Call

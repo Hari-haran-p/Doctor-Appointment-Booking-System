@@ -13,6 +13,9 @@ module.exports = app =>{
 
     router.post('/medicalrecord', medicalRecords.create);
 
+    router.put('/medicalrecord', medicalRecords.update);
+
+
     app.use("/api", router);
     
 }

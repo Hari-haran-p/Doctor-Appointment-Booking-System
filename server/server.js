@@ -5,13 +5,14 @@ require('dotenv').config();
 const sequelize = require("./config/database.js");
 const {syncAndAddDcotor, syncAndAddPatient, syncAndAddUsers} = require("./config/InitialUsers.js");
 const {createViews} = require("./models/views/dbviews.js");
+require("./config/jobs.js");
 
 //server app
 const app = express();
 
 // Specify the client URL in the CORS options
 const corsOptions = {
-    origin: 'http://localhost:3000', // Replace with your client URL if different
+    origin: ['http://localhost','http://localhost:3000'], // Replace with your client URL if different
     optionsSuccessStatus: 200
 };
 

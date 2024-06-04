@@ -3,20 +3,18 @@ import { useState } from "react";
 import axios from "axios";
 import { UserSidebar } from "../navbar/UserSidebar";
 import { useParams } from "react-router-dom";
-import { DoctorSidebar } from "../navbar/DoctorSidebar";
 
-export const DoctorPatientView = () => {
+export const UserViewMedicalRecord = () => {
 
-    const { id } = useParams();
+    const { id1, id2 } = useParams();
 
     const [profile, setProfile] = useState();
     console.log(profile);
     // fetch user data
 
     const fetch_patient_data = async () => {
-        console.log("hi");
         try {
-            const response = await axios.get(`http://localhost:4000/api/patients/${id}`);
+            const response = await axios.get(`http://localhost:4000/api/patients/${id2}`);
             if (response.data.success) {
                 setProfile(response.data.patients[0]);
             }
@@ -37,10 +35,10 @@ export const DoctorPatientView = () => {
     const [medicalrecords, setmedicalrecords] = useState();
     const fetch_medicalrecord_data = async () => {
         await axios
-            .get(`http://localhost:4000/api/medicalrecords/patient/last/${id}`)
+            .get(`http://localhost:4000/api/medicalrecord/reception?id1=${id1}`)
             .then((response) => {
                 if (response.data.success) {
-                    setmedicalrecords(response.data.medicalRecords);
+                    setmedicalrecords(response.data.medicalRecord);
                 }
             })
             .catch((error) => {
@@ -56,14 +54,20 @@ export const DoctorPatientView = () => {
             });
     };
 
+    console.log(medicalrecords);
+
     useEffect(() => {
-        fetch_patient_data();
-        fetch_medicalrecord_data();
+        const profile = () => {
+            // var item_value = JSON.parse(sessionStorage.getItem("student_key"));
+            fetch_patient_data();
+            fetch_medicalrecord_data();
+        };
+        profile();
     }, []);
 
     return (
         <>
-            <DoctorSidebar />
+            <UserSidebar />
 
             {profile && (
                 <div class="p-2 md:p-4 min-h-screen bg-gray-200 sm:ml-64">
@@ -108,7 +112,7 @@ export const DoctorPatientView = () => {
                                                 ></path>
                                             </svg>
                                             <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
-                                                Patient Details
+                                                Appointments
                                             </a>
                                         </div>
                                     </li>
@@ -132,6 +136,26 @@ export const DoctorPatientView = () => {
                                             </a>
                                         </div>
                                     </li>
+                                    <li>
+                                        <div class="flex items-center">
+                                            <svg
+                                                aria-hidden="true"
+                                                class="w-6 h-6 text-gray-400"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                    clip-rule="evenodd"
+                                                ></path>
+                                            </svg>
+                                            <a class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">
+                                                Medical Record
+                                            </a>
+                                        </div>
+                                    </li>
                                 </ol>
                             </nav>
                         </div>
@@ -150,12 +174,12 @@ export const DoctorPatientView = () => {
                                             alt="Bonnie image"
                                         />
                                         <h5 class="mt-2 text-xl font-medium text-gray-900 dark:text-white">
-                                            {profile.name}
+                                            {profile.PatientName}
                                         </h5>
 
                                         <div class="flex mt-3 space-x-3 md:mt-3">
                                             <a
-                                                href={"tel:" + profile.PatientMobile}
+                                                href={"tel:" + profile.mobile}
                                                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                             >
                                                 📞 Call
@@ -189,16 +213,16 @@ export const DoctorPatientView = () => {
                                                 />
                                             </svg>
                                         </span>
-                                        <span class="tracking-wide">About</span>
+                                        <span class="tracking-wide">Patient Details</span>
                                     </div>
                                     <div class="text-gray-700 mt-2">
                                         <div class="grid md:grid-cols-2 text-sm">
                                             <div class="grid grid-cols-2">
-                                                <div class="px-2 py-2 font-semibold">Full Name</div>
+                                                <div class="px-2 py-2 font-semibold">Patient Name</div>
                                                 <div class=" py-2">{profile.PatientName}</div>
                                             </div>
                                             <div class="grid grid-cols-2">
-                                                <div class="px-2 py-2 font-semibold">Age</div>
+                                                <div class="px-2 py-2 font-semibold"> Age</div>
                                                 <div class=" py-2">{profile.PatientAge}</div>
                                             </div>
                                             <div class="grid grid-cols-2">
@@ -242,6 +266,8 @@ export const DoctorPatientView = () => {
                         </div>
 
                         {/* weight counter */}
+                        <div className="flex items-center justify-start rounded-lg pl-4 bg-gray-50 h-10 mb-2 text-gray-700 font-semibold">Medical Record Details</div>
+
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <div className="flex items-center justify-center rounded-lg bg-gray-50 h-28 dark:bg-gray-800">
                                 <div class="w-full  text-center ">
@@ -303,6 +329,94 @@ export const DoctorPatientView = () => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+
+                        <div class="flex mt-4 w-full mb-4 h-full rounded bg-gray-50 dark:bg-gray-800">
+                            <section class="bg-gray-50 dark:bg-gray-900 w-full h-full">
+                                <div class="mx-auto max-w-screen ">
+                                    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                                        <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                                            <caption class="w-full p-2 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                                                Medical Record Details
+                                            </caption>
+                                        </div>
+                                        <div class="overflow-x-auto">
+                                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                                    <tr>
+                                                        <th scope="col" class="p-4">
+                                                            <div class="flex items-center">
+                                                                <input
+                                                                    id="checkbox-all"
+                                                                    type="checkbox"
+                                                                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                                />
+                                                                <label for="checkbox-all" class="sr-only">
+                                                                    checkbox
+                                                                </label>
+                                                            </div>
+                                                        </th>
+                                                       
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Symptoms
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Medications
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Treatments
+                                                        </th>
+                                                        <th scope="col" class="px-4 py-3">
+                                                            Medical Record Remark
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                {medicalrecords && (
+
+                                                    <tbody>
+                                                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                                            <td class="w-4 px-4 py-3">
+                                                                <div class="flex items-center">
+                                                                    <input
+                                                                        id="checkbox-table-search-1"
+                                                                        type="checkbox"
+                                                                        onclick="event.stopPropagation()"
+                                                                        class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                                    />
+                                                                    <label
+                                                                        for="checkbox-table-search-1"
+                                                                        class="sr-only"
+                                                                    >
+                                                                        checkbox
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                           
+                                                            <td class="px-4 py-3 ">
+                                                                {" "}
+                                                                {medicalrecords.Symptoms}
+                                                            </td>
+                                                            <td class="px-4 py-3 ">
+                                                                {" "}
+                                                                {medicalrecords.Medications}
+                                                            </td>
+                                                            <td class="px-4 py-3 ">
+                                                                {" "}
+                                                                {medicalrecords.Treatments}
+                                                            </td>
+                                                            <td class="px-4 py-3 ">
+                                                                {" "}
+                                                                {medicalrecords.MedicalRecordRemark}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                )}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>

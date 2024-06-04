@@ -252,16 +252,16 @@ export const UserPrescription = () => {
                                   row.createdAt
                                 ).toLocaleDateString()}
                               </th>
-                              <td class="px-4 py-3 text-center">
+                              <td class="px-4 py-3">
                                 {row.DoctorName}
                               </td>
-                              <td class="px-4 py-3 text-center">
+                              <td class="px-4 py-3">
                                 {row.DoctorDesignation}
                               </td>
                               {/* <td class="px-4 py-3 text-center">
                                 {row.Disease}
                               </td> */}
-                              <td class="px-4 py-3 text-center">
+                              <td class="px-4 py-3 ">
                                 {row.Prescription}
                               </td>
                               <td class="px-4 py-3 ">
@@ -274,7 +274,7 @@ export const UserPrescription = () => {
                                   <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded" onClick={()=>navigate('/user/appointment/view/'+row.AppointmentId)}>
                                   View
                                 </button>
-                                  <UserPrescriptionExport rowData={row} />
+                                  {/* <UserPrescriptionExport rowData={row} /> */}
                                 </div>
                               </td>
                             </tr>

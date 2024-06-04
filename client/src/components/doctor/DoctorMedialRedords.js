@@ -12,7 +12,7 @@ export const DoctorMedicalRecords = () => {
 // console.log(medicalrecords);
   const fetch_medicalrecord_data = async () => {
     await axios
-      .get("http://localhost:4000/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
+      .get("/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
       .then((response) => {
         if(response.data.success){
           setmedicalrecords(response.data.medicalRecords);
@@ -61,14 +61,13 @@ export const DoctorMedicalRecords = () => {
 
   // Function to handle search
   const handleSearch = (search) => {
-    console.log(search)
+
     // Perform search logic here using searchQuery
     const filteredResults = medicalrecords.filter(
       (medical) =>
         medical.PatientName.toLowerCase().includes(search.toLowerCase()) ||
         medical.PatientMobile.includes(search)
     );
-    console.log(filteredResults)
   
     setSearchResults(filteredResults);
 
@@ -210,7 +209,13 @@ export const DoctorMedicalRecords = () => {
                             Pressure ( Pa )
                           </th>
                           <th scope="col" class="px-4 py-3">
-                            Temperature ( ∘C )
+                          Symptoms 
+                          </th>
+                          <th scope="col" class="px-4 py-3">
+                          Treatments 
+                          </th>
+                          <th scope="col" class="px-4 py-3">
+                          Medications 
                           </th>
                           <th scope="col" class="px-4 py-3">
                             Remark
@@ -253,7 +258,9 @@ export const DoctorMedicalRecords = () => {
                      {     console.log(row)}
                             <td class="px-4 py-3 text-center">{row.Weight}</td>
                             <td class="px-4 py-3 text-center">{row.Pressure}</td>
-                            <td class="px-4 py-3 text-center">{row.Temperature}</td>
+                            <td class="px-4 py-3 text-center">{row.Symptoms}</td>
+                            <td class="px-4 py-3 text-center">{row.Treatments}</td>
+                            <td class="px-4 py-3 text-center">{row.Medications}</td>
                             <td class="px-4 py-3 text-center">{row.MedicalRecordRemark}</td>
 
                             
