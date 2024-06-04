@@ -13,16 +13,36 @@
 </head>
 
 <body>
-    <h2>Dear Mr/Mrs ${PatientName},</h2>
-    <div>
-        <p>You have an upcoming appointment scheduled with our doctor. Kindly find the details below, </p>
-        <p>Appointment Date : ${appointmentDate}</p>
-        <p>Appointment Time : ${appointmentTime}</p>
-    </div>
-    <img src="cid:RemainderImage" alt="Embedded Image">
-    <div>
-        <p>Note the date in your calander!!!</p>
-        <p>For more updates subscribre...</p>
+    <div style="width: 500px;height:auto;text-align: justify; ">
+        <p>Dear ${prefix} ${PatientName},</p>
+        <div style="margin-left: 2rem;">
+            <br />
+            <div>
+                <p>We’re counting down the days until your appointment. We’ve got you scheduled for [${appointmentDate}
+                    &
+                    ${appointmentTime}]. </p>
+                <br />
+
+                <p><span style="font-weight:bold;color: gray;">Appointment Date : </span>${appointmentDate}</p>
+                <p><span style="font-weight:bold;color: gray;">Appointment Time :</span> ${appointmentTime}</p>
+                <br />
+
+                <p>Like most people, we don’t like getting stood up. So if you need to reschedule for some reason kindly
+                    do
+                    the
+                    same.</p>
+                <br />
+
+            </div>
+            <br />
+
+            <img src="cid:RemainderImage" style="width: 300px; height: 300px;"  alt="Embedded Image">
+            <br />
+            <!-- cid:RemainderImage -->
+            <div>
+                <p> Have an awesome day!</p>
+            </div>
+        </div>
     </div>
 </body>
 

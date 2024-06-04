@@ -6,7 +6,7 @@ const fs = require("fs");
 const readFile = promisify(fs.readFile);
 const transporter = require("./email.js");
 
-corn.schedule('12 09 * * *', async () => {
+corn.schedule('0 0 * * *', async () => {
     try {
         console.log('Running the update status job...');
         await sequelize.query("UPDATE appointments SET AppointmentStatus='expired', AppointmentRemark='Customer missed the slot' WHERE AppointmentStatus='booked' AND AppointmentDate < CURDATE()");
@@ -20,7 +20,7 @@ corn.schedule('0 0 * * *', async()=>{
     try{
         const [appointment] = await sequelize.query("SELECT * FROM AppointmentView WHERE AppointmentDate > CURDATE()");
         appointment.forEach(async(app)=>{
-            await sendRemainderEmail(app.UserEmail, app.PatientName, app.AppointmentDate, app.AppointmentTime);
+            await sendRemainderEmail(app.UserEmail, app.PatientName, app.PatientGender, app.AppointmentDate, app.AppointmentTime);
         })
     }catch(error){
         console.log(error);
@@ -31,10 +31,11 @@ function replacePlaceholders(template, placeholders) {
     return template.replace(/\$\{(\w+)\}/g, (_, key) => placeholders[key] || '');
 }
 
-async function sendRemainderEmail(toEmail, patientName, appointmentDate, appointmentTime){
+async function sendRemainderEmail(toEmail, patientName, patientGender,  appointmentDate, appointmentTime){
     const imageAttachment = await readFile('./assets/images/register.jpg');
     const htmlTemplate = await readFile("./assets/mail/remainder.html", 'utf-8');
     const placeHolders = {
+        prefix:(patientGender.toLowerCase() == 'male' ? 'Mr' : 'Ms'),
         PatientName : patientName,
         appointmentDate: appointmentDate,
         appointmentTime : appointmentTime

@@ -23,7 +23,7 @@ export const Main = () => {
                 <a href="#contact" class="text-gray-800 hover:text-red-600">
                   Contact
                 </a>
-                <a href="http://localhost/login" class="text-gray-800 hover:text-red-600">
+                <a href="/login" class="text-gray-800 hover:text-red-600">
                   Login
                 </a>
               </div>

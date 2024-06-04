@@ -4,25 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <title>Booked Successfully !!</title>
     <style>
         * {
-            font-family: Verdana;
+            font-family:"Noto Sans", sans-serif;
         }
     </style>
 </head>
 
 <body>
-    <h2>Appointment Done Mr/Mrs ${PatientName}</h2>
-    <div>
-        <p>Appointment Date : ${appointmentDate}</p>
-        <p>Appointment Time : ${appointmentTime}</p>
-    </div>
-    <img src="cid:AppImage" alt="Embedded Image">
+    <div style="width: 500px;height:auto;text-align: justify; ">
+        <p>Dear ${prefix} ${PatientName},</p>
+        <br />
+        <div style="margin-left: 2rem;">
+            <div>We are delighted to confirm your upcoming appointment with us. Below are the details:
+            </div>
+            <br />
 
-    <div>
-        <p>Thanks for Booking & note the date in your calander!!!</p>
-        <p>For more updates subscribre...</p>
+            <div>
+                <p><span style="font-weight:bold;color: gray;">Doctor Name :</span> ${doctorName}</p>
+                <p><span style="font-weight:bold;color: gray;">Doctor Qualification : </span>${doctorQualification}</p>
+                <p><span style="font-weight:bold;color: gray;">Appointment Date : </span>${appointmentDate}</p>
+                <p><span style="font-weight:bold;color: gray;">Appointment Time :</span> ${appointmentTime}</p>
+            </div>
+            <br />
+
+            <div>
+                Please review this information to ensure its accuracy. If there are any discrepancies or if you need to
+                make
+                changes, kindly do the same.
+                <br />
+                <br />
+
+                We look forward to welcoming you and providing you with our exceptional service. If you have any
+                questions
+                or
+                require further assistance, please do not hesitate to reach out to us.
+                <br />
+                <br />
+
+                Thank you for choosing us, and we appreciate the opportunity to serve you.
+                <br />
+                <br />
+                <br />
+
+                <div>Warm regards,</div>
+                <div> Health App.</div>
+            </div>
+            <br />
+            <img src="cid:AppImage" style="width: 300px; height: 300px;" alt="Embedded Image">
+            <br />
+
+            <div>
+                <p>Thanks for Booking & note the date in your calander!!!</p>
+                <p>For more updates subscribre...</p>
+            </div>
+
+        </div>
     </div>
 </body>
 

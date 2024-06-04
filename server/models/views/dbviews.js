@@ -33,7 +33,7 @@ const AppointmentViewQuery = `CREATE VIEW AppointmentView AS
                 JOIN
                     patients AS T3 ON T1.PatientId = T3.PatientId
                 JOIN
-                    users AS T4 ON T3.PatientId = T4.UserId
+                    users AS T4 ON T3.UserId = T4.UserId
                 `
 
 const PrescriptionViewQuery = `CREATE VIEW PrescriptionView AS

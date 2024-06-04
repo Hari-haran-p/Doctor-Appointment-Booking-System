@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: db
--- Generation Time: Jun 04, 2024 at 09:31 AM
--- Server version: 8.4.0
--- PHP Version: 8.2.8
+-- Host: 127.0.0.1
+-- Generation Time: Jun 03, 2024 at 05:26 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Doctor`
+-- Database: `doctor`
 --
 
 -- --------------------------------------------------------
@@ -28,17 +28,17 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `appointments` (
-  `AppointmentId` int NOT NULL,
-  `AppointmentDate` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `AppointmentReason` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `AppointmentStatus` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `AppointmentHealthStatus` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `AppointmentTime` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `AppointmentRemark` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `AppointmentId` int(11) NOT NULL,
+  `AppointmentDate` varchar(255) NOT NULL,
+  `AppointmentReason` varchar(255) NOT NULL,
+  `AppointmentStatus` varchar(255) NOT NULL,
+  `AppointmentHealthStatus` varchar(255) NOT NULL,
+  `AppointmentTime` varchar(255) NOT NULL,
+  `AppointmentRemark` varchar(255) NOT NULL,
   `MedicalRecordStatus` tinyint(1) NOT NULL,
-  `PatientId` int NOT NULL,
-  `DoctorId` int NOT NULL,
-  `MedicalRecordId` int DEFAULT NULL,
+  `PatientId` int(11) NOT NULL,
+  `DoctorId` int(11) NOT NULL,
+  `MedicalRecordId` int(11) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -52,60 +52,56 @@ INSERT INTO `appointments` (`AppointmentId`, `AppointmentDate`, `AppointmentReas
 (2, '2024-06-10', 'fever', 'cancelled', 'booked', '18:30', 'Cancelled by patient', 1, 1, 1, 5, '2024-06-01 13:28:07', '2024-06-01 13:46:30'),
 (3, '2024-06-10', 'sample', 'cancelled', 'booked', '19:30', 'wrong appointment', 1, 1, 2, 6, '2024-06-01 13:48:08', '2024-06-01 14:35:12'),
 (4, '2024-06-17', 'sample', 'completed', 'completed', '20:00', 'booked by patient', 1, 1, 1, 7, '2024-06-01 13:51:01', '2024-06-01 13:51:43'),
-(5, '2024-06-03', 'data', 'expired', 'booked', '13:30', 'Customer missed the slot', 1, 1, 2, 8, '2024-06-01 14:46:37', '2024-06-01 14:46:59'),
+(5, '2024-06-03', 'data', 'booked', 'booked', '13:30', 'booked by patient', 1, 1, 2, 8, '2024-06-01 14:46:37', '2024-06-01 14:46:59'),
 (6, '2024-06-10', 'ajwdlad', 'cancelled', 'booked', '15:30', 'i am on leave', 0, 8, 1, NULL, '2024-06-01 16:05:08', '2024-06-02 07:43:08'),
 (7, '2024-06-10', 'ajwdlad', 'booked', 'booked', '15:30', 'booked by patient', 0, 8, 1, NULL, '2024-06-01 16:05:52', '2024-06-01 16:05:52'),
 (8, '2024-06-10', 'ajwdlad', 'booked', 'booked', '15:30', 'booked by patient', 0, 8, 1, NULL, '2024-06-01 16:06:28', '2024-06-01 16:06:28'),
 (9, '2024-06-13', 'asd', 'booked', 'booked', '09:30', 'booked by patient', 0, 8, 2, NULL, '2024-06-01 16:08:17', '2024-06-01 16:08:17'),
 (10, '2024-06-03', 'asease', 'cancelled', 'booked', '14:00', 'i want to cancel', 1, 9, 1, 9, '2024-06-01 16:21:34', '2024-06-01 16:22:10'),
-(11, '2024-06-03', 'adasdasd', 'expired', 'booked', '16:30', 'Customer missed the slot', 0, 9, 2, NULL, '2024-06-01 16:22:42', '2024-06-01 16:22:42'),
-(12, '2024-06-03', 'fever', 'expired', 'booked', '12:00', 'Customer missed the slot', 0, 9, 1, NULL, '2024-06-02 05:16:36', '2024-06-02 05:16:36'),
-(13, '2024-06-03', 'fever', 'expired', 'booked', '12:00', 'Customer missed the slot', 0, 9, 1, NULL, '2024-06-02 05:42:14', '2024-06-02 05:42:14'),
+(11, '2024-06-03', 'adasdasd', 'booked', 'booked', '16:30', 'booked by patient', 0, 9, 2, NULL, '2024-06-01 16:22:42', '2024-06-01 16:22:42'),
+(12, '2024-06-03', 'fever', 'booked', 'booked', '12:00', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 05:16:36', '2024-06-02 05:16:36'),
+(13, '2024-06-03', 'fever', 'booked', 'booked', '12:00', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 05:42:14', '2024-06-02 05:42:14'),
 (14, '2024-06-08', 'fever', 'booked', 'booked', '12:30', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 05:50:24', '2024-06-02 05:50:24'),
 (15, '2024-06-08', 'feever', 'booked', 'booked', '12:30', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 05:51:59', '2024-06-02 05:51:59'),
 (16, '2024-06-08', 'sample', 'booked', 'booked', '13:30', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 05:55:51', '2024-06-02 05:55:51'),
 (17, '2024-06-12', 'feeveer', 'booked', 'booked', '13:30', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 05:56:10', '2024-06-02 05:56:10'),
 (18, '2024-06-08', 'feeeeveeeer', 'cancelled', 'booked', '13:30', 'Wrongly booked', 0, 9, 2, NULL, '2024-06-02 05:56:45', '2024-06-02 06:02:05'),
-(19, '2024-06-03', 'fever', 'expired', 'booked', '13:30', 'Customer missed the slot', 0, 9, 1, NULL, '2024-06-02 08:27:10', '2024-06-02 08:27:10'),
+(19, '2024-06-03', 'fever', 'booked', 'booked', '13:30', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 08:27:10', '2024-06-02 08:27:10'),
 (20, '2024-06-03', 'fever', 'completed', 'booked', '14:30', 'booked by patient', 1, 9, 1, 10, '2024-06-02 08:27:37', '2024-06-02 08:40:55'),
-(21, '2024-06-03', 'fever\n', 'expired', 'booked', '15:00', 'Customer missed the slot', 0, 9, 1, NULL, '2024-06-02 08:41:56', '2024-06-02 08:41:56'),
+(21, '2024-06-03', 'fever\n', 'booked', 'booked', '15:00', 'booked by patient', 0, 9, 1, NULL, '2024-06-02 08:41:56', '2024-06-02 08:41:56'),
 (22, '2024-06-03', 'fever', 'completed', 'booked', '15:30', 'booked by patient', 1, 9, 1, 11, '2024-06-02 08:44:00', '2024-06-02 08:50:06'),
 (23, '2024-06-03', 'fever', 'completed', 'booked', '16:00', 'booked by patient', 1, 9, 1, 12, '2024-06-02 08:53:17', '2024-06-02 08:54:54'),
-(24, '2024-06-03', 'fever', 'expired', 'booked', '16:00', 'Customer missed the slot', 0, 9, 2, NULL, '2024-06-02 08:53:41', '2024-06-02 08:53:41'),
-(25, '2024-06-15', 'cough', 'booked', 'booked', '13:00', 'booked by patient', 0, 9, 2, NULL, '2024-06-04 09:14:02', '2024-06-04 09:14:02'),
-(26, '2024-06-15', 'fever', 'booked', 'booked', '13:00', 'booked by patient', 0, 9, 1, NULL, '2024-06-04 09:29:49', '2024-06-04 09:29:49');
+(24, '2024-06-03', 'fever', 'booked', 'booked', '16:00', 'booked by patient', 0, 9, 2, NULL, '2024-06-02 08:53:41', '2024-06-02 08:53:41');
 
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `AppointmentView`
+-- Stand-in structure for view `appointmentview`
 -- (See below for the actual view)
 --
 -- CREATE TABLE `AppointmentView` (
--- `AppointmentDate` varchar(255)
--- ,`AppointmentHealthStatus` varchar(255)
--- ,`AppointmentId` int
+-- `AppointmentId` int(11)
+-- ,`AppointmentDate` varchar(255)
 -- ,`AppointmentReason` varchar(255)
--- ,`AppointmentRemark` varchar(255)
--- ,`AppointmentStatus` varchar(255)
 -- ,`AppointmentTime` varchar(255)
--- ,`DoctorDesignation` varchar(255)
--- ,`DoctorId` int
--- ,`DoctorMobile` varchar(255)
--- ,`DoctorName` varchar(255)
--- ,`DoctorQualification` varchar(255)
--- ,`DoctorStatus` varchar(255)
--- ,`MedicalRecordId` int
+-- ,`AppointmentStatus` varchar(255)
+-- ,`AppointmentHealthStatus` varchar(255)
+-- ,`AppointmentRemark` varchar(255)
 -- ,`MedicalRecordStatus` tinyint(1)
--- ,`PatientAddress` varchar(255)
--- ,`PatientAge` int
+-- ,`MedicalRecordId` int(11)
+-- ,`DoctorId` int(11)
+-- ,`DoctorName` varchar(255)
+-- ,`DoctorDesignation` varchar(255)
+-- ,`DoctorStatus` varchar(255)
+-- ,`DoctorMobile` varchar(255)
+-- ,`PatientId` int(11)
+-- ,`PatientName` varchar(255)
+-- ,`PatientGender` varchar(255)
 -- ,`PatientBloodGroup` varchar(255)
 -- ,`PatientDOB` varchar(255)
--- ,`PatientGender` varchar(255)
--- ,`PatientId` int
+-- ,`PatientAge` int(11)
+-- ,`PatientAddress` varchar(255)
 -- ,`PatientMobile` varchar(255)
--- ,`PatientName` varchar(255)
--- ,`UserEmail` varchar(255)
 -- );
 
 -- --------------------------------------------------------
@@ -115,14 +111,14 @@ INSERT INTO `appointments` (`AppointmentId`, `AppointmentDate`, `AppointmentReas
 --
 
 CREATE TABLE `doctors` (
-  `DoctorId` int NOT NULL,
-  `DoctorName` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `DoctorDesignation` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `DoctorQualification` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `DoctorMobile` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `DoctorAddress` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `DoctorStatus` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `UserId` int NOT NULL,
+  `DoctorId` int(11) NOT NULL,
+  `DoctorName` varchar(255) NOT NULL,
+  `DoctorDesignation` varchar(255) NOT NULL,
+  `DoctorQualification` varchar(255) NOT NULL,
+  `DoctorMobile` varchar(255) NOT NULL,
+  `DoctorAddress` varchar(255) NOT NULL,
+  `DoctorStatus` varchar(255) NOT NULL,
+  `UserId` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -132,33 +128,33 @@ CREATE TABLE `doctors` (
 --
 
 INSERT INTO `doctors` (`DoctorId`, `DoctorName`, `DoctorDesignation`, `DoctorQualification`, `DoctorMobile`, `DoctorAddress`, `DoctorStatus`, `UserId`, `createdAt`, `updatedAt`) VALUES
-(1, 'Kavinraj K', 'Senior doctor', 'MBBS', '9754321781', 'Sathy, erode', 'Available', 2, '2024-06-01 06:23:13', '2024-06-03 06:44:44'),
+(1, 'Kavinraj K', 'Senior doctor', 'MBBS', '9754321781', 'Sathy, erode', 'Available', 2, '2024-06-01 06:23:13', '2024-06-01 06:23:13'),
 (2, 'Hariaharan P', 'Otho surgeon', 'MBBS, Ortho', '987654210', 'kothukadu, sathy', 'Available', 3, '2024-06-01 15:18:34', '2024-06-01 15:18:34');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `medicalRecords`
+-- Table structure for table `medicalrecords`
 --
 
 CREATE TABLE `medicalRecords` (
-  `MedicalRecordId` int NOT NULL,
-  `Height` int NOT NULL,
-  `Weight` int NOT NULL,
-  `Pressure` int NOT NULL,
-  `Temperature` int NOT NULL,
-  `MedicalRecordRemark` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `Symptoms` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `Medications` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `Treatments` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientId` int NOT NULL,
-  `DoctorId` int NOT NULL,
+  `MedicalRecordId` int(11) NOT NULL,
+  `Height` int(11) NOT NULL,
+  `Weight` int(11) NOT NULL,
+  `Pressure` int(11) NOT NULL,
+  `Temperature` int(11) NOT NULL,
+  `MedicalRecordRemark` varchar(255) NOT NULL,
+  `Symptoms` varchar(255) NOT NULL,
+  `Medications` varchar(255) NOT NULL,
+  `Treatments` varchar(255) NOT NULL,
+  `PatientId` int(11) NOT NULL,
+  `DoctorId` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `medicalRecords`
+-- Dumping data for table `medicalrecords`
 --
 
 INSERT INTO `medicalRecords` (`MedicalRecordId`, `Height`, `Weight`, `Pressure`, `Temperature`, `MedicalRecordRemark`, `Symptoms`, `Medications`, `Treatments`, `PatientId`, `DoctorId`, `createdAt`, `updatedAt`) VALUES
@@ -175,25 +171,24 @@ INSERT INTO `medicalRecords` (`MedicalRecordId`, `Height`, `Weight`, `Pressure`,
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `MedicalRecordView`
+-- Stand-in structure for view `medicalrecordview`
 -- (See below for the actual view)
--- --
+--
 -- CREATE TABLE `MedicalRecordView` (
--- `createdAt` datetime
--- ,`DoctorId` int
--- ,`DoctorName` varchar(255)
--- ,`Height` int
--- ,`MedicalRecordId` int
+-- `MedicalRecordId` int(11)
+-- ,`Height` int(11)
+-- ,`Weight` int(11)
+-- ,`Pressure` int(11)
+-- ,`temperature` int(11)
 -- ,`MedicalRecordRemark` varchar(255)
--- ,`Medications` varchar(255)
--- ,`PatientId` int
--- ,`PatientMobile` varchar(255)
--- ,`PatientName` varchar(255)
--- ,`Pressure` int
 -- ,`Symptoms` varchar(255)
--- ,`Temperature` int
+-- ,`Medications` varchar(255)
 -- ,`Treatments` varchar(255)
--- ,`Weight` int
+-- ,`PatientId` int(11)
+-- ,`PatientName` varchar(255)
+-- ,`PatientMobile` varchar(255)
+-- ,`DoctorId` int(11)
+-- ,`DoctorName` varchar(255)
 -- );
 
 -- --------------------------------------------------------
@@ -203,16 +198,16 @@ INSERT INTO `medicalRecords` (`MedicalRecordId`, `Height`, `Weight`, `Pressure`,
 --
 
 CREATE TABLE `patients` (
-  `PatientId` int NOT NULL,
-  `PatientName` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientAge` int NOT NULL,
-  `PatientGender` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientDOB` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientMobile` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientBloodGroup` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientAddress` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PatientAccountStatus` varchar(255) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'true',
-  `UserId` int NOT NULL,
+  `PatientId` int(11) NOT NULL,
+  `PatientName` varchar(255) NOT NULL,
+  `PatientAge` int(11) NOT NULL,
+  `PatientGender` varchar(255) NOT NULL,
+  `PatientDOB` varchar(255) NOT NULL,
+  `PatientMobile` varchar(255) NOT NULL,
+  `PatientBloodGroup` varchar(255) NOT NULL,
+  `PatientAddress` varchar(255) NOT NULL,
+  `PatientAccountStatus` varchar(255) NOT NULL DEFAULT 'true',
+  `UserId` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -233,13 +228,13 @@ INSERT INTO `patients` (`PatientId`, `PatientName`, `PatientAge`, `PatientGender
 --
 
 CREATE TABLE `prescriptions` (
-  `PrescriptionId` int NOT NULL,
-  `Disease` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `Prescription` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `PrescriptionRemark` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `DoctorId` int NOT NULL,
-  `PatientId` int NOT NULL,
-  `AppointmentId` int NOT NULL,
+  `PrescriptionId` int(11) NOT NULL,
+  `Disease` varchar(255) NOT NULL,
+  `Prescription` varchar(255) NOT NULL,
+  `PrescriptionRemark` varchar(255) NOT NULL,
+  `DoctorId` int(11) NOT NULL,
+  `PatientId` int(11) NOT NULL,
+  `AppointmentId` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -257,33 +252,33 @@ INSERT INTO `prescriptions` (`PrescriptionId`, `Disease`, `Prescription`, `Presc
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `PrescriptionView`
+-- Stand-in structure for view `prescriptionview`
 -- (See below for the actual view)
 --
 -- CREATE TABLE `PrescriptionView` (
--- `AppointmentDate` varchar(255)
--- ,`AppointmentId` int
--- ,`AppointmentReason` varchar(255)
--- ,`AppointmentStatus` varchar(255)
--- ,`AppointmentTime` varchar(255)
--- ,`createdAt` datetime
+-- `PrescriptionId` int(11)
 -- ,`Disease` varchar(255)
--- ,`DoctorDesignation` varchar(255)
--- ,`DoctorId` int
--- ,`DoctorMobile` varchar(255)
+-- ,`Prescription` varchar(255)
+-- ,`PrescriptionRemark` varchar(255)
+-- ,`createdAt` datetime
+-- ,`DoctorId` int(11)
 -- ,`DoctorName` varchar(255)
+-- ,`DoctorDesignation` varchar(255)
 -- ,`DoctorStatus` varchar(255)
--- ,`PatientAddress` varchar(255)
--- ,`PatientAge` int
+-- ,`DoctorMobile` varchar(255)
+-- ,`PatientId` int(11)
+-- ,`PatientName` varchar(255)
+-- ,`PatientGender` varchar(255)
 -- ,`PatientBloodGroup` varchar(255)
 -- ,`PatientDOB` varchar(255)
--- ,`PatientGender` varchar(255)
--- ,`PatientId` int
+-- ,`PatientAge` int(11)
+-- ,`PatientAddress` varchar(255)
 -- ,`PatientMobile` varchar(255)
--- ,`PatientName` varchar(255)
--- ,`Prescription` varchar(255)
--- ,`PrescriptionId` int
--- ,`PrescriptionRemark` varchar(255)
+-- ,`AppointmentId` int(11)
+-- ,`AppointmentStatus` varchar(255)
+-- ,`AppointmentDate` varchar(255)
+-- ,`AppointmentTime` varchar(255)
+-- ,`AppointmentReason` varchar(255)
 -- );
 
 -- --------------------------------------------------------
@@ -293,10 +288,10 @@ INSERT INTO `prescriptions` (`PrescriptionId`, `Disease`, `Prescription`, `Presc
 --
 
 CREATE TABLE `users` (
-  `UserId` int NOT NULL,
-  `UserEmail` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `UserPassword` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `UserRole` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `UserId` int(11) NOT NULL,
+  `UserEmail` varchar(255) NOT NULL,
+  `UserPassword` varchar(255) NOT NULL,
+  `UserRole` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -315,29 +310,29 @@ INSERT INTO `users` (`UserId`, `UserEmail`, `UserPassword`, `UserRole`, `created
 -- --------------------------------------------------------
 
 --
--- Structure for view `AppointmentView`
+-- Structure for view `appointmentview`
 --
-DROP TABLE IF EXISTS `AppointmentView`;
+DROP TABLE IF EXISTS `appointmentview`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `AppointmentView`  AS SELECT `T1`.`AppointmentId` AS `AppointmentId`, `T1`.`AppointmentDate` AS `AppointmentDate`, `T1`.`AppointmentReason` AS `AppointmentReason`, `T1`.`AppointmentTime` AS `AppointmentTime`, `T1`.`AppointmentStatus` AS `AppointmentStatus`, `T1`.`AppointmentHealthStatus` AS `AppointmentHealthStatus`, `T1`.`AppointmentRemark` AS `AppointmentRemark`, `T1`.`MedicalRecordStatus` AS `MedicalRecordStatus`, `T1`.`MedicalRecordId` AS `MedicalRecordId`, `T2`.`DoctorId` AS `DoctorId`, `T2`.`DoctorName` AS `DoctorName`, `T2`.`DoctorQualification` AS `DoctorQualification`, `T2`.`DoctorDesignation` AS `DoctorDesignation`, `T2`.`DoctorStatus` AS `DoctorStatus`, `T2`.`DoctorMobile` AS `DoctorMobile`, `T3`.`PatientId` AS `PatientId`, `T3`.`PatientName` AS `PatientName`, `T3`.`PatientGender` AS `PatientGender`, `T3`.`PatientBloodGroup` AS `PatientBloodGroup`, `T3`.`PatientDOB` AS `PatientDOB`, `T3`.`PatientAge` AS `PatientAge`, `T3`.`PatientAddress` AS `PatientAddress`, `T3`.`PatientMobile` AS `PatientMobile`, `T4`.`UserEmail` AS `UserEmail` FROM (((`appointments` `T1` join `doctors` `T2` on((`T1`.`DoctorId` = `T2`.`DoctorId`))) join `patients` `T3` on((`T1`.`PatientId` = `T3`.`PatientId`))) join `users` `T4` on((`T3`.`UserId` = `T4`.`UserId`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `AppointmentView`  AS SELECT `t1`.`AppointmentId` AS `AppointmentId`, `t1`.`AppointmentDate` AS `AppointmentDate`, `t1`.`AppointmentReason` AS `AppointmentReason`, `t1`.`AppointmentTime` AS `AppointmentTime`, `t1`.`AppointmentStatus` AS `AppointmentStatus`, `t1`.`AppointmentHealthStatus` AS `AppointmentHealthStatus`, `t1`.`AppointmentRemark` AS `AppointmentRemark`, `t1`.`MedicalRecordStatus` AS `MedicalRecordStatus`, `t1`.`MedicalRecordId` AS `MedicalRecordId`, `t2`.`DoctorId` AS `DoctorId`, `t2`.`DoctorName` AS `DoctorName`, `t2`.`DoctorDesignation` AS `DoctorDesignation`, `t2`.`DoctorQualification` AS `DoctorQualification` , `t2`.`DoctorStatus` AS `DoctorStatus`, `t2`.`DoctorMobile` AS `DoctorMobile`, `t3`.`PatientId` AS `PatientId`, `t3`.`PatientName` AS `PatientName`, `t3`.`PatientGender` AS `PatientGender`, `t3`.`PatientBloodGroup` AS `PatientBloodGroup`, `t3`.`PatientDOB` AS `PatientDOB`, `t3`.`PatientAge` AS `PatientAge`, `t3`.`PatientAddress` AS `PatientAddress`, `t3`.`PatientMobile` AS `PatientMobile`, `t4`.`UserEmail` AS `UserEmail` FROM ((`appointments` `t1` join `doctors` `t2` on(`t1`.`DoctorId` = `t2`.`DoctorId`)) join `patients` `t3` on(`t1`.`PatientId` = `t3`.`PatientId`) join `users` `t4` on(`t3`.`UserId` = `t4`.`UserId`)) ;
 
 -- --------------------------------------------------------
 
 --
--- Structure for view `MedicalRecordView`
+-- Structure for view `medicalrecordview`
 --
-DROP TABLE IF EXISTS `MedicalRecordView`;
+DROP TABLE IF EXISTS `medicalrecordview`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `MedicalRecordView`  AS SELECT `t1`.`MedicalRecordId` AS `MedicalRecordId`, `t1`.`Height` AS `Height`, `t1`.`Weight` AS `Weight`, `t1`.`Pressure` AS `Pressure`, `t1`.`Temperature` AS `Temperature`, `t1`.`createdAt` AS `createdAt`, `t1`.`MedicalRecordRemark` AS `MedicalRecordRemark`, `t1`.`Symptoms` AS `Symptoms`, `t1`.`Medications` AS `Medications`, `t1`.`Treatments` AS `Treatments`, `t2`.`PatientId` AS `PatientId`, `t2`.`PatientName` AS `PatientName`, `t2`.`PatientMobile` AS `PatientMobile`, `t3`.`DoctorId` AS `DoctorId`, `t3`.`DoctorName` AS `DoctorName` FROM ((`medicalRecords` `t1` join `patients` `t2` on((`t1`.`PatientId` = `t2`.`PatientId`))) join `doctors` `t3` on((`t1`.`DoctorId` = `t3`.`DoctorId`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `MedicalRecordView`  AS SELECT `t1`.`MedicalRecordId` AS `MedicalRecordId`, `t1`.`Height` AS `Height`, `t1`.`Weight` AS `Weight`, `t1`.`Pressure` AS `Pressure`, `t1`.`Temperature` AS `Temperature`,`t1`.`createdAt` AS `createdAt`, `t1`.`MedicalRecordRemark` AS `MedicalRecordRemark`, `t1`.`Symptoms` AS `Symptoms`, `t1`.`Medications` AS `Medications`, `t1`.`Treatments` AS `Treatments`, `t2`.`PatientId` AS `PatientId`, `t2`.`PatientName` AS `PatientName`, `t2`.`PatientMobile` AS `PatientMobile`, `t3`.`DoctorId` AS `DoctorId`, `t3`.`DoctorName` AS `DoctorName` FROM ((`medicalRecords` `t1` join `patients` `t2` on(`t1`.`PatientId` = `t2`.`PatientId`)) join `doctors` `t3` on(`t1`.`DoctorId` = `t3`.`DoctorId`)) ;
 
 -- --------------------------------------------------------
 
 --
--- Structure for view `PrescriptionView`
+-- Structure for view `prescriptionview`
 --
-DROP TABLE IF EXISTS `PrescriptionView`;
+DROP TABLE IF EXISTS `prescriptionview`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `PrescriptionView`  AS SELECT `t1`.`PrescriptionId` AS `PrescriptionId`, `t1`.`Disease` AS `Disease`, `t1`.`Prescription` AS `Prescription`, `t1`.`PrescriptionRemark` AS `PrescriptionRemark`, `t1`.`createdAt` AS `createdAt`, `t2`.`DoctorId` AS `DoctorId`, `t2`.`DoctorName` AS `DoctorName`, `t2`.`DoctorDesignation` AS `DoctorDesignation`, `t2`.`DoctorStatus` AS `DoctorStatus`, `t2`.`DoctorMobile` AS `DoctorMobile`, `t3`.`PatientId` AS `PatientId`, `t3`.`PatientName` AS `PatientName`, `t3`.`PatientGender` AS `PatientGender`, `t3`.`PatientBloodGroup` AS `PatientBloodGroup`, `t3`.`PatientDOB` AS `PatientDOB`, `t3`.`PatientAge` AS `PatientAge`, `t3`.`PatientAddress` AS `PatientAddress`, `t3`.`PatientMobile` AS `PatientMobile`, `t4`.`AppointmentId` AS `AppointmentId`, `t4`.`AppointmentStatus` AS `AppointmentStatus`, `t4`.`AppointmentDate` AS `AppointmentDate`, `t4`.`AppointmentTime` AS `AppointmentTime`, `t4`.`AppointmentReason` AS `AppointmentReason` FROM (((`prescriptions` `t1` join `doctors` `t2` on((`t1`.`DoctorId` = `t2`.`DoctorId`))) join `patients` `t3` on((`t1`.`PatientId` = `t3`.`PatientId`))) join `appointments` `t4` on((`t1`.`AppointmentId` = `t4`.`AppointmentId`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `PrescriptionView`  AS SELECT `t1`.`PrescriptionId` AS `PrescriptionId`, `t1`.`Disease` AS `Disease`, `t1`.`Prescription` AS `Prescription`, `t1`.`PrescriptionRemark` AS `PrescriptionRemark`, `t1`.`createdAt` AS `createdAt`, `t2`.`DoctorId` AS `DoctorId`, `t2`.`DoctorName` AS `DoctorName`, `t2`.`DoctorDesignation` AS `DoctorDesignation`, `t2`.`DoctorStatus` AS `DoctorStatus`, `t2`.`DoctorMobile` AS `DoctorMobile`, `t3`.`PatientId` AS `PatientId`, `t3`.`PatientName` AS `PatientName`, `t3`.`PatientGender` AS `PatientGender`, `t3`.`PatientBloodGroup` AS `PatientBloodGroup`, `t3`.`PatientDOB` AS `PatientDOB`, `t3`.`PatientAge` AS `PatientAge`, `t3`.`PatientAddress` AS `PatientAddress`, `t3`.`PatientMobile` AS `PatientMobile`, `t4`.`AppointmentId` AS `AppointmentId`, `t4`.`AppointmentStatus` AS `AppointmentStatus`, `t4`.`AppointmentDate` AS `AppointmentDate`, `t4`.`AppointmentTime` AS `AppointmentTime`, `t4`.`AppointmentReason` AS `AppointmentReason` FROM (((`prescriptions` `t1` join `doctors` `t2` on(`t1`.`DoctorId` = `t2`.`DoctorId`)) join `patients` `t3` on(`t1`.`PatientId` = `t3`.`PatientId`)) join `appointments` `t4` on(`t1`.`AppointmentId` = `t4`.`AppointmentId`)) ;
 
 --
 -- Indexes for dumped tables
@@ -360,7 +355,7 @@ ALTER TABLE `doctors`
   ADD KEY `UserId` (`UserId`);
 
 --
--- Indexes for table `medicalRecords`
+-- Indexes for table `medicalrecords`
 --
 ALTER TABLE `medicalRecords`
   ADD PRIMARY KEY (`MedicalRecordId`),
@@ -398,37 +393,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `AppointmentId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `AppointmentId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `DoctorId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `DoctorId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `medicalRecords`
+-- AUTO_INCREMENT for table `medicalrecords`
 --
 ALTER TABLE `medicalRecords`
-  MODIFY `MedicalRecordId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `MedicalRecordId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `PatientId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `PatientId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `prescriptions`
 --
 ALTER TABLE `prescriptions`
-  MODIFY `PrescriptionId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `PrescriptionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -449,7 +444,7 @@ ALTER TABLE `doctors`
   ADD CONSTRAINT `doctors_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`UserId`);
 
 --
--- Constraints for table `medicalRecords`
+-- Constraints for table `medicalrecords`
 --
 ALTER TABLE `medicalRecords`
   ADD CONSTRAINT `medicalRecords_ibfk_1` FOREIGN KEY (`PatientId`) REFERENCES `patients` (`PatientId`),

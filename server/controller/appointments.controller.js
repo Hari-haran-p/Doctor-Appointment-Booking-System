@@ -10,6 +10,7 @@ const { promisify } = require('util');
 const fs = require("fs");
 const readFile = promisify(fs.readFile);
 const transporter = require("../config/email.js");
+const doctors = require("../models/doctors.model.js");
 
 exports.patient_findAll = async (req, res) => {
     const id = req.params.id;
@@ -80,24 +81,29 @@ exports.create = async (req, res) => {
         })
         const patientData = await patients.findByPk(patient.PatientId);
         const userData = await users.findByPk(patientData.UserId);
-
+        const doctorData = await doctors.findByPk(doctor.DoctorId);
+        
         const imageAttachment = await readFile('./assets/images/appointment.jpg');
         const htmlTemplate = await readFile("./assets/mail/appointment.html", 'utf-8');
+
         const placeholders = {
             PatientName:  patient.PatientName,
+            doctorName:doctorData.DoctorName,
+            doctorQualification: doctorData.DoctorQualification,
             appointmentDate: appointmentDate,
             appointmentTime: appointmentTime,
+            prefix : (patientData.PatientGender.toLowerCase() == 'male' ? 'Mr' : 'Ms')
         };
         function replacePlaceholders(template, placeholders) {
             return template.replace(/\$\{(\w+)\}/g, (_, key) => placeholders[key] || '');
         }
         transporter.sendMail({
-            from: "support@doctorapp.com",
-            to: "user@myapp.com",
+            from: process.env.EMAIL_ID,
+            to: userData.UserEmail,
             subject: 'Appointment Booked..!!',
             html: replacePlaceholders(htmlTemplate, placeholders),
             attachments: [{
-                filename: 'register.jpg',
+                filename: 'appointment.jpg',
                 content: imageAttachment,
                 encoding: 'base64',
                 cid: 'AppImage'

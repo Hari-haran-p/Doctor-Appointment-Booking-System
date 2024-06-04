@@ -40,7 +40,7 @@ exports.doctor_login = async (req, res) => {
     console.log("HIIII.........");
     const username = req.body.username;
     const password = req.body.password;
-console.log(username,"    ", password);
+    console.log(username, "    ", password);
     try {
         const user = await users.findOne({ where: { UserEmail: username } });
         if (!user) {
@@ -89,14 +89,23 @@ exports.register = async (req, res) => {
             }, {
             transaction: transaction
         });
+
+        function replacePlaceholders(template, placeholders) {
+            return template.replace(/\$\{(\w+)\}/g, (_, key) => placeholders[key] || '');
+        }
         //send a welcome email to customer via nodemailer
         const imageAttachment = await readFile('./assets/images/register.jpg');
         const htmlTemplate = await readFile("./assets/mail/mail.html", 'utf-8');
+        const placeHolders = {
+            prefix: (patientGender.toLowerCase() == 'male' ? 'Mr' : 'Ms'),
+            recipientName: patientName,
+
+        }
         transporter.sendMail({
-            from: "support@doctorapp.com",
-            to: "user@myapp.com",
+            from: process.env.EMAIL_ID,
+            to: patientEmail,
             subject: 'Sucessfully registered...!!',
-            html: htmlTemplate.replace("${recipientName}", patientName),
+            html: replacePlaceholders(htmlTemplate, placeHolders),
             attachments: [{
                 filename: 'register.jpg',
                 content: imageAttachment,
