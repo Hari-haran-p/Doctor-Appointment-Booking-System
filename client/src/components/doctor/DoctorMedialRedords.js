@@ -12,7 +12,7 @@ export const DoctorMedicalRecords = () => {
 // console.log(medicalrecords);
   const fetch_medicalrecord_data = async () => {
     await axios
-      .get("/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
+      .get("http://localhost:4000/api/medicalrecord/doctor/"+ (JSON.parse(sessionStorage.getItem("doctor_key"))).DoctorId)
       .then((response) => {
         if(response.data.success){
           setmedicalrecords(response.data.medicalRecords);

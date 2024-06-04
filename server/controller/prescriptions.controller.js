@@ -74,9 +74,7 @@ exports.create = async (req, res) => {
 
 
 exports.update = async (req, res) => {
-    console.log(req.body);
     const { PrescriptionId, Prescription, PrescriptionRemark } = req.body;
-    console.log(PrescriptionId, Prescription, PrescriptionRemark);
     try {
         const prescriptionData = await prescriptions.update({
             Prescription:Prescription,

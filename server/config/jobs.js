@@ -6,7 +6,7 @@ const fs = require("fs");
 const readFile = promisify(fs.readFile);
 const transporter = require("./email.js");
 
-corn.schedule('0 0 * * *', async () => {
+corn.schedule('12 09 * * *', async () => {
     try {
         console.log('Running the update status job...');
         await sequelize.query("UPDATE appointments SET AppointmentStatus='expired', AppointmentRemark='Customer missed the slot' WHERE AppointmentStatus='booked' AND AppointmentDate < CURDATE()");

@@ -504,8 +504,8 @@ export const ViewDoctorAppointment = () => {
                                 </span>
                               )}
                               {appointmentdata.AppointmentStatus ==
-                                "waiting" && (
-                                <span class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-400">
+                                "expired" && (
+                                <span class="bg-yellow-100 text-red-800 text-sm font-medium mr-2 inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 border border-red-400">
                                   <svg
                                     class="w-3 h-3 mr-2 "
                                     aria-hidden="true"
@@ -515,7 +515,7 @@ export const ViewDoctorAppointment = () => {
                                   >
                                     <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z" />
                                   </svg>
-                                  Waiting
+                                  Expired
                                 </span>
                               )}
                             </td>

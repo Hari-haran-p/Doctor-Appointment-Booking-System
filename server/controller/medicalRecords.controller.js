@@ -81,7 +81,6 @@ exports.create = async (req, res) => {
 
 
 exports.update = async (req, res) => {
-    console.log(req.body);
     const { Id, Height, Weight, Pressure, Temperature, Medications, Symptoms, MedicalRecordremark, Treatments } = req.body;
     try {
         const medicalrecord = await medicalRecords.update({
